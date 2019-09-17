@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Clients;
+use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +63,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $contacts= new Clients();
+        $product= new Products();
+        $list=$product->getProducts();
+        return $this->render('index',['client'=>$contacts,'product'=>$list]);
     }
 
     /**
