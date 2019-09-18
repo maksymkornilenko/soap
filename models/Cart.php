@@ -59,8 +59,6 @@ class Cart extends Model
             $_SESSION['cart'][$model['id']]['discount'] = 100;
             $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
         }
-//        $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] - $count : $count;
-//        $_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] - $count * $model['price'] : $count * $model['price'];
     }
     public function changeInCart($model, $count = 1)
     {
@@ -91,8 +89,6 @@ class Cart extends Model
             $_SESSION['cart'][$model['id']]['discount'] = 100;
             $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
         }
-        //$_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
-        //$_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] + $_SESSION['cart'][$model['id']]['countchange']* $model['price'] : $count * $model['price'];
     }
     public function recalc($id)
     {

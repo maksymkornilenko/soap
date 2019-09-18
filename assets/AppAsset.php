@@ -25,7 +25,8 @@ class AppAsset extends AssetBundle
         'css/tilda.css',
     ];
     public $js = [
-        'js/main.js'
+        'js/main.js',
+        'js/jquerymask.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

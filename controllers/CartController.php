@@ -29,9 +29,6 @@ class CartController extends Controller
         $session->open();
         $cart = new Cart();
         $cart->addToCart($model[0], 1);
-//        $session->remove('cart');
-//        $session->remove('cart.count');
-//        $session->remove('cart.sum');
         $this->layout = false;
         return $this->render('cart-modal', ['session' => $session]);
     }

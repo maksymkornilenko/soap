@@ -49,7 +49,7 @@ use yii\helpers\ArrayHelper; ?>
                     </div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221369011566978692711' data-elem-id='1566978692711'>
-                    <a class='tn-atom buy'  data-id="<?php echo $product[0]['id']?>" data-count="1">Купить</a>
+                    <a class='tn-atom buy' id="for-nav"  data-id="<?php echo $product[0]['id']?>" data-count="1">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221369011567550639151' data-elem-id='1567550639151'>
                     <div class='tn-atom' field='tn_text_1567550639151'>

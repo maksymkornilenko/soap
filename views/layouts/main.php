@@ -15,7 +15,6 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
-
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta charset="utf-8"/>
@@ -23,21 +22,8 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!--metatextblock-->
     <title>Натуральное кокосовое мыло Maldives Dreams</title>
-    <meta property="og:url" content="http://soap.maldivesdreams.com.ua"/>
-    <meta property="og:title" content="Натуральное кокосовое мыло Maldives Dreams"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content="https://static.tildacdn.com/tild6562-3531-4634-b638-613639303564/_1.png"/>
     <link rel="canonical" href="http://soap.maldivesdreams.com.ua">
-    <!--/metatextblock-->
-    <meta property="fb:app_id" content="257953674358265"/>
-    <meta name="format-detection" content="telephone=no"/>
-    <meta http-equiv="x-dns-prefetch-control" content="on">
-    <link rel="dns-prefetch" href="https://tilda.ws">
-    <link rel="dns-prefetch" href="https://static.tildacdn.com">
     <!-- Assets -->
-    <link rel="stylesheet" href="https://static.tildacdn.com/css/tilda-grid-3.0.min.css" type="text/css" media="all"/>
-<!--    <link rel="stylesheet" href="https://static.tildacdn.com/css/tilda-popup-1.1.min.css" type="text/css" media="all"/>-->
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -46,7 +32,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => '<img class="brand" src="/image/labelbrand.png";>',
         'brandUrl' => ['/'],
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -55,15 +41,20 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Описание', 'url' => ['/site/index']],
-            ['label' => 'Гарантия', 'url' => ['/site/about']],
-            ['label' => 'Безопасность', 'url' => ['/site/contact']],
-            ['label' => 'Купить', 'url' => ['/site/contact']],
-            ['label' => '+ 38 067 245-20-10', 'url' => ['/site/contact']],
-            ['label' => '+ 38 067 404-66-01', 'url' => ['/site/contact']],
+            ['label' => 'Описание','options' => ['class' => 'nav-label'] ,'url' => ['/#opisanie']],
+            ['label' => 'Гарантия','options' => ['class' => 'nav-label'] ,'url' => ['/#garant']],
+            ['label' => 'Безопасность', 'options' => ['class' => 'nav-label'], 'url' => ['/#security']],
+            ['label' => 'Купить', 'options' => ['class' => 'buy-nav nav-label']],
+            ['label' => '+ 38 067 245-20-10','options'=>['class'=>'tel-1'], 'url' => ['/site/contact']],
+            ['label' => '+ 38 067 404-66-01','options'=>['class'=>'tel-2'], 'url' => ['/site/contact']],
+            ['label' => 'Заказать звонок', 'options'=>['class'=>'callback']],
         ],
-    ]);
-    NavBar::end();
+    ]);?>
+<a href="https://t.me/maldivesdreams" class="icon-nav" target="_blank"><img src="/image/telegram.png"/></a>
+<a href="https://wa.me/380672452010" class="icon-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav" target="_blank"><img src="/image/viber.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav" target="_blank"><img src="/image/instagram.png"/></a>
+    <?php NavBar::end();
     ?>
 <?= $content ?>
 <!--footer-->
