@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Areas;
 use app\models\Clients;
+use app\models\Orders;
 use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
@@ -65,8 +67,10 @@ class SiteController extends Controller
     {
         $contacts= new Clients();
         $product= new Products();
+        $order=new Orders();
+        $area=Areas::find()->all();
         $list=$product->getProducts();
-        return $this->render('index',['client'=>$contacts,'product'=>$list]);
+        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area]);
     }
 
     /**

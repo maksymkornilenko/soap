@@ -573,6 +573,27 @@ use yii\helpers\ArrayHelper; ?>
         <p class="error-phone"></p>
         <?= $form->field($client, 'email') ?>
         <p class="error-email"></p>
+        <?= $form->field($order, 'area')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map($areas, 'ref', 'description_ru'),
+            'options' => ['placeholder' => 'Выберите область ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
+        <?= $form->field($order, 'city')->widget(Select2::classname(), [
+            'data' => [],
+            'options' => ['placeholder' => 'Выберите  город ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
+        <?= $form->field($order, 'warehouse')->widget(Select2::classname(), [
+            'data' => [],
+            'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
         <?php ActiveForm::end() ?>
 
         <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с

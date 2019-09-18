@@ -22,11 +22,11 @@ use app\models\Orders;
                 <div class="t706__product-plusminus t-descr t-descr_sm">
                     <span class="t706__product-minus">
                         <img src="/image/arrows_circle_minus.svg" style="width:16px;height:16px;border:0;"
-                             data-id="<?= $item['system_products_id'] ?>" data-count="1" id="minus-cart">
+                             data-id="<?= $id ?>" data-count="1" id="minus-cart">
                     </span>
                     <span class="t706__product-quantity cart-count" data-id="<?= $item['system_products_id'] ?>"><?= $item['count'] ?></span>
                     <span class="t706__product-plus">
-                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $item['system_products_id'] ?>" data-count="1" id="plus-cart" style="width:16px;height:16px;border:0;">
+                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $id ?>" data-count="1" id="plus-cart" style="width:16px;height:16px;border:0;">
                     </span>
                 </div>
                 <div class="t706__product-amount t-descr t-descr_sm"><?= $item['count'] * $item['price'] ?>&nbsp;грн

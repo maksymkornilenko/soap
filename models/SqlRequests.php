@@ -13,4 +13,18 @@ class SqlRequests extends Model
     {
         return Yii::$app->db->createCommand("SELECT * FROM `products` WHERE id=$id")->queryAll();
     }
+    public function showAreas(){
+        return Yii::$app->db->createCommand("SELECT * from areas")->queryAll();
+    }
+    public function showArea($area){
+        return Yii::$app->db->createCommand("SELECT * from areas where description_ru='" . $area)->queryAll();
+    }
+    public function showCities($areasRef){
+        $sqlCity = "SELECT * from cities where area_ref='" . $areasRef . "'ORDER BY `cities`.`description_ru` ASC";
+        return Yii::$app->db->createCommand($sqlCity)->queryAll();
+    }
+    public function showWarehouses($cityRef){
+        $sqlWarehouse = "SELECT * from warehouses where city_ref='" . $cityRef . "'ORDER BY `warehouses`.`description_ru` ASC";
+        return Yii::$app->db->createCommand($sqlWarehouse)->queryAll();
+    }
 }
