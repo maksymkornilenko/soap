@@ -27,7 +27,7 @@ use yii\helpers\ArrayHelper; ?>
                 <div class='t396__elem tn-elem tn-elem__1221369011565873406304' data-elem-id='1565873406304'>
                     <div class='tn-atom'>
                         <img class='tn-atom__img t-img'
-                             src='image/milk.png'
+                             src='/image/milk.png'
                              imgfield='tn_img_1565873406304'>
                     </div>
                 </div>

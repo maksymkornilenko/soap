@@ -27,4 +27,8 @@ class SqlRequests extends Model
         $sqlWarehouse = "SELECT * from warehouses where city_ref='" . $cityRef . "'ORDER BY `warehouses`.`description_ru` ASC";
         return Yii::$app->db->createCommand($sqlWarehouse)->queryAll();
     }
+    public function showClient($phone_raw)
+    {
+        return Yii::$app->db->createCommand("SELECT * FROM `clients` WHERE clients.phone_raw = $phone_raw")->queryAll();
+    }
 }

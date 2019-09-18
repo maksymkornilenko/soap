@@ -14,6 +14,7 @@ class Cart extends Model
             $_SESSION['cart'][$model['id']]['count'] += $count;
         } else {
             $_SESSION['cart'][$model['id']] = [
+                'id'=>$model['id'],
                 'count' => $count,
                 'name' => $model['name'],
                 'price' => $model['price'],
@@ -22,21 +23,18 @@ class Cart extends Model
             ];
         }
         if($_SESSION['cart'][$model['id']]['count'] == 1){
+            $_SESSION['cart'][$model['id']]['discount'] = $model['price'];
             $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $count : $count;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'];
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
         }
         if ($_SESSION['cart'][$model['id']]['count'] == 2) {
             $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] = 50;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price']-$_SESSION['cart'][$model['id']]['discount'];
-        } else if ($_SESSION['cart'][$model['id']]['count'] == 3) {
+            $_SESSION['cart'][$model['id']]['discount'] = 125;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
+        } else if ($_SESSION['cart'][$model['id']]['count'] >= 3) {
             $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] = 150;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'] - $_SESSION['cart'][$model['id']]['discount'];
-        }else if ($_SESSION['cart'][$model['id']]['count'] > 3){
-            $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] += 50;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'] - $_SESSION['cart'][$model['id']]['discount'];
+            $_SESSION['cart'][$model['id']]['discount'] = 100;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
         }
     }
     public function removeFromCart($model, $count = 1)
@@ -54,16 +52,12 @@ class Cart extends Model
         }
         if ($_SESSION['cart'][$model['id']]['count'] == 2) {
             $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] - $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] = 50;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price']-$_SESSION['cart'][$model['id']]['discount'];
-        } else if ($_SESSION['cart'][$model['id']]['count'] == 3) {
+            $_SESSION['cart'][$model['id']]['discount'] = 125;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
+        } else if ($_SESSION['cart'][$model['id']]['count'] >= 3) {
             $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] - $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] = 150;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'] - $_SESSION['cart'][$model['id']]['discount'];
-        }else if ($_SESSION['cart'][$model['id']]['count'] > 3){
-            $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] - $count : $count;
-            $_SESSION['cart'][$model['id']]['discount'] -= 50;
-            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'] - $_SESSION['cart'][$model['id']]['discount'];
+            $_SESSION['cart'][$model['id']]['discount'] = 100;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
         }
 //        $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] - $count : $count;
 //        $_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] - $count * $model['price'] : $count * $model['price'];
@@ -76,15 +70,29 @@ class Cart extends Model
             $_SESSION['cart'][$model['id']]['count']=$count;
         } else {
             $_SESSION['cart'][$model['id']] = [
+                'id'=>$model['id'],
                 'count' => $count,
-                'countchange' => $count,
-                'name' => $model['body'],
+                'name' => $model['name'],
                 'price' => $model['price'],
-                'gender' => $model['name'],
+                'countchange' => $count,
+                'discount' => 0,
             ];
         }
-        $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
-        $_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] + $_SESSION['cart'][$model['id']]['countchange']* $model['price'] : $count * $model['price'];
+        if($_SESSION['cart'][$model['id']]['count'] == 1){
+            $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $model['price'];
+        }
+        if ($_SESSION['cart'][$model['id']]['count'] == 2) {
+            $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
+            $_SESSION['cart'][$model['id']]['discount'] = 125;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
+        } else if ($_SESSION['cart'][$model['id']]['count'] >= 3) {
+            $_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
+            $_SESSION['cart'][$model['id']]['discount'] = 100;
+            $_SESSION['cart.sum'] = $_SESSION['cart.count'] * $_SESSION['cart'][$model['id']]['discount'];
+        }
+        //$_SESSION['cart.count'] = isset($_SESSION['cart.count']) ? $_SESSION['cart.count'] + $_SESSION['cart'][$model['id']]['countchange'] : $count;
+        //$_SESSION['cart.sum'] = isset($_SESSION['cart.sum']) ? $_SESSION['cart.sum'] + $_SESSION['cart'][$model['id']]['countchange']* $model['price'] : $count * $model['price'];
     }
     public function recalc($id)
     {

@@ -197,3 +197,57 @@ $('#cart .modal-body').on('change', '#orders-city', function (e) {
         }
     });
 });
+$('#cart .modal-body').on('click', '.sendOrder', function (e) {
+    var name = $('#clients-name').val();
+    var phone = $('#clients-phone').val();
+    var mail = $('#clients-email').val();
+    var area = $('#orders-area').find(":selected").text();
+    var city = $('#orders-city').find(":selected").text();
+    var warehouse = $('#orders-warehouse').find(":selected").text();
+    var pay=$('input[name=paymentsystem]:checked').val();
+    console.log(area);
+    console.log(name);
+    console.log(phone);
+    console.log(mail);
+    console.log(city);
+    console.log(warehouse);
+    console.log(pay);
+    name = name.trim();
+    mail = mail.trim();
+    e.preventDefault();
+    if ($('#clients-name').val().length == 0 || $('#clients-phone').val().length == 0 || $('#clients-email').val().length == 0 || $('#orders-area').val().length == 0 || $('#orders-city').val().length == 0 || $('#orders-warehouse').val().length == 0) {
+        $('.error-send').text('Заполните все поля перед оформлением заказа.');
+        $('.error-send').css({color: '#a94442'});
+    }else if($('.help-block').text()!=''){
+        $('.error-send').text('Заполните все поля перед оформлением заказа.');
+        $('.error-send').css({color: '#a94442'});
+    } else {
+        $.ajax({
+            url: '/cart/view',
+            data: {name: name, phone: phone, mail: mail, area: area, city: city, warehouse: warehouse, pay: pay},
+            type: 'post',
+            success: function (res) {
+                if (!res) res = 'cart empty';
+                showCart(res);
+                $('.t706__cartwin-bottom').css({display: 'none'});
+                $('.liqpaySend').submit();
+                $("#cart").on("hidden.bs.modal", function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/cart/redirect'
+                    });
+                });
+                $("#cart").on(".close", function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/cart/redirect'
+                    });
+                });
+            },
+            error: function (res) {
+                res = 'error';
+                showCart(res);
+            }
+        });
+    }
+});
