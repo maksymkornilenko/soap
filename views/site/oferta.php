@@ -9,8 +9,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper; ?>
     <div class='buy' id="for-nav" data-id="<?php echo $product[0]['id'] ?>" data-count="1"></div>
-    <div id="rec122574933" class="r t-rec t-rec_pt_150 t-rec_pb_45 r_showed r_anim"
-         style="padding-top:150px;padding-bottom:45px; ">
+    <div id="rec122574933" class="r t-rec t-rec_pt_150 t-rec_pb_45 r_showed r_anim"">
         <!-- T017 -->
         <div class="t017">
             <div class="t-container t-align_center">
@@ -22,8 +21,7 @@ use yii\helpers\ArrayHelper; ?>
             </div>
         </div>
     </div>
-    <div id="rec122574952" class="r t-rec t-rec_pt_0 t-rec_pb_60 r_showed r_anim"
-         style="padding-top:0px;padding-bottom:60px; ">
+    <div id="rec122574952" class="r t-rec t-rec_pt_0 t-rec_pb_60 r_showed r_anim">
         <!-- T004 -->
         <div class="t004">
             <div class="t-container ">
@@ -273,6 +271,6 @@ Modal::begin([
     <div class="modal-bodycallback">
     </div>
     <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
-        <a href="http://sale.maldivesdreams.com.ua/official" style="">политикой конфиденциальности.</a>
+        <a href="/site/official" style="">политикой конфиденциальности.</a>
     </div>
 <?php Modal::end(); ?>

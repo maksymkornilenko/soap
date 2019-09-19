@@ -45,8 +45,8 @@ AppAsset::register($this);
             ['label' => 'Гарантия','options' => ['class' => 'nav-label'] ,'url' => ['/#garant']],
             ['label' => 'Безопасность', 'options' => ['class' => 'nav-label'], 'url' => ['/#security']],
             ['label' => 'Купить', 'options' => ['class' => 'buy-nav nav-label']],
-            ['label' => '+ 38 067 245-20-10','options'=>['class'=>'tel-1'], 'url' => ['/site/contact']],
-            ['label' => '+ 38 067 404-66-01','options'=>['class'=>'tel-2'], 'url' => ['/site/contact']],
+            ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1'], 'url' => 'https://wa.me/380672452010','linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
+            ['label' => '+38 067 404-66-01','options' => ['class' => 'tel-2'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
             ['label' => 'Заказать звонок', 'options'=>['class'=>'callback']],
         ],
     ]);?>

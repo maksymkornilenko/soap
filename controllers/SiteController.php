@@ -72,7 +72,8 @@ class SiteController extends Controller
         $callback= new Callback();
         $area=Areas::find()->all();
         $list=$product->getProducts();
-        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+        $session=Yii::$app->session;
+        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback,'session'=>$session]);
     }
     /**
      * Logout action.

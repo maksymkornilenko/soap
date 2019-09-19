@@ -197,7 +197,6 @@
 }
 
 .t-descr {
-    font-family: 'Ubuntu', Arial, sans-serif;
     font-weight: 300;
     color: #000
 }
@@ -3898,13 +3897,14 @@ img:not([src]) {
 .t706__carticon {
     display: none;
     position: fixed;
-    top: 100px;
+    top: 72px;
     right: 50px;
     z-index: 4000
 }
 
 .t706__carticon_showed {
-    display: block
+    display: block;
+    z-index: 90;
 }
 
 .t706__carticon_neworder .t706__carticon-text {

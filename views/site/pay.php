@@ -9,21 +9,20 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper; ?>
     <div class='buy' id="for-nav" data-id="<?php echo $product[0]['id'] ?>" data-count="1"></div>
-    <div id="rec122574816" class="r t-rec t-rec_pt_165 t-rec_pb_30 r_showed r_anim"
-         style="padding-top:165px;padding-bottom:30px; ">
+    <div id="rec122574816" class="r t-rec t-rec_pt_165 t-rec_pb_30 r_showed r_anim">
         <!-- T017 -->
         <div class="t017">
             <div class="t-container t-align_center">
                 <div class="t-col t-col_10 t-prefix_1">
-                    <div class="t017__title t-title t-title_xxs" field="title" style="">Правила оплаты, доставки и
+                    <div class="t017__title t-title t-title_xxs" field="title">Правила оплаты, доставки и
                         возврата
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="rec122574817" class="r t-rec t-rec_pt_0 t-rec_pb_60 r_showed r_anim"
-         style="padding-top:0px;padding-bottom:60px; " data-record-type="106"><!-- T004 -->
+    <div id="rec122574817" class="r t-rec t-rec_pt_0 t-rec_pb_60 r_showed r_anim">
+        <!-- T004 -->
         <div class="t004">
             <div class="t-container ">
                 <div class="t-col t-col_8 t-prefix_2">
@@ -137,7 +136,7 @@ Modal::begin([
         <?php ActiveForm::end(); ?>
         <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
             с
-            <a href="/site/official" style="">политикой конфиденциальности.</a>
+            <a href="/site/official" >политикой конфиденциальности.</a>
         </div>
 
     </div>
@@ -154,6 +153,6 @@ Modal::begin([
     <div class="modal-bodycallback">
     </div>
     <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
-        <a href="http://sale.maldivesdreams.com.ua/official" style="">политикой конфиденциальности.</a>
+        <a href="/site/official" style="">политикой конфиденциальности.</a>
     </div>
 <?php Modal::end(); ?>

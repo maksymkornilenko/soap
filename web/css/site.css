@@ -154,11 +154,11 @@ a.desc:after {
 }
 
 .navbar-fixed-top, .navbar-fixed-bottom {
-    height: 8%;
+    height: 71px;
 }
 
 .tel-1 {
-    left: 80px;
+    left: 77px;
     top: 44px;
     height: 16px;
 }
@@ -180,15 +180,113 @@ a.desc:after {
 .nav-label {
     top: 11px;
 }
+
 .nav-label:hover {
     color: cadetblue;
 }
 
 .brand {
-    width: 100%;
+    width: 90%;
     position: relative;
     margin-right: -279px;
 }
+
 .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
     background-color: #e4b9b9;
+}
+
+@media (max-width: 1024px) {
+    .nav-label {
+        top: -39px;
+    }
+
+    .tel-2 {
+        left: -73px;
+        top: -38px;
+        height: 16px;
+    }
+
+    .tel-1 {
+        left: 80px;
+        top: -8px;
+        height: 16px;
+    }
+
+    .icon-nav {
+        position: relative;
+        left: 68.5%;
+    }
+
+    .callback {
+        top: -11px;
+        left: -27px;
+    }
+}
+@media (max-width: 768px) {
+    .callback > a {
+        font-size: 10px;
+    }
+    .nav-label> a{
+        font-size: 10px;
+    }
+    .tel-1> a{
+        font-size: 10px;
+    }
+    .tel-2> a{
+        font-size: 10px;
+    }
+    .tel-2 {
+        left: -37px;
+    }
+    .icon-nav{
+        top: 8px;
+        left: 63.5%;
+    }
+    .nav-label {
+        left: 48px;
+    }
+}
+@media (max-width: 425px) {
+    .container{
+        background-color: #ffffff;
+    }
+    .nav-label {
+        left: 0px;
+    }
+    .tel-2 {
+        left: 0px;
+        top: -39px;
+        height: 38px;
+    }
+    .tel-1 {
+        left: 0px;
+        top: -39px;
+        height: 37px;
+    }
+    .tel-1 > a {
+        top: 0px;
+    }
+    .tel-2 > a {
+        top: 0px;
+    }
+    .callback {
+        width: 117px;
+        top: -38px;
+        left: 0px;
+    }
+    .callback > a {
+        top: -9px;
+    }
+    .icon-nav {
+        top: -26px;
+        left: -3.5%;
+    }
+    .icon-nav > img {
+        width: 8.5%;
+    }
+}
+.navbar-toggle{
+    position: relative;
+    background-color: #e4b9b9;
+    top: 8px;
 }

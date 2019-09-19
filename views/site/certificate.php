@@ -10,13 +10,12 @@ use yii\bootstrap\Modal;
 use yii\helpers\ArrayHelper;
 ?>
 <div class='buy' id="for-nav"  data-id="<?php echo $product[0]['id']?>" data-count="1"></div>
-<div id="rec122574656" class="r t-rec t-rec_pt_135 t-rec_pb_0 r_showed r_anim"
-     style="padding-top:135px;padding-bottom:0px; ">
+<div id="rec122574656" class="r t-rec t-rec_pt_135 t-rec_pb_0 r_showed r_anim">
     <!-- T795 -->
     <div class="t795">
         <div class="t-container t-align_center">
             <div class="t-col t-col_10 t-prefix_1">
-                <div class="t795__title t-title t-title_xs t-margin_auto" field="title" style="">Сертификаты качества
+                <div class="t795__title t-title t-title_xs t-margin_auto" field="title">Сертификаты качества
                 </div>
             </div>
         </div>
@@ -28,8 +27,7 @@ use yii\helpers\ArrayHelper;
         <div class="t396__artboard rendered" data-artboard-recid="122574662">
             <div class="t396__carrier" data-artboard-recid="122574662"></div>
             <div class="t396__filter" data-artboard-recid="122574662"></div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561403908450" data-elem-id="1561403908450"
-                 style="left: 211px; top: 40px; width: 360px;">
+            <div class="t396__elem tn-elem tn-elem__1225746621561403908450" data-elem-id="1561403908450">
                 <div class="tn-atom t-zoomable" data-zoomable="yes"
                      data-img-zoom-url="https://static.tildacdn.com/tild3864-3365-4739-b361-316566643161/rama1.jpg"><img
                             class="tn-atom__img t-img loaded"
@@ -37,8 +35,7 @@ use yii\helpers\ArrayHelper;
                             imgfield="tn_img_1561403908450"
                             src="https://static.tildacdn.com/tild3864-3365-4739-b361-316566643161/rama1.jpg"></div>
             </div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561403934194" data-elem-id="1561403934194"
-                 style="left: 601px; top: 40px; width: 360px;">
+            <div class="t396__elem tn-elem tn-elem__1225746621561403934194" data-elem-id="1561403934194">
                 <div class="tn-atom t-zoomable" data-zoomable="yes"
                      data-img-zoom-url="https://static.tildacdn.com/tild6438-6535-4638-a436-373861393036/rama2.jpg"><img
                             class="tn-atom__img t-img loaded"
@@ -46,36 +43,32 @@ use yii\helpers\ArrayHelper;
                             imgfield="tn_img_1561403934194"
                             src="https://static.tildacdn.com/tild6438-6535-4638-a436-373861393036/rama2.jpg"></div>
             </div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561403946787" data-elem-id="1561403946787"
-                 style="left: 1001px; top: 40px; width: 360px;">
-                <div class="tn-atom t-zoomable" data-zoomable="yes"
+            <div class="t396__elem tn-elem tn-elem__1225746621561403946787" data-elem-id="1561403946787">
+                <div class="tn-atom t-zoomable"
                      data-img-zoom-url="https://static.tildacdn.com/tild3838-6130-4231-b538-393634346233/rama3.jpg"><img
                             class="tn-atom__img t-img loaded"
                             data-original="https://static.tildacdn.com/tild3838-6130-4231-b538-393634346233/rama3.jpg"
                             imgfield="tn_img_1561403946787"
                             src="https://static.tildacdn.com/tild3838-6130-4231-b538-393634346233/rama3.jpg"></div>
             </div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561403957878" data-elem-id="1561403957878"
-                 style="left: 211px; top: 360px; width: 360px;">
-                <div class="tn-atom t-zoomable" data-zoomable="yes"
+            <div class="t396__elem tn-elem tn-elem__1225746621561403957878" data-elem-id="1561403957878">
+                <div class="tn-atom t-zoomable"
                      data-img-zoom-url="https://static.tildacdn.com/tild3139-6138-4831-a465-393739333034/rama4.jpg"><img
                             class="tn-atom__img t-img loaded"
                             data-original="https://static.tildacdn.com/tild3139-6138-4831-a465-393739333034/rama4.jpg"
                             imgfield="tn_img_1561403957878"
                             src="https://static.tildacdn.com/tild3139-6138-4831-a465-393739333034/rama4.jpg"></div>
             </div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561404038291" data-elem-id="1561404038291"
-                 style="left: 601px; top: 360px; width: 360px;">
-                <div class="tn-atom t-zoomable" data-zoomable="yes"
+            <div class="t396__elem tn-elem tn-elem__1225746621561404038291" data-elem-id="1561404038291">
+                <div class="tn-atom t-zoomable"
                      data-img-zoom-url="https://static.tildacdn.com/tild6237-6234-4930-b564-626662346362/rama5.jpg"><img
                             class="tn-atom__img t-img loaded"
                             data-original="https://static.tildacdn.com/tild6237-6234-4930-b564-626662346362/rama5.jpg"
                             imgfield="tn_img_1561404038291"
                             src="https://static.tildacdn.com/tild6237-6234-4930-b564-626662346362/rama5.jpg"></div>
             </div>
-            <div class="t396__elem tn-elem tn-elem__1225746621561404055021" data-elem-id="1561404055021"
-                 style="left: 1001px; top: 363px; width: 360px;">
-                <div class="tn-atom t-zoomable" data-zoomable="yes"
+            <div class="t396__elem tn-elem tn-elem__1225746621561404055021" data-elem-id="1561404055021">
+                <div class="tn-atom t-zoomable"
                      data-img-zoom-url="https://static.tildacdn.com/tild6537-3038-4561-b735-623337663137/rama65.jpg">
                     <img class="tn-atom__img t-img loaded"
                          data-original="https://static.tildacdn.com/tild6537-3038-4561-b735-623337663137/rama65.jpg"

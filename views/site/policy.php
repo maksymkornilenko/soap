@@ -421,6 +421,6 @@ Modal::begin([
 <div class="modal-bodycallback">
 </div>
 <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
-    <a href="http://sale.maldivesdreams.com.ua/official" style="">политикой конфиденциальности.</a>
+    <a href="/site/official" style="">политикой конфиденциальности.</a>
 </div>
 <?php Modal::end(); ?>

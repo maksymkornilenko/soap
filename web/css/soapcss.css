@@ -2615,7 +2615,7 @@
 #rec122181474 .tn-elem[data-elem-id="1565882009094"] {
     color: #ff0000;
     z-index: 20;
-    top: 55px;
+    top: 29px;
     left: calc(50% - 600px + 320px);
     width: 235px;
 }
@@ -2722,7 +2722,7 @@
 #rec122181474 .tn-elem[data-elem-id="1565882937929"] {
     color: #ff0000;
     z-index: 21;
-    top: 150px;
+    top: 113px;
     left: calc(50% - 600px + 320px);
     width: 225px;
 }
@@ -3162,7 +3162,7 @@
 
 #rec122181474 .tn-elem[data-elem-id="1566245868234"] {
     z-index: 27;
-    top: 62px;
+    top: 37px;
     left: calc(50% - 600px + 301px);
     width: 15px;
 }
@@ -3203,8 +3203,8 @@
 
 #rec122181474 .tn-elem[data-elem-id="1566245894250"] {
     z-index: 28;
-    top: 156px;
-    left: calc(50% - 600px + 298px);
+    top: 122px;
+    left: calc(50% - 597px + 298px);
     width: 15px;
 }
 
@@ -3245,7 +3245,7 @@
 #rec122181474 .tn-elem[data-elem-id="1566245897346"] {
     z-index: 29;
     top: 292px;
-    left: calc(50% - 600px + 298px);
+    left: calc(50% - 597px + 298px);
     width: 15px;
 }
 
@@ -8229,4 +8229,41 @@
         top: 820px;
         left: calc(50% - 160px + 10px);
     }
+}
+.t-container{
+    max-width: 885px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    width: 100%;
+}
+@media screen and (max-width: 960px){
+    .t-container {
+        max-width: 280px;
+    }
+}
+@media screen and (max-width: 768px){
+    .t-container {
+        max-width: 520px;
+    }
+}
+@media screen and (max-width: 425px){
+    .t-container {
+        max-width: 377px;
+    }
+}
+@media screen and (max-width: 375px){
+    .t-container {
+        max-width: 344px;
+    }
+}
+@media screen and (max-width: 320px){
+    .t-container {
+        max-width: 289px;
+    }
+}
+.t706__carticon-imgwrap > img{
+    width: 100%;
+    position: relative;
+    left: 2px;
 }

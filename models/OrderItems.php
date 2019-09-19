@@ -80,7 +80,7 @@ class OrderItems extends \yii\db\ActiveRecord
             $order_items->order_id=$order_id;
             $order_items->product_id=$item['id'];
             $order_items->name=$item['name'];
-            $order_items->price=$item['price'];
+            $order_items->price=$item['discount'];
             $order_items->count_item=$item['count'];
             $order_items->sum_item=$item['count']*$item['discount'];
             $order_items->save();
