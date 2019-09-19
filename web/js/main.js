@@ -4,7 +4,7 @@ function showCart(cart) {
 }
 
 function showAnswer(callback) {
-    $('#answer-callback-modal .modal-body2').html(callback);
+    $('#answer-callback-modal .modal-bodycallback').html(callback);
     $('#answer-callback-modal').modal();
 }
 
@@ -30,6 +30,7 @@ $('.buy').click(function () {
 $('.buy-nav').click(function () {
     var id = $('#for-nav').data('id');
     var count = $('#for-nav').data('count');
+    console.log(id);
     $.ajax({
         url: '/cart/add',
         data: {id: id, count: count},
@@ -325,4 +326,52 @@ $('#cart .modal-body').on('blur', '#message', function (e) {
 $(document).ready(function ($) {
     $("#clients-phone").mask('8(099)999-99-99');
     $("#callback-phone").mask('8(099)999-99-99');
+});
+$('.nav-label').on('click', function(e) {
+    $('#w0-collapse').attr("aria-expanded","false")
+    $('#w0-collapse').removeClass('navbar-collapse collapse in');
+    $('#w0-collapse').toggleClass('navbar-collapse collapse');
+});
+$('.callback').click(function (e) {
+    e.preventDefault();
+    $('#callback-modal').modal('show');
+});
+$('.sendCallbackForm').on('click', function (e) {
+    var name = $('#callback-name').val();
+    var phone = $('#callback-phone').val();
+    $('.t706__carticon').css({display: 'none'});
+    name = name.trim();
+    e.preventDefault();
+    if ($('#callback-name').val().length == 0 || $('#callback-phone').val().length == 0) {
+        return false;
+    } else {
+        $.ajax({
+            url: '/site/callback',
+            data: {name: name, phone: phone},
+            type: 'post',
+            success: function (res) {
+                if (!res) res = 'empty';
+                $('#callback-modal').modal('hide');
+                showAnswer(res);
+                $("#answer-callback-modal").on("hidden.bs.modal", function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/cart/redirect',
+                    });
+                });
+                $("#answer-callback-modal").on(".close", function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/cart/redirect',
+                    });
+                });
+            },
+            error: function (res) {
+                res = 'error';
+                $('#callback-modal').modal('hide');
+                $('.t706__carticon').css({display: 'none'});
+                showAnswer(res);
+            }
+        });
+    }
 });

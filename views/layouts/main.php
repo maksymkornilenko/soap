@@ -50,10 +50,10 @@ AppAsset::register($this);
             ['label' => 'Заказать звонок', 'options'=>['class'=>'callback']],
         ],
     ]);?>
-<a href="https://t.me/maldivesdreams" class="icon-nav" target="_blank"><img src="/image/telegram.png"/></a>
-<a href="https://wa.me/380672452010" class="icon-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav" target="_blank"><img src="/image/viber.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav" target="_blank"><img src="/image/instagram.png"/></a>
+<a href="https://t.me/maldivesdreams" class="icon-nav telegram" target="_blank"><img src="/image/telegram.png"/></a>
+<a href="https://wa.me/380672452010" class="icon-nav whatsapp" target="_blank"><img src="/image/whatsapp.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber" target="_blank"><img src="/image/viber.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav instagram" target="_blank"><img src="/image/instagram.png"/></a>
     <?php NavBar::end();
     ?>
 <?= $content ?>
@@ -66,7 +66,7 @@ AppAsset::register($this);
                 <div class="t396__carrier" data-artboard-recid="124335292"></div>
                 <div class="t396__filter" data-artboard-recid="124335292"></div>
                 <div class='t396__elem tn-elem tn-elem__1243352921475147390128' data-elem-id='1475147390128'>
-                    <a class='tn-atom' href="#popup:skrabandoil">КУПИТЬ</a>
+                    <div class='tn-atom'>КУПИТЬ</div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921475147589474' data-elem-id='1475147589474'>
                     <div class='tn-atom' field='tn_text_1475147589474'>О НАС</div>
@@ -82,7 +82,7 @@ AppAsset::register($this);
                     <div class='tn-atom' field='tn_text_1475147675390'>ДОКУМЕНТАЦИЯ</div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921475147678114' data-elem-id='1475147678114'>
-                    <a class='tn-atom' href="/certification">Сертификаты качества</a>
+                    <a class='tn-atom' href="/site/certification">Сертификаты качества</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921475160083840' data-elem-id='1475160083840'>
                     <a class='tn-atom' href="/">
@@ -116,13 +116,13 @@ AppAsset::register($this);
                     <a class='tn-atom' href="mailto:maldives.dreamstm@gmail.com">maldives.dreamstm@gmail.com</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921562142018674' data-elem-id='1562142018674'>
-                    <a class='tn-atom' href="/official">
+                    <a class='tn-atom' href="/site/official">
                         Политика
                         конфиденциальности
                     </a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921562142042578' data-elem-id='1562142042578'>
-                    <a class='tn-atom' href="/pay">Правила оплаты, доставки и возврата</a>
+                    <a class='tn-atom' href="/site/pay">Правила оплаты, доставки и возврата</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921562142714866' data-elem-id='1562142714866'>
                     <div class='tn-atom'>
@@ -135,7 +135,7 @@ AppAsset::register($this);
                     </div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921562246055382' data-elem-id='1562246055382'>
-                    <a class='tn-atom' href="/oferta">Договор публичной оферты</a>
+                    <a class='tn-atom' href="/site/oferta">Договор публичной оферты</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1243352921564484950188' data-elem-id='1564484950188'>
                     <a class='tn-atom' href="tel:+38 067 245 2010">

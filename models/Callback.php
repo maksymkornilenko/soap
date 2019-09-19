@@ -39,9 +39,8 @@ class Callback extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'phone' => 'Phone',
-            'name' => 'Name',
+            'phone' => 'Телефон',
+            'name' => 'Полное имя',
         ];
     }
 }

@@ -628,3 +628,41 @@ use yii\helpers\ArrayHelper; ?>
 </div>
 <?php Modal::end();
 ?>
+<?php
+Modal::begin([
+    'header' => '<div class="t702__text-wrapper t-align_center">
+                <div class="t702__title t-title t-title_xxs" style="">
+                    Введите номер телефона, мы перезвоним как можно скорее.
+                </div>
+            </div>',
+    'options' => ['id' => 'callback-modal'],
+    'footer' => '',
+]);
+?>
+<div class="t702__wrapper">
+    <?php $call = ActiveForm::begin(['id' => 'callback-form']); ?>
+    <?= $call->field($callback, 'name') ?>
+    <?= $call->field($callback, 'phone') ?>
+    <?php ActiveForm::end(); ?>
+    <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
+        с
+        <a href="/site/official" style="">политикой конфиденциальности.</a>
+    </div>
+
+</div>
+<div class="button-callback">
+    <a href="/site/callback" class="btn btn-success sendCallbackForm">Отправить</a>
+</div>
+<?php Modal::end(); ?>
+<?php Modal::begin([
+    'header' => '',
+    'options' => ['id' => 'answer-callback-modal'],
+    'footer' => '',
+]);
+?>
+<div class="modal-bodycallback">
+</div>
+<div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
+    <a href="http://sale.maldivesdreams.com.ua/official" style="">политикой конфиденциальности.</a>
+</div>
+<?php Modal::end(); ?>

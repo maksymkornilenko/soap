@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Areas;
+use app\models\Callback;
 use app\models\Clients;
 use app\models\Orders;
 use app\models\Products;
@@ -19,44 +20,44 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'only' => ['logout'],
+//                'rules' => [
+//                    [
+//                        'actions' => ['logout'],
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
+//                ],
+//            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
+//                ],
+//            ],
+//        ];
+//    }
 
     /**
      * {@inheritdoc}
      */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
+//    public function actions()
+//    {
+//        return [
+//            'error' => [
+//                'class' => 'yii\web\ErrorAction',
+//            ],
+//            'captcha' => [
+//                'class' => 'yii\captcha\CaptchaAction',
+//                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+//            ],
+//        ];
+//    }
 
     /**
      * Displays homepage.
@@ -68,70 +69,68 @@ class SiteController extends Controller
         $contacts= new Clients();
         $product= new Products();
         $order=new Orders();
+        $callback= new Callback();
         $area=Areas::find()->all();
         $list=$product->getProducts();
-        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area]);
+        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
     }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Logout action.
      *
      * @return Response
      */
-    public function actionLogout()
+    public function actionOfficial()
     {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+        $contacts= new Clients();
+        $product= new Products();
+        $order=new Orders();
+        $callback= new Callback();
+        $area=Areas::find()->all();
+        $list=$product->getProducts();
+        return $this->render('policy',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
+    public function actionOferta()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        $contacts= new Clients();
+        $product= new Products();
+        $order=new Orders();
+        $callback= new Callback();
+        $area=Areas::find()->all();
+        $list=$product->getProducts();
+        return $this->render('oferta',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+    }
 
-            return $this->refresh();
+    public function actionCertification()
+    {
+        $contacts= new Clients();
+        $product= new Products();
+        $order=new Orders();
+        $callback= new Callback();
+        $area=Areas::find()->all();
+        $list=$product->getProducts();
+        return $this->render('certificate',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+    }
+    public function actionPay()
+    {
+        $contacts= new Clients();
+        $product= new Products();
+        $order=new Orders();
+        $callback= new Callback();
+        $area=Areas::find()->all();
+        $list=$product->getProducts();
+        return $this->render('pay',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+    }
+    public function actionCallback(){
+        $callbackForm = new Callback();
+        $callbackForm->name = Yii::$app->request->post('name');
+        $callbackForm->phone = Yii::$app->request->post('phone');
+        if ($callbackForm->save()) {
+            Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
+        }else{
+            Yii::$app->session->setFlash('errorAnswer', "Ошибка");
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
+        $this->layout = false;
+        return $this->render('answer-callback');
     }
 }
