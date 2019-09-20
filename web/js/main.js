@@ -32,6 +32,8 @@ $('.t706__carticon-wrapper').click(function () {
 $('.buy').click(function () {
     var id = $(this).data('id');
     var count = $(this).data('count');
+    console.log(id);
+    console.log(count);
     $.ajax({
         url: '/cart/add',
         data: {id: id, count: count},

@@ -152,7 +152,7 @@ class CartController extends Controller
                                 'amount' => '0',
                                 'currency' => 'UAH',
                                 'description' => 'empty',
-                                'order_id' => 'order_id_1',
+                                'order_id' => $contactForm->id,
                                 'version' => '3'
                             ));
                         } else {
@@ -187,7 +187,7 @@ class CartController extends Controller
                             'amount' => '0',
                             'currency' => 'UAH',
                             'description' => 'empty',
-                            'order_id' => 'order_id_1',
+                            'order_id' => $contactForm->id,
                             'version' => '3'
                         ));
                     } else {
@@ -196,7 +196,7 @@ class CartController extends Controller
                             'amount' => $session['cart.sum'],
                             'currency' => 'UAH',
                             'description' => 'Оплата по заказу №'.$contactForm->id,
-                            'order_id' => 'order_id_1',
+                            'order_id' => $contactForm->id,
                             'version' => '3'
                         ));
                     }
