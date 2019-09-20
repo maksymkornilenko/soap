@@ -48,9 +48,10 @@ $config = [
         'db' => $db,
 
         'urlManager' => [
+            'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false,
+//            'enableStrictParsing' => false,
             'rules' => [
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
