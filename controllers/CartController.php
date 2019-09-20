@@ -106,8 +106,8 @@ class CartController extends Controller
     {
         $session = Yii::$app->session;
         $session->open();
-        $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
+        //$this->layout = false;
+        return $this->renderPartial('cart-modal', ['session' => $session]);
     }
 
     public function actionDelete()
@@ -145,7 +145,7 @@ class CartController extends Controller
                 $contactForm->client_id = $clientForm->id;
                 if ($contactForm->save()) {
                     if($contactForm->pay=='liqpay'){
-                        $liqpay = new LiqPay('i57837357981', 'k3vWQKOtq4TK2SInQbRevLeFlAZhtcey5bQEznnQ');
+                        $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
                         if (empty($session['cart'])) {
                             $html = $liqpay->cnb_form(array(
                                 'action' => 'pay',
@@ -180,7 +180,7 @@ class CartController extends Controller
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
                 if($contactForm->pay=='liqpay'){
-                    $liqpay = new LiqPay('i57837357981', 'k3vWQKOtq4TK2SInQbRevLeFlAZhtcey5bQEznnQ');
+                    $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
                     if (empty($session['cart'])) {
                         $html = $liqpay->cnb_form(array(
                             'action' => 'pay',
