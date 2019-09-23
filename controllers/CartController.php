@@ -4,7 +4,10 @@
 namespace app\controllers;
 
 
+use app\models\Cities;
 use app\models\Clients;
+use app\models\Products;
+use app\models\Warehouses;
 use yii\base\Controller;
 use Yii;
 use app\models\Cart;
@@ -14,6 +17,8 @@ use app\models\SqlRequests;
 use app\models\OrderItems;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\Cookie;
+use yii\web\CookieCollection;
 
 class CartController extends Controller
 {
@@ -22,13 +27,17 @@ class CartController extends Controller
         $id = (int)Yii::$app->request->get('id');
         $count = (int)Yii::$app->request->get('count');
         $count = !$count ? 1 : $count;
-        $requests = new SqlRequests();
-        $model = $requests->showCart($id);
-        if (empty($model)) return false;
+        $cart = new Cart();
         $session = Yii::$app->session;
         $session->open();
-        $cart = new Cart();
-        $cart->addToCart($model[0], 1);
+        if(!isset($session['cart'][1])){
+            $model= Products::find()->all();
+            $cart->addToCart($model[0], 1);
+        }else{
+            $model= $session['cart'][1];
+            $cart->addToCart($model, 1);
+        }
+        if (empty($model)) return false;
         $this->layout = false;
         return $this->render('cart-modal', ['session' => $session]);
     }
@@ -39,13 +48,17 @@ class CartController extends Controller
         $id = (int)Yii::$app->request->get('id');
         $count = (int)Yii::$app->request->get('count');
         $count = !$count ? 1 : $count;
-        $requests = new SqlRequests();
-        $model = $requests->showCart($id);
-        if (empty($model)) return false;
+        $cart = new Cart();
         $session = Yii::$app->session;
         $session->open();
-        $cart = new Cart();
-        $cart->changeInCart($model[0], $count);
+        if(!isset($session['cart'][1])){
+            $model= Products::find()->all();
+            $cart->changeInCart($model[0], $count);
+        }else{
+            $model= $session['cart'][1];
+            $cart->changeInCart($model, $count);
+        }
+        if (empty($model)) return false;
         $this->layout = false;
         return $this->render('cart-modal', ['session' => $session]);
     }
@@ -55,13 +68,17 @@ class CartController extends Controller
         $id = (int)Yii::$app->request->get('id');
         $count = (int)Yii::$app->request->get('count');
         $count = !$count ? 1 : $count;
-        $requests = new SqlRequests();
-        $model = $requests->showCart($id);
-        if (empty($model)) return false;
+        $cart = new Cart();
         $session = Yii::$app->session;
         $session->open();
-        $cart = new Cart();
-        $cart->removeFromCart($model[0], $count);
+        if(!isset($session['cart'][1])){
+            $model= Products::find()->all();
+            $cart->removeFromCart($model[0], $count);
+        }else{
+            $model= $session['cart'][1];
+            $cart->removeFromCart($model, $count);
+        }
+        if (empty($model)) return false;
         $this->layout = false;
         return $this->render('cart-modal', ['session' => $session]);
     }
@@ -80,9 +97,7 @@ class CartController extends Controller
     public function actionArea()
     {
         $areasRef = (string)Yii::$app->request->get('value');
-        $requests = new SqlRequests();
-        $city = $requests->showCities($areasRef);
-
+        $city = Cities::find()->where(['area_ref' => $areasRef])->all();
         foreach ($city as $cities) {
             $answer[] = '<option value="' . $cities['ref'] . '">' . $cities['description_ru'] . '</option>';
         }
@@ -94,8 +109,7 @@ class CartController extends Controller
     public function actionCity()
     {
         $cityRef = (string)Yii::$app->request->get('city');
-        $requests = new SqlRequests();
-        $warehouse = $requests->showWarehouses($cityRef);
+        $warehouse = Warehouses::find()->where(['city_ref'=>$cityRef])->all();
         foreach ($warehouse as $warehouses) {
             $answer[] = '<option value="' . $warehouses['ref'] . '">' . $warehouses['description_ru'] . '</option>';
         }

@@ -1,9 +1,9 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-if($_SERVER['REMOTE_ADDR']=='127.0.0.1'){
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
     $db = require __DIR__ . '/db.php';
-}else{
+} else {
     $db = require __DIR__ . '/db-prod.php';
 }
 $config = [
@@ -12,7 +12,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -43,6 +43,18 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+            ],
+        ],
+        'cart' => [
+            'class' => 'devanych\cart\Cart',
+            'storageClass' => 'devanych\cart\storage\CookieStorage',
+            'calculatorClass' => 'devanych\cart\calculators\SimpleCalculator',
+            'params' => [
+                'key' => 'cart',
+                'expire' => 604800,
+                'productClass' => 'app\model\Product',
+                'productFieldId' => 'id',
+                'productFieldPrice' => 'price',
             ],
         ],
         'db' => $db,
