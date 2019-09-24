@@ -30,7 +30,11 @@ class CartController extends Controller
         $count = !$count ? 1 : $count;
         $cookies = Yii::$app->response->cookies;
         $cook = Yii::$app->request->cookies;
-        $check = $cook['count']->value;
+        if(isset($cook['count']->value)){
+            $check = $cook['count']->value;
+        }else{
+            $check = 0;
+        }
         $cookies->add(new Cookie([
             'name' => 'id',
             'value' => $id,
