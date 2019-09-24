@@ -246,6 +246,9 @@ a.desc:after {
         left: 48px;
     }
 }
+#message{
+    width: 75%;
+}
 @media (max-width: 425px) {
     .container{
         background-color: #ffffff;
@@ -284,6 +287,18 @@ a.desc:after {
     .icon-nav > img {
         width: 8.5%;
     }
+    .t706__product-amount{
+        position: relative;
+        left: 120px;
+    }
+    .t706__product-plusminus{
+        position: relative;
+        left: 94px;
+        top: -3px;
+    }
+    #message{
+        width: 30%;
+    }
 }
 .navbar-toggle{
     position: relative;
@@ -292,4 +307,10 @@ a.desc:after {
 }
 .cart-price{
     display: none;
+}
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.t706__product-title{
+    width: 45%;
 }

@@ -31,14 +31,18 @@ use app\models\Orders;
                 </div>
                 <div class="t706__product-amount t-descr t-descr_sm"><?= $count * 150 ?>&nbsp;грн
                 </div>
-                <div class="t706__product-del">
+                <span class="t706__product-del">
                     <img src="/image/arrows_circle_remove.svg"
                          class="del-item" data-name="Кокосовое мыло" data-id="<?= $id ?>" style="width:20px;height:20px;border:0;">
-                </div>
+                </span>
             </div>
     </div>
     <div class="cartwin-prodamount-wrap t-descr t-descr_sm" style="display: block;">
+        <?php if($count>1):?>
+        <span class="t706__cartwin-prodamount-label">Сумма с учётом скидки:</span>
+        <?php else:?>
         <span class="t706__cartwin-prodamount-label">Сумма:&nbsp;</span>
+        <?php endif;?>
         <span class="t706__cartwin-prodamount"><?= $count * $price ?>&nbsp;грн</span>
         <span class="t706__cartwin-count"><?= $count ?></span>
     </div>

@@ -3897,7 +3897,7 @@ img:not([src]) {
 .t706__carticon {
     display: none;
     position: fixed;
-    top: 72px;
+    top: 100px;
     right: 50px;
     z-index: 4000
 }
@@ -4202,15 +4202,14 @@ img:not([src]) {
 }
 
 .t706__product-del {
-    display: table-cell;
+    position: relative;
+    top: 38px;
     width: 20px;
-    padding: 15px 0 15px 15px;
     cursor: pointer;
     opacity: .4;
-    vertical-align: middle
+    vertical-align: middle;
 }
-
-.t706__product:hover .t706__product-plus, .t706__product:hover .t706__product-minus, .t706__product:hover .t706__product-del {
+.t706__product-plus:hover, .t706__product-minus:hover, .t706__product-del:hover {
     opacity: 1
 }
 
@@ -4465,6 +4464,7 @@ img:not([src]) {
     .t706__cartwin-content {
         padding: 20px
     }
+
 }
 
 .t795__title {
@@ -4474,3 +4474,4 @@ img:not([src]) {
 .t795__descr {
     max-width: 560px
 }
+

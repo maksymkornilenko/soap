@@ -114,7 +114,7 @@ class CartController extends Controller
     public function actionArea()
     {
         $areasRef = (string)Yii::$app->request->get('value');
-        $city = Cities::find()->where(['area_ref' => $areasRef])->all();
+        $city = Cities::find()->where(['area_ref' => $areasRef])->orderBy(['description_ru' => SORT_ASC])->all();
         foreach ($city as $cities) {
             $answer[] = '<option value="' . $cities['ref'] . '">' . $cities['description_ru'] . '</option>';
         }
@@ -136,8 +136,15 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
+        if($cookies['count']->value==1){
+            $price=$cookies['price']->value;
+        }elseif ($cookies['count']->value==2){
+            $price=125;
+        }elseif ($cookies['count']->value>=3){
+            $price=100;
+        }
         //$this->layout = false;
-        return $this->renderPartial('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->renderPartial('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $price, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
     public function actionDelete()
@@ -195,11 +202,6 @@ class CartController extends Controller
         return $this->render('cart-modal', ['liqpay' => $html]);
     }
 
-    public function actionRedirect()
-    {
-        return Yii::$app->response->redirect(Url::to('/'));
-    }
-
     protected function setEmptyCookie()
     {
         $cookies = Yii::$app->response->cookies;
@@ -223,6 +225,7 @@ class CartController extends Controller
             'name' => 'sum',
             'value' => 0,
         ]));
+        return $cookies;
     }
 
     protected function setLiqpay($id)

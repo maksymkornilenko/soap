@@ -41,19 +41,19 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Описание','options' => ['class' => 'nav-label'] ,'url' => ['/#opisanie']],
-            ['label' => 'Гарантия','options' => ['class' => 'nav-label'] ,'url' => ['/#garant']],
-            ['label' => 'Безопасность', 'options' => ['class' => 'nav-label'], 'url' => ['/#security']],
-            ['label' => 'Купить', 'options' => ['class' => 'buy-nav nav-label']],
-            ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1'], 'url' => 'https://wa.me/380672452010','linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
-            ['label' => '+38 067 404-66-01','options' => ['class' => 'tel-2'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
-            ['label' => 'Заказать звонок', 'options'=>['class'=>'callback']],
+            ['label' => 'Описание','options' => ['class' => 'nav-label close-nav'] ,'url' => ['/#opisanie']],
+            ['label' => 'Гарантия','options' => ['class' => 'nav-label close-nav'] ,'url' => ['/#garant']],
+            ['label' => 'Безопасность', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#security']],
+            ['label' => 'Купить', 'options' => ['class' => 'buy-nav nav-label close-nav']],
+            ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1 close-nav'], 'url' => 'https://wa.me/380672452010','linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
+            ['label' => '+38 067 404-66-01','options' => ['class' => 'tel-2 close-nav'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target'=>'_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
+            ['label' => 'Заказать звонок', 'options'=>['class'=>'callback close-nav']],
         ],
     ]);?>
-<a href="https://t.me/maldivesdreams" class="icon-nav telegram" target="_blank"><img src="/image/telegram.png"/></a>
-<a href="https://wa.me/380672452010" class="icon-nav whatsapp" target="_blank"><img src="/image/whatsapp.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber" target="_blank"><img src="/image/viber.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav instagram" target="_blank"><img src="/image/instagram.png"/></a>
+<a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img src="/image/telegram.png"/></a>
+<a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img src="/image/viber.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav instagram close-nav" target="_blank"><img src="/image/instagram.png"/></a>
     <?php NavBar::end();
     ?>
 <?= $content ?>
