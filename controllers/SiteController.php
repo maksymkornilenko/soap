@@ -66,15 +66,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $contacts= new Clients();
-        $product= new Products();
-        $order=new Orders();
-        $callback= new Callback();
-        $area=Areas::find()->all();
-        $list=$product->getProducts();
-        $session=Yii::$app->session;
-        return $this->render('index',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback,'session'=>$session]);
+        $contacts = new Clients();
+        $product = new Products();
+        $order = new Orders();
+        $callback = new Callback();
+        $area = Areas::find()->all();
+        $list = $product->getProducts();
+        $cookies=Yii::$app->request->cookies;
+//        var_dump($cookies);
+        return $this->render('index', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback, 'cookie' => $cookies]);
     }
+
     /**
      * Logout action.
      *
@@ -82,53 +84,56 @@ class SiteController extends Controller
      */
     public function actionOfficial()
     {
-        $contacts= new Clients();
-        $product= new Products();
-        $order=new Orders();
-        $callback= new Callback();
-        $area=Areas::find()->all();
-        $list=$product->getProducts();
-        return $this->render('policy',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+        $contacts = new Clients();
+        $product = new Products();
+        $order = new Orders();
+        $callback = new Callback();
+        $area = Areas::find()->all();
+        $list = $product->getProducts();
+        return $this->render('policy', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback]);
     }
 
     public function actionOferta()
     {
-        $contacts= new Clients();
-        $product= new Products();
-        $order=new Orders();
-        $callback= new Callback();
-        $area=Areas::find()->all();
-        $list=$product->getProducts();
-        return $this->render('oferta',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+        $contacts = new Clients();
+        $product = new Products();
+        $order = new Orders();
+        $callback = new Callback();
+        $area = Areas::find()->all();
+        $list = $product->getProducts();
+        return $this->render('oferta', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback]);
     }
 
     public function actionCertification()
     {
-        $contacts= new Clients();
-        $product= new Products();
-        $order=new Orders();
-        $callback= new Callback();
-        $area=Areas::find()->all();
-        $list=$product->getProducts();
-        return $this->render('certificate',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+        $contacts = new Clients();
+        $product = new Products();
+        $order = new Orders();
+        $callback = new Callback();
+        $area = Areas::find()->all();
+        $list = $product->getProducts();
+        return $this->render('certificate', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback]);
     }
+
     public function actionPay()
     {
-        $contacts= new Clients();
-        $product= new Products();
-        $order=new Orders();
-        $callback= new Callback();
-        $area=Areas::find()->all();
-        $list=$product->getProducts();
-        return $this->render('pay',['client'=>$contacts,'product'=>$list,'order'=>$order,'areas'=>$area,'callback'=>$callback]);
+        $contacts = new Clients();
+        $product = new Products();
+        $order = new Orders();
+        $callback = new Callback();
+        $area = Areas::find()->all();
+        $list = $product->getProducts();
+        return $this->render('pay', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback]);
     }
-    public function actionCallback(){
+
+    public function actionCallback()
+    {
         $callbackForm = new Callback();
         $callbackForm->name = Yii::$app->request->post('name');
         $callbackForm->phone = Yii::$app->request->post('phone');
         if ($callbackForm->save()) {
             Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
-        }else{
+        } else {
             Yii::$app->session->setFlash('errorAnswer', "Ошибка");
         }
         $this->layout = false;

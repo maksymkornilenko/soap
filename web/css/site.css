@@ -290,3 +290,6 @@ a.desc:after {
     background-color: #e4b9b9;
     top: 8px;
 }
+.cart-price{
+    display: none;
+}

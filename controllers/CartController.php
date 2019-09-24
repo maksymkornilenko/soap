@@ -26,72 +26,85 @@ class CartController extends Controller
     {
         $id = (int)Yii::$app->request->get('id');
         $count = (int)Yii::$app->request->get('count');
+        $name = Yii::$app->request->get('name');
         $count = !$count ? 1 : $count;
-        $cart = new Cart();
-        $session = Yii::$app->session;
-        $session->open();
-        if(!isset($session['cart'][1])){
-            $model= Products::find()->all();
-            $cart->addToCart($model[0], 1);
-        }else{
-            $model= $session['cart'][1];
-            $cart->addToCart($model, 1);
+        $cookies = Yii::$app->response->cookies;
+        $cook = Yii::$app->request->cookies;
+        $check = $cook['count']->value;
+        $cookies->add(new Cookie([
+            'name' => 'id',
+            'value' => $id,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'name',
+            'value' => $name,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'count',
+            'value' => $check + $count,
+        ]));
+        if (($check + $count) == 1) {
+            $cookies->add(new Cookie([
+                'name' => 'price',
+                'value' => 150,
+            ]));
+        } else if (($check + $count) == 2) {
+            $cookies->add(new Cookie([
+                'name' => 'price',
+                'value' => 125,
+            ]));
+        } else if (($check + $count) >= 3) {
+            $cookies->add(new Cookie([
+                'name' => 'price',
+                'value' => 100,
+            ]));
         }
-        if (empty($model)) return false;
+        $cookies->add(new Cookie([
+            'name' => 'sum',
+            'value' => ($check + $count) * $cookies['price']->value,
+        ]));
         $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
+        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
-
-    public function actionChange()
+    public function actionSave()
     {
         $id = (int)Yii::$app->request->get('id');
         $count = (int)Yii::$app->request->get('count');
+        $name = (int)Yii::$app->request->get('name');
+        $price = (int)Yii::$app->request->get('price');
+        $sum = (int)Yii::$app->request->get('sum');
         $count = !$count ? 1 : $count;
-        $cart = new Cart();
-        $session = Yii::$app->session;
-        $session->open();
-        if(!isset($session['cart'][1])){
-            $model= Products::find()->all();
-            $cart->changeInCart($model[0], $count);
-        }else{
-            $model= $session['cart'][1];
-            $cart->changeInCart($model, $count);
-        }
-        if (empty($model)) return false;
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie([
+            'name' => 'id',
+            'value' => $id,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'name',
+            'value' => $name,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'count',
+            'value' => $count,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'price',
+            'value' => $price,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'sum',
+            'value' => $sum,
+        ]));
         $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
-    }
-
-    public function actionRemove()
-    {
-        $id = (int)Yii::$app->request->get('id');
-        $count = (int)Yii::$app->request->get('count');
-        $count = !$count ? 1 : $count;
-        $cart = new Cart();
-        $session = Yii::$app->session;
-        $session->open();
-        if(!isset($session['cart'][1])){
-            $model= Products::find()->all();
-            $cart->removeFromCart($model[0], $count);
-        }else{
-            $model= $session['cart'][1];
-            $cart->removeFromCart($model, $count);
-        }
-        if (empty($model)) return false;
-        $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
+        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
     public function actionClear()
     {
-        $session = Yii::$app->session;
-        $session->open();
-        $session->remove('cart');
-        $session->remove('cart.count');
-        $session->remove('cart.sum');
+        $this->setEmptyCookie();
         $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
+        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
     public function actionArea()
@@ -109,7 +122,7 @@ class CartController extends Controller
     public function actionCity()
     {
         $cityRef = (string)Yii::$app->request->get('city');
-        $warehouse = Warehouses::find()->where(['city_ref'=>$cityRef])->all();
+        $warehouse = Warehouses::find()->where(['city_ref' => $cityRef])->all();
         foreach ($warehouse as $warehouses) {
             $answer[] = '<option value="' . $warehouses['ref'] . '">' . $warehouses['description_ru'] . '</option>';
         }
@@ -118,30 +131,23 @@ class CartController extends Controller
 
     public function actionShow()
     {
-        $session = Yii::$app->session;
-        $session->open();
+        $cookies = Yii::$app->request->cookies;
         //$this->layout = false;
-        return $this->renderPartial('cart-modal', ['session' => $session]);
+        return $this->renderPartial('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
     public function actionDelete()
     {
         $id = (int)Yii::$app->request->get('id');
-        $session = Yii::$app->session;
-        $session->open();
-        $model = new Cart();
-        $model->recalc($id);
+        $this->setEmptyCookie();
         $this->layout = false;
-        return $this->render('cart-modal', ['session' => $session]);
+        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
     }
 
     public function actionView()
     {
-        $session = Yii::$app->session;
-        $session->open();
         $contactForm = new Orders();
         $clientForm = new Clients();
-        $requests = new SqlRequests();
         $clientForm->name = Yii::$app->request->post('name');
         $clientForm->phone = Yii::$app->request->post('phone');
         $clientForm->phone_raw = preg_replace('/[^0-9]/', '', $clientForm->phone);
@@ -149,43 +155,22 @@ class CartController extends Controller
         $contactForm->area = Yii::$app->request->post('area');
         $contactForm->city = Yii::$app->request->post('city');
         $contactForm->warehouse = Yii::$app->request->post('warehouse');
-        $contactForm->count = $session['cart.count'];
-        $contactForm->sum = $session['cart.sum'];
+        $contactForm->count = (int)Yii::$app->request->post('count');
+        $contactForm->sum = (int)Yii::$app->request->post('sum');
         $contactForm->pay = Yii::$app->request->post('pay');
-        $sqlclients = $requests->showClient($clientForm->phone_raw);
-
+        $product_id = Yii::$app->request->post('id');
+        $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
+        $sqlproducts = Products::find()->where(['id' => $product_id])->all();
+        $check=$this->checkSum($contactForm->count,$sqlproducts[0]['price']);
         if (empty($sqlclients)) {
             if ($clientForm->save()) {
                 $contactForm->client_id = $clientForm->id;
                 if ($contactForm->save()) {
-                    if($contactForm->pay=='liqpay'){
-                        $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
-                        if (empty($session['cart'])) {
-                            $html = $liqpay->cnb_form(array(
-                                'action' => 'pay',
-                                'amount' => '0',
-                                'currency' => 'UAH',
-                                'description' => 'empty',
-                                'order_id' => $contactForm->id,
-                                'version' => '3'
-                            ));
-                        } else {
-                            $html = $liqpay->cnb_form(array(
-                                'action' => 'pay',
-                                'amount' => $session['cart.sum'],
-                                'currency' => 'UAH',
-                                'description' => 'Оплата по заказу №'.$contactForm->id,
-                                'order_id' => 'order_id_1',
-                                'version' => '3'
-                            ));
-                        }
-                    }
+                    $this->setLiqpay($contactForm->id);
                     $saveItems = new OrderItems();
-                    $saveItems->saveOrderItems($session['cart'], $contactForm->id);
+                    $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
-                    $session->remove('cart');
-                    $session->remove('cart.count');
-                    $session->remove('cart.sum');
+                    $this->setEmptyCookie();
                 } else {
                     Yii::$app->session->setFlash('error', 'Ваш заказ не получен');
                 }
@@ -193,44 +178,73 @@ class CartController extends Controller
         } else {
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
-                if($contactForm->pay=='liqpay'){
-                    $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
-                    if (empty($session['cart'])) {
-                        $html = $liqpay->cnb_form(array(
-                            'action' => 'pay',
-                            'amount' => '0',
-                            'currency' => 'UAH',
-                            'description' => 'empty',
-                            'order_id' => $contactForm->id,
-                            'version' => '3'
-                        ));
-                    } else {
-                        $html = $liqpay->cnb_form(array(
-                            'action' => 'pay',
-                            'amount' => $session['cart.sum'],
-                            'currency' => 'UAH',
-                            'description' => 'Оплата по заказу №'.$contactForm->id,
-                            'order_id' => $contactForm->id,
-                            'version' => '3'
-                        ));
-                    }
-                }
+                $this->setLiqpay($contactForm->id);
                 $saveItems = new OrderItems();
-                $saveItems->saveOrderItems($session['cart'], $contactForm->id);
+                $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                 Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
-                $session->remove('cart');
-                $session->remove('cart.count');
-                $session->remove('cart.sum');
+                $this->setEmptyCookie();
             } else {
                 Yii::$app->session->setFlash('error', 'Ваш заказ не получен');
             }
         }
         $this->layout = false;
-        return $this->render('cart-modal',['liqpay'=>$html]);
+        return $this->render('cart-modal', ['liqpay' => $html]);
     }
 
     public function actionRedirect()
     {
         return Yii::$app->response->redirect(Url::to('/'));
+    }
+
+    protected function setEmptyCookie()
+    {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie([
+            'name' => 'id',
+            'value' => '',
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'name',
+            'value' => '',
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'count',
+            'value' => 0,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'price',
+            'value' => 0,
+        ]));
+        $cookies->add(new Cookie([
+            'name' => 'sum',
+            'value' => 0,
+        ]));
+    }
+
+    protected function setLiqpay($id)
+    {
+        if ($contactForm->pay == 'liqpay') {
+            $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
+            $html = $liqpay->cnb_form(array(
+                'action' => 'pay',
+                'amount' => $session['cart.sum'],
+                'currency' => 'UAH',
+                'description' => 'Оплата по заказу №' . $id,
+                'order_id' => 'order_id_1',
+                'version' => '3'
+            ));
+        }
+    }
+    protected function checkSum($count, $price){
+        if($count<=0){
+            $sum = false;
+        }elseif ($count==1){
+            $sum=$count*$price;
+        }elseif ($count==2){
+            $sum=$count*125;
+        }elseif ($count>=3){
+            $sum=$count*100;
+        }
+        return $sum;
     }
 }

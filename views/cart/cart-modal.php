@@ -4,11 +4,10 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Orders;
 ?>
-<?php if (!empty($session['cart'])): ?>
+<?php if (!empty($count)): ?>
     <!--версия 2.0-->
     <div class="t706__cartwin-heading t-name t-name_xl">Оставьте данные для оформления заказа</div>
     <div class="t706__cartwin-products">
-        <?php foreach ($session['cart'] as $id => $item): ?>
             <div class="t706__product">
                 <div class="t706__product-thumb">
                     <div class="t706__product-imgdiv"
@@ -22,26 +21,26 @@ use app\models\Orders;
                 <div class="t706__product-plusminus t-descr t-descr_sm">
                     <span class="t706__product-minus">
                         <img src="/image/arrows_circle_minus.svg" style="width:16px;height:16px;border:0;"
-                             data-id="<?= $id ?>" data-count="1" id="minus-cart">
+                             data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="minus-cart">
                     </span>
-                    <span class="t706__product-quantity cart-count" data-id="<?= $id ?>"><?= $item['count'] ?></span>
+                    <span class="t706__product-quantity cart-count" data-id="<?= $id ?>"><?= $count ?></span>
+                    <span class="t706__product-quantity cart-price" data-id="<?= $id ?>"><?= $price ?></span>
                     <span class="t706__product-plus">
-                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $id ?>" data-count="1" id="plus-cart" style="width:16px;height:16px;border:0;">
+                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="plus-cart" style="width:16px;height:16px;border:0;">
                     </span>
                 </div>
-                <div class="t706__product-amount t-descr t-descr_sm"><?= $item['count'] * $item['price'] ?>&nbsp;грн
+                <div class="t706__product-amount t-descr t-descr_sm"><?= $count * 150 ?>&nbsp;грн
                 </div>
                 <div class="t706__product-del">
                     <img src="/image/arrows_circle_remove.svg"
-                         class="del-item" data-id="<?= $id ?>" style="width:20px;height:20px;border:0;">
+                         class="del-item" data-name="Кокосовое мыло" data-id="<?= $id ?>" style="width:20px;height:20px;border:0;">
                 </div>
             </div>
-        <?php endforeach; ?>
     </div>
     <div class="cartwin-prodamount-wrap t-descr t-descr_sm" style="display: block;">
         <span class="t706__cartwin-prodamount-label">Сумма:&nbsp;</span>
-        <span class="t706__cartwin-prodamount"><?= $session['cart.sum'] ?>&nbsp;грн</span>
-        <span class="t706__cartwin-count"><?= $session['cart.count'] ?></span>
+        <span class="t706__cartwin-prodamount"><?= $count * $price ?>&nbsp;грн</span>
+        <span class="t706__cartwin-count"><?= $count ?></span>
     </div>
 <?php elseif (Yii::$app->session->hasFlash('success')): ?>
     <div>

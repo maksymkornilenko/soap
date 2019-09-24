@@ -7,6 +7,7 @@ function showAnswer(callback) {
     $('#answer-callback-modal .modal-bodycallback').html(callback);
     $('#answer-callback-modal').modal();
 }
+
 $('.t706__carticon-wrapper').click(function () {
     $.ajax({
         url: '/cart/show',
@@ -15,9 +16,9 @@ $('.t706__carticon-wrapper').click(function () {
             if (!res) res = 'cart empty';
             showCart(res);
             $(".t706__carticon_showed").css({display: 'none'});
-            if($('.t706__cartwin-count').text()==''){
+            if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__cartwin-bottom').css({display: 'none'});
-            }else{
+            } else {
                 $('.t706__cartwin-bottom').css({display: 'block'});
             }
             $('.t706__cartwin-count').css({display: 'none'});
@@ -32,21 +33,20 @@ $('.t706__carticon-wrapper').click(function () {
 $('.buy').click(function () {
     var id = $(this).data('id');
     var count = $(this).data('count');
-    console.log(id);
-    console.log(count);
+    var name = $(this).data('name');
     $.ajax({
         url: '/cart/add',
-        data: {id: id, count: count},
+        data: {id: id, count: count, name: name},
         type: 'get',
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
             $(".t706__carticon_showed").css({display: 'none'});
-            if($('.t706__cartwin-count').text()==''){
+            if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
                 $('.t706__carticon-text').text('Ваша корзина пуста');
                 $('.t706__cartwin-bottom').css({display: 'none'});
-            }else{
+            } else {
                 $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
                 $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
                 $('.t706__cartwin-bottom').css({display: 'block'});
@@ -70,11 +70,11 @@ $('.buy-nav').click(function () {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
-            if($('.t706__cartwin-count').text()==''){
+            if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
                 $('.t706__carticon-text').text('Ваша корзина пуста');
                 $('.t706__cartwin-bottom').css({display: 'none'});
-            }else{
+            } else {
                 $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
                 $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
                 $('.t706__cartwin-bottom').css({display: 'block'});
@@ -88,84 +88,85 @@ $('.buy-nav').click(function () {
         }
     });
 });
- $('#cart .modal-body2').on('click', '#plus-cart', function (e) {
-     e.preventDefault();
-     var id = $(this).data('id');
-     var count = $(this).data('count');
-     $.ajax({
-         url: '/cart/add',
-         data: {id: id, count: count},
-         type: 'get',
-         success: function (res) {
-             if (!res) res = 'cart empty';
-             showCart(res);
-             if($('.t706__cartwin-count').text()==''){
-                 $('.t706__carticon-counter').text(0);
-                 $('.t706__carticon-text').text('Ваша корзина пуста');
-                 $('.t706__cartwin-bottom').css({display: 'none'});
-             }else{
-                 $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
-                 $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
-                 $('.t706__cartwin-bottom').css({display: 'block'});
-             }
-             $('.t706__cartwin-count').css({display: 'none'});
-             $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
-         },
-         error: function (res) {
-             res = 'error';
-             showCart(res);
-         }
-     });
- });
+$('#cart .modal-body2').on('click', '#plus-cart', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    var count = $(this).data('count');
+    var name = $(this).data('name');
+    var newCount = +$('.cart-count').text();
+    newCount += count;
+    $('.cart-count').text(newCount);
+    var price = 150;
+    $('.t706__product-amount').text(sum + ' грн');
+    if (newCount <= 0) {
+        newCount = 1;
+        $('.cart-count').text(newCount);
+        var sum = newCount * price;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(sum + ' грн');
+    } else if (newCount == 1) {
+        price = +$('.cart-price').text();
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(sum + ' грн');
+    } else if (newCount == 2) {
+        var newprice = 125;
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        var newSum = newCount * newprice;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(newSum + ' грн');
+    } else if (newCount >= 3) {
+        newprice = 100;
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        newSum = newCount * newprice;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(newSum + ' грн');
+    }
+    $('.t706__carticon-counter').text(newCount);
+    $('.t706__cartwin-count').text(newCount);
+});
 $('#cart .modal-body2').on('click', '#minus-cart', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
     var count = $(this).data('count');
-    var $link = $(e.target);
-    if (!$link.data('lockedAt') || +new Date() - $link.data('lockedAt') > 190) {
-        $.ajax({
-            url: '/cart/remove',
-            data: {id: id, count: count},
-            type: 'get',
-            success: function (res) {
-                if (!res) res = 'cart empty';
-                showCart(res);
-                if($('.t706__cartwin-count').text()==''){
-                    $('.t706__carticon-counter').text(0);
-                    $('.t706__carticon-text').text('Ваша корзина пуста');
-                    $('.t706__cartwin-bottom').css({display: 'none'});
-                }else{
-                    $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
-                    $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
-                    $('.t706__cartwin-bottom').css({display: 'block'});
-                }
-                $('.t706__cartwin-count').css({display: 'none'});
-                $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
-                if ($('.t706__cartwin-count').text() == '') {
-                    $("#cart").on("hidden.bs.modal", function (e) {
-                        e.preventDefault();
-                        $.ajax({
-                            url: '/cart/redirect',
-                        });
-                    });
-                    $("#cart").on(".close", function (e) {
-                        e.preventDefault();
-                        $.ajax({
-                            url: '/cart/redirect',
-                        });
-                    });
-                    $('.t706__cartwin-bottom').css({display: 'none'});
-                } else {
-                    $('.t706__cartwin-bottom').css({display: 'block'});
-                }
-            },
-            error: function (res) {
-                res = 'error';
-                showCart(res);
-            }
-        });
+    var name = $(this).data('name');
+    var newCount = +$('.cart-count').text();
+    newCount -= count;
+    $('.cart-count').text(newCount);
+    var price = 150;
+    $('.t706__product-amount').text(sum + ' грн');
+    if (newCount <= 0) {
+        newCount = 1;
+        $('.cart-count').text(newCount);
+        var sum = newCount * price;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(sum + ' грн');
+    } else if (newCount == 1) {
+        price = +$('.cart-price').text();
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(sum + ' грн');
+    } else if (newCount == 2) {
+        var newprice = 125;
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        var newSum = newCount * newprice;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(newSum + ' грн');
+    } else if (newCount >= 3) {
+        newprice = 100;
+        $('.cart-count').text(newCount);
+        sum = newCount * price;
+        newSum = newCount * newprice;
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(newSum + ' грн');
     }
-    $link.data('lockedAt', +new Date());
+    $('.t706__carticon-counter').text(newCount);
+    $('.t706__cartwin-count').text(newCount);
 });
 $('#cart .modal-body').on('click', '.del-item', function (e) {
     e.preventDefault();
@@ -177,11 +178,11 @@ $('#cart .modal-body').on('click', '.del-item', function (e) {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
-            if($('.t706__cartwin-count').text()==''){
+            if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
                 $('.t706__carticon-text').text('Ваша корзина пуста');
                 $('.t706__cartwin-bottom').css({display: 'none'});
-            }else{
+            } else {
                 $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
                 $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
                 $('.t706__cartwin-bottom').css({display: 'block'});
@@ -190,18 +191,6 @@ $('#cart .modal-body').on('click', '.del-item', function (e) {
             $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
             if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__cartwin-bottom').css({display: 'none'});
-                $("#cart").on("hidden.bs.modal", function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/cart/redirect',
-                    });
-                });
-                $("#cart").on(".close", function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/cart/redirect',
-                    });
-                });
             } else {
                 $('.t706__cartwin-bottom').css({display: 'block'});
             }
@@ -220,27 +209,15 @@ $('#cart .modal-body').on('click', '.clearCart', function (e) {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
-            if($('.t706__cartwin-count').text()==''){
+            if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
                 $('.t706__carticon-text').text('Ваша корзина пуста');
                 $('.t706__cartwin-bottom').css({display: 'none'});
-            }else{
+            } else {
                 $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
                 $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
                 $('.t706__cartwin-bottom').css({display: 'block'});
             }
-            $("#cart").on("hidden.bs.modal", function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/cart/redirect',
-                });
-            });
-            $("#cart").on(".close", function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '/cart/redirect',
-                });
-            });
             $('.t706__cartwin-bottom').css({display: 'none'});
         },
         error: function (res) {
@@ -257,7 +234,7 @@ $('#cart .modal-body').on('change', '#orders-area', function (e) {
     var areatext = $(this).find(":selected").text();
     $.ajax({
         url: '/cart/area',
-        data: {value: area, text:areatext},
+        data: {value: area, text: areatext},
         type: 'get',
         success: function (res) {
             if (!res) res = 'cart empty';
@@ -309,49 +286,60 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     var area = $('#orders-area').find(":selected").text();
     var city = $('#orders-city').find(":selected").text();
     var warehouse = $('#orders-warehouse').find(":selected").text();
-    var pay=$('input[name=paymentsystem]:checked').val();
+    var pay = $('input[name=paymentsystem]:checked').val();
+    var count = $('.t706__cartwin-count').text();
+    var sum = $('.t706__cartwin-prodamount').text();
+    var id = $('.cart-count').data('id');
+    console.log(count);
+    console.log(sum);
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
+    console.log($('#orders-area').val());
     if ($('#clients-name').val().length == 0 || $('#clients-phone').val().length == 0 || $('#clients-email').val().length == 0 || $('#orders-area').val().length == 0 || $('#orders-city').val().length == 0 || $('#orders-warehouse').val().length == 0) {
         $('.error-send').text('Заполните все поля перед оформлением заказа.');
         $('.error-send').css({color: '#a94442'});
-    }else if($('.help-block').text()!=''){
+    } else if ($('.help-block').text() != '') {
         $('.error-send').text('Заполните все поля перед оформлением заказа.');
         $('.error-send').css({color: '#a94442'});
     } else {
         $.ajax({
             url: '/cart/view',
-            data: {name: name, phone: phone, mail: mail, area: area, city: city, warehouse: warehouse, pay: pay},
+            data: {
+                name: name,
+                phone: phone,
+                mail: mail,
+                area: area,
+                city: city,
+                warehouse: warehouse,
+                pay: pay,
+                count: count,
+                sum: sum,
+                id: id
+            },
             type: 'post',
             success: function (res) {
                 if (!res) res = 'cart empty';
                 showCart(res);
-                if($('.t706__cartwin-count').text()==''){
+                $('#clients-name').val('');
+                $('#clients-phone').val('');
+                $('#clients-email').val('');
+                $('#orders-area').val(null).trigger("change");
+                // $('#orders-city').prop('selectedIndex', -1);
+                // $('#orders-warehouse').prop('selectedIndex', -1);
+                if ($('.t706__cartwin-count').text() == '') {
                     $('.t706__carticon-counter').text(0);
                     $('.t706__carticon-text').text('Ваша корзина пуста');
                     $('.t706__cartwin-bottom').css({display: 'none'});
-                }else{
+                } else {
                     $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
                     $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
                     $('.t706__cartwin-bottom').css({display: 'block'});
                 }
                 $('.t706__cartwin-bottom').css({display: 'none'});
-                if(pay=='liqpay'){
+                if (pay == 'liqpay') {
                     $('.liqpaySend').submit();
                 }
-                $("#cart").on("hidden.bs.modal", function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/cart/redirect'
-                    });
-                });
-                $("#cart").on(".close", function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: '/cart/redirect'
-                    });
-                });
             },
             error: function (res) {
                 res = 'error';
@@ -360,43 +348,34 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
         });
     }
 });
+
 function inputCount() {
     var count = $('#message').val();
     var id = $('#message').data('id');
-    if (count <= 0) {
-        count = 1;
-    }
+    var price = +$('.cart-price').text();
+
     if (count == undefined || id == undefined) {
         return false;
     } else {
-        $.ajax({
-            url: '/cart/change',
-            data: {id: id, count: count,},
-            type: 'get',
-            success: function (res) {
-                if (!res) res = 'cart empty';
-                showCart(res);
-                if($('.t706__cartwin-count').text()==''){
-                    $('.t706__carticon-counter').text(0);
-                    $('.t706__carticon-text').text('Ваша корзина пуста');
-                    $('.t706__cartwin-bottom').css({display: 'none'});
-                }else{
-                    $('.t706__carticon-counter').text($('.t706__cartwin-count').text());
-                    $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
-                    $('.t706__cartwin-bottom').css({display: 'block'});
-                }
-                $('.t706__cartwin-count').css({display: 'none'});
-                $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
-                $(this).replaceWith("<span class='t706__product-quantity cart-count' data-id=" + $('#message').data("id")+">" + $('#message').val() + "</span>");
-            },
-            error: function (res) {
-                res = 'error';
-                showCart(res);
-            }
-        });
+        if (count <= 0) {
+            count = 1;
+        } else if (count == 1) {
+            price
+        } else if (count == 2) {
+            newprice = 125;
+        } else if (count >= 3) {
+            newprice = 100;
+        }
+        newsum = newprice * count;
+        sum = price * count;
+        $('.t706__carticon-counter').text(count);
+        $('.t706__product-amount').text(sum + ' грн');
+        $('.t706__cartwin-prodamount').text(newsum + ' грн');
+        $('.t706__cartwin-count').text(count);
     }
 
 }
+
 $('#cart .modal-body').on('change', '#message', function (e) {
     $('.t706__product-plusminus').css({position: 'relative'});
     $('.t706__product-plusminus').css({left: '-30px'});
@@ -422,21 +401,23 @@ $(document).ready(function ($) {
     $("#clients-phone").mask('8(099)999-99-99');
     $("#callback-phone").mask('8(099)999-99-99');
 });
-function closeNav(){
-    $('#w0-collapse').attr("aria-expanded","false")
+
+function closeNav() {
+    $('#w0-collapse').attr("aria-expanded", "false")
     $('#w0-collapse').removeClass('navbar-collapse collapse in');
     $('#w0-collapse').toggleClass('navbar-collapse collapse');
 }
-$('.nav-label').on('click', function(e) {
+
+$('.nav-label').on('click', function (e) {
     closeNav();
 });
-$('.tel-1').on('click', function(e) {
+$('.tel-1').on('click', function (e) {
     closeNav();
 });
-$('.tel-2').on('click', function(e) {
+$('.tel-2').on('click', function (e) {
     closeNav();
 });
-$('.icon-nav').on('click', function(e) {
+$('.icon-nav').on('click', function (e) {
     closeNav();
 });
 $('.callback').click(function (e) {
@@ -487,8 +468,59 @@ $('.sendCallbackForm').on('click', function (e) {
 $("#cart").on("hidden.bs.modal", function (e) {
     e.preventDefault();
     var sum = $(".t706__cartwin-prodamount").text();
-    var count = $(".t706__cartwin-count").text();
+    var count = $(".cart-count").text();
+    var name = $(".t706__product-title").text();
+    var price = $(".cart-price").text();
+    var id = $(".cart-count").data('id');
+    console.log(count);
+    console.log(sum);
+    console.log(name);
+    console.log(price);
+    console.log(id);
+    var cart = $('.modal-body2').text();
+    console.log(cart);
     if (count != '') {
+        $.ajax({
+            url: '/cart/save',
+            data: {id: id, count: count, price: price, name: name, sum: sum},
+            type: 'get',
+            success: function (res) {
+                if (!res) res = 'cart empty';
+                if ($('.t706__cartwin-count').text() == '') {
+                    $('.t706__carticon-counter').text(0);
+                    $('.t706__carticon-text').text('Ваша корзина пуста');
+                    $('.t706__cartwin-bottom').css({display: 'none'});
+
+                } else {
+                    $('.t706__carticon-counter').text(count);
+                    $('.t706__carticon-text').text($('.t706__cartwin-prodamount').text());
+                    $('.t706__cartwin-bottom').css({display: 'block'});
+                }
+                $('.t706__cartwin-count').css({display: 'none'});
+                $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
+                if ($('.t706__cartwin-count').text() == '') {
+                    $("#cart").on("hidden.bs.modal", function (e) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: '/cart/redirect',
+                        });
+                    });
+                    $("#cart").on(".close", function (e) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: '/cart/redirect',
+                        });
+                    });
+                    $('.t706__cartwin-bottom').css({display: 'none'});
+                } else {
+                    $('.t706__cartwin-bottom').css({display: 'block'});
+                }
+            },
+            error: function (res) {
+                res = 'error';
+                showCart(res);
+            }
+        });
         $(".t706__carticon-text").text(sum);
         $(".t706__carticon-counter").text(count);
         $(".t706__carticon_showed").css({display: 'block'});
@@ -498,5 +530,5 @@ $("#cart").on("hidden.bs.modal", function (e) {
         $(".t706__carticon_showed").css({display: 'block'});
     }
     $('#cart').modal('hide');
-    $("div.modal-backdrop").remove()
+    $("div.modal-backdrop").remove();
 });

@@ -19,27 +19,32 @@ use yii\helpers\ArrayHelper; ?>
                 <div class="t396__filter" data-artboard-recid="122136901">
 
                 </div>
-                <?php if (!empty($session['cart'])): ?>
-                <div class="t706__carticon t706__carticon_showed">
-                    <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?php echo $session['cart.sum']?>&nbsp;грн.</div>
-                    <div class="t706__carticon-wrapper">
-                        <div class="t706__carticon-imgwrap" style="border: 1px solid #bd7592;background-color:#ffffff;">
-                            <img src="/image/cart.png"/>
+
+                <?php if (!empty($cookie['count']->value)): ?>
+                    <div class="t706__carticon t706__carticon_showed">
+                        <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?php echo $cookie['sum'] ?>&nbsp;грн.
                         </div>
-                        <div class="t706__carticon-counter" style="background-color:#e3226f;"><?php echo $session['cart.count']?></div>
+                        <div class="t706__carticon-wrapper">
+                            <div class="t706__carticon-imgwrap"
+                                 style="border: 1px solid #bd7592;background-color:#ffffff;">
+                                <img src="/image/cart.png"/>
+                            </div>
+                            <div class="t706__carticon-counter"
+                                 style="background-color:#e3226f;"><?php echo $cookie['count'] ?></div>
+                        </div>
                     </div>
-                </div>
                 <?php else: ?>
-                <div class="t706__carticon t706__carticon_showed">
-                    <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
-                    <div class="t706__carticon-wrapper">
-                        <div class="t706__carticon-imgwrap" style="border: 1px solid #bd7592;background-color:#ffffff;">
-                            <img src="/image/cart.png"/>
+                    <div class="t706__carticon t706__carticon_showed">
+                        <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
+                        <div class="t706__carticon-wrapper">
+                            <div class="t706__carticon-imgwrap"
+                                 style="border: 1px solid #bd7592;background-color:#ffffff;">
+                                <img src="/image/cart.png"/>
+                            </div>
+                            <div class="t706__carticon-counter" style="background-color:#e3226f;">0</div>
                         </div>
-                        <div class="t706__carticon-counter" style="background-color:#e3226f;">0</div>
                     </div>
-                </div>
-                <?php endif;?>
+                <?php endif; ?>
                 <div class='t396__elem tn-elem tn-elem__1221369011470209944682' data-elem-id='1470209944682'>
                     <div class='tn-atom' field='tn_text_1470209944682'>
                         Натуральное кокосовое мыло без парабенов и токсинов <br>
@@ -70,7 +75,8 @@ use yii\helpers\ArrayHelper; ?>
                     </div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221369011566978692711' data-elem-id='1566978692711'>
-                    <a class='tn-atom buy' id="for-nav" data-id="<?php echo $product[0]['id'] ?>"
+                    <a class='tn-atom buy' id="for-nav" data-name="Кокосовое мыло"
+                       data-id="<?php echo $product[0]['id'] ?>"
                        data-count="1">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221369011567550639151' data-elem-id='1567550639151'>
@@ -201,7 +207,8 @@ use yii\helpers\ArrayHelper; ?>
                              imgfield='tn_img_1565873481067'></div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221814741565873512836' data-elem-id='1565873512836'>
-                    <a class='tn-atom buy' data-id="<?php echo $product[0]['id'] ?>" data-count="1">Купить</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?php echo $product[0]['id'] ?>"
+                       data-count="1">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1221814741565882009094' data-elem-id='1565882009094'>
                     <div class='tn-atom' field='tn_text_1565882009094'>Содержит агрессивные для кожи и волос
@@ -437,7 +444,8 @@ use yii\helpers\ArrayHelper; ?>
                                               imgfield='tn_img_1566071137535'></div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1222280141566071398288' data-elem-id='1566071398288'>
-                    <a class='tn-atom buy' data-id="<?php echo $product[0]['id'] ?>" data-count="1">Заказать</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?php echo $product[0]['id'] ?>"
+                       data-count="1">Заказать</a>
                 </div>
             </div>
         </div>
@@ -520,7 +528,8 @@ use yii\helpers\ArrayHelper; ?>
                                               imgfield='tn_img_1566073502758'></div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1225727121566073525477' data-elem-id='1566073525477'>
-                    <a class='tn-atom buy' data-id="<?php echo $product[0]['id'] ?>" data-count="1">Заказать</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?php echo $product[0]['id'] ?>"
+                       data-count="1">Заказать</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1225727121566073609702' data-elem-id='1566073609702'>
                     <div class='tn-atom'>
@@ -549,7 +558,8 @@ use yii\helpers\ArrayHelper; ?>
                         <img class='tn-atom__img t-img' src='/image/tree.png' imgfield='tn_img_1565897705852'></div>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1222208411565900817189' data-elem-id='1565900817189'>
-                    <a class='tn-atom buy' data-id="<?php echo $product[0]['id'] ?>" data-count="1">Купить</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?php echo $product[0]['id'] ?>"
+                       data-count="1">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem tn-elem__1222208411566979742793' data-elem-id='1566979742793'>
                     <div class='tn-atom'>
