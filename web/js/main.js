@@ -347,10 +347,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     var warehouse = $('#orders-warehouse').find(":selected").text();
     var pay = $('input[name=paymentsystem]:checked').val();
     var count = $('.t706__cartwin-count').text();
-    var sum = $('.t706__cartwin-prodamount').text();
     var id = $('.cart-count').data('id');
-    console.log(count);
-    console.log(sum);
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
@@ -373,7 +370,6 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 warehouse: warehouse,
                 pay: pay,
                 count: count,
-                sum: sum,
                 id: id
             },
             type: 'post',

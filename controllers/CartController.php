@@ -30,9 +30,9 @@ class CartController extends Controller
         $count = !$count ? 1 : $count;
         $cookies = Yii::$app->response->cookies;
         $cook = Yii::$app->request->cookies;
-        if(isset($cook['count']->value)){
+        if (isset($cook['count']->value)) {
             $check = $cook['count']->value;
-        }else{
+        } else {
             $check = 0;
         }
         $cookies->add(new Cookie([
@@ -136,12 +136,12 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
-        if($cookies['count']->value==1){
-            $price=$cookies['price']->value;
-        }elseif ($cookies['count']->value==2){
-            $price=125;
-        }elseif ($cookies['count']->value>=3){
-            $price=100;
+        if ($cookies['count']->value == 1) {
+            $price = $cookies['price']->value;
+        } elseif ($cookies['count']->value == 2) {
+            $price = 125;
+        } elseif ($cookies['count']->value >= 3) {
+            $price = 100;
         }
         //$this->layout = false;
         return $this->renderPartial('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $price, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
@@ -167,17 +167,25 @@ class CartController extends Controller
         $contactForm->city = Yii::$app->request->post('city');
         $contactForm->warehouse = Yii::$app->request->post('warehouse');
         $contactForm->count = (int)Yii::$app->request->post('count');
-        $contactForm->sum = (int)Yii::$app->request->post('sum');
         $contactForm->pay = Yii::$app->request->post('pay');
         $product_id = Yii::$app->request->post('id');
         $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
         $sqlproducts = Products::find()->where(['id' => $product_id])->all();
-        $check=$this->checkSum($contactForm->count,$sqlproducts[0]['price']);
+        if ($contactForm->count == 1) {
+            $check = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
+        } else if ($contactForm->count == 2) {
+            $check = 125;
+        } else if ($contactForm->count >= 3) {
+            $check = 100;
+        }
+        $contactForm->sum = $check * $contactForm->count;
         if (empty($sqlclients)) {
             if ($clientForm->save()) {
                 $contactForm->client_id = $clientForm->id;
                 if ($contactForm->save()) {
-                    $this->setLiqpay($contactForm->id);
+                    if ($contactForm->pay == 'liqpay') {
+                        var_dump($this->setLiqpay($contactForm->id));
+                    }
                     $saveItems = new OrderItems();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
@@ -189,7 +197,9 @@ class CartController extends Controller
         } else {
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
-                $this->setLiqpay($contactForm->id);
+                if ($contactForm->pay == 'liqpay') {
+                    var_dump($this->setLiqpay($contactForm->id));
+                }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                 Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
@@ -230,28 +240,34 @@ class CartController extends Controller
 
     protected function setLiqpay($id)
     {
-        if ($contactForm->pay == 'liqpay') {
-            $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
-            $html = $liqpay->cnb_form(array(
-                'action' => 'pay',
-                'amount' => $session['cart.sum'],
-                'currency' => 'UAH',
-                'description' => 'Оплата по заказу №' . $id,
-                'order_id' => 'order_id_1',
-                'version' => '3'
-            ));
-        }
+        $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
+        $html = $liqpay->cnb_form(array(
+            'action' => 'pay',
+            'amount' => $session['cart.sum'],
+            'currency' => 'UAH',
+            'description' => 'Оплата по заказу №' . $id,
+            'order_id' => 'order_id_1',
+            'version' => '3'
+        ));
+        return $html;
     }
-    protected function checkSum($count, $price){
-        if($count<=0){
+
+    protected function checkSum($count, $price)
+    {
+        if ($count <= 0) {
             $sum = false;
-        }elseif ($count==1){
-            $sum=$count*$price;
-        }elseif ($count==2){
-            $sum=$count*125;
-        }elseif ($count>=3){
-            $sum=$count*100;
+        } elseif ($count == 1) {
+            $sum = $count * $price;
+        } elseif ($count == 2) {
+            $sum = $count * 125;
+        } elseif ($count >= 3) {
+            $sum = $count * 100;
         }
         return $sum;
+    }
+
+    protected function saveItemsInDb()
+    {
+
     }
 }
