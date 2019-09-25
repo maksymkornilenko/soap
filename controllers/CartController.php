@@ -10,15 +10,11 @@ use app\models\Products;
 use app\models\Warehouses;
 use yii\base\Controller;
 use Yii;
-use app\models\Cart;
 use app\models\LiqPay;
 use app\models\Orders;
-use app\models\SqlRequests;
 use app\models\OrderItems;
 use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\web\Cookie;
-use yii\web\CookieCollection;
 
 class CartController extends Controller
 {
@@ -28,47 +24,38 @@ class CartController extends Controller
         $count = (int)Yii::$app->request->get('count');
         $name = Yii::$app->request->get('name');
         $count = !$count ? 1 : $count;
-        $cookies = Yii::$app->response->cookies;
         $cook = Yii::$app->request->cookies;
         if (isset($cook['count']->value)) {
             $check = $cook['count']->value;
         } else {
             $check = 0;
         }
-        $cookies->add(new Cookie([
-            'name' => 'id',
-            'value' => $id,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'name',
-            'value' => $name,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'count',
-            'value' => $check + $count,
-        ]));
-        if (($check + $count) == 1) {
-            $cookies->add(new Cookie([
-                'name' => 'price',
-                'value' => 150,
-            ]));
-        } else if (($check + $count) == 2) {
-            $cookies->add(new Cookie([
-                'name' => 'price',
-                'value' => 125,
-            ]));
-        } else if (($check + $count) >= 3) {
-            $cookies->add(new Cookie([
-                'name' => 'price',
-                'value' => 100,
-            ]));
+        $check += $count;
+        $id = $this->setCookie('id', $id);
+        $name = $this->setCookie('name', $name);
+        $check = $this->setCookie('count', $check);
+        if ($check == 1) {
+            $price = 150;
+        } else if ($check == 2) {
+            $price = 125;
+        } else if ($check >= 3) {
+            $price = 100;
         }
-        $cookies->add(new Cookie([
-            'name' => 'sum',
-            'value' => ($check + $count) * $cookies['price']->value,
-        ]));
+        $price = $this->setCookie('price', $price);
+        $sum = $price * $check;
+        $this->setCookie('sum', $sum);
         $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->render('cart-modal', ['name' => $name, 'count' => $check, 'price' => $price, 'id' => $id, 'sum' => $sum]);
+    }
+
+    protected function setCookie($name, $value)
+    {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie([
+            'name' => $name,
+            'value' => $value,
+        ]));
+        return $cookies[$name]->value;
     }
 
     public function actionSave()
@@ -79,40 +66,25 @@ class CartController extends Controller
         $price = (int)Yii::$app->request->get('price');
         $sum = (int)Yii::$app->request->get('sum');
         $count = !$count ? 1 : $count;
-        $cookies = Yii::$app->response->cookies;
-        $cookies->add(new Cookie([
-            'name' => 'id',
-            'value' => $id,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'name',
-            'value' => $name,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'count',
-            'value' => $count,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'price',
-            'value' => $price,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'sum',
-            'value' => $sum,
-        ]));
+        $id = $this->setCookie('id', $id);
+        $name = $this->setCookie('name', $name);
+        $checkCount = $this->setCookie('count', $count);
+        $checkPrice = $this->setCookie('price', $price);
+        $checkSum = $this->setCookie('price', $sum);
         $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->render('cart-modal', ['name' => $name, 'count' => $checkCount, 'price' => $checkPrice, 'id' => $id, 'sum' => $checkSum]);
     }
 
     public function actionClear()
     {
-        $cook=$this->setEmptyCookie();
+        $cook = $this->setEmptyCookie();
         $this->layout = false;
         return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
 
     public function actionArea()
     {
+        $answer = [];
         $areasRef = (string)Yii::$app->request->get('value');
         $city = Cities::find()->where(['area_ref' => $areasRef])->orderBy(['description_ru' => SORT_ASC])->all();
         foreach ($city as $cities) {
@@ -125,6 +97,7 @@ class CartController extends Controller
 
     public function actionCity()
     {
+        $answer = [];
         $cityRef = (string)Yii::$app->request->get('city');
         $warehouse = Warehouses::find()->where(['city_ref' => $cityRef])->all();
         foreach ($warehouse as $warehouses) {
@@ -151,7 +124,7 @@ class CartController extends Controller
     public function actionDelete()
     {
         $id = (int)Yii::$app->request->get('id');
-        $cook=$this->setEmptyCookie();
+        $cook = $this->setEmptyCookie();
         $this->layout = false;
         return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
@@ -172,6 +145,7 @@ class CartController extends Controller
         $product_id = Yii::$app->request->post('id');
         $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
         $sqlproducts = Products::find()->where(['id' => $product_id])->all();
+        $check=0;
         if ($contactForm->count == 1) {
             $check = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
         } else if ($contactForm->count == 2) {
@@ -185,7 +159,7 @@ class CartController extends Controller
                 $contactForm->client_id = $clientForm->id;
                 if ($contactForm->save()) {
                     if ($contactForm->pay == 'liqpay') {
-                        $html=$this->setLiqpay($contactForm->id, $contactForm->sum);
+                        $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                     }
                     $saveItems = new OrderItems();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
@@ -199,7 +173,7 @@ class CartController extends Controller
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
                 if ($contactForm->pay == 'liqpay') {
-                    $html=$this->setLiqpay($contactForm->id);
+                    $html = $this->setLiqpay($contactForm->id);
                 }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
@@ -267,8 +241,4 @@ class CartController extends Controller
         return $sum;
     }
 
-    protected function saveItemsInDb()
-    {
-
-    }
 }

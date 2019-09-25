@@ -31,6 +31,7 @@ class Clients extends \yii\db\ActiveRecord
         return [
             [['name', 'email', 'phone', 'phone_raw'], 'required'],
             [['phone'], 'string', 'max' => 15],
+            [['email'], 'email'],
             ['phone', 'match', 'pattern' => '/^(8)[(](\d{3})[)](\d{3})[-](\d{2})[-](\d{2})/', 'message' => 'Телефон, должно быть в формате 8(XXX)XXX-XX-XX'],
             [['phone_raw'], 'string', 'max' => 11],
         ];
