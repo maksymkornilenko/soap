@@ -106,9 +106,9 @@ class CartController extends Controller
 
     public function actionClear()
     {
-        $this->setEmptyCookie();
+        $cook=$this->setEmptyCookie();
         $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
 
     public function actionArea()
@@ -150,9 +150,9 @@ class CartController extends Controller
     public function actionDelete()
     {
         $id = (int)Yii::$app->request->get('id');
-        $this->setEmptyCookie();
+        $cook=$this->setEmptyCookie();
         $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $cookies['price']->value, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
 
     public function actionView()
@@ -184,7 +184,7 @@ class CartController extends Controller
                 $contactForm->client_id = $clientForm->id;
                 if ($contactForm->save()) {
                     if ($contactForm->pay == 'liqpay') {
-                        var_dump($this->setLiqpay($contactForm->id));
+                        $html=$this->setLiqpay($contactForm->id, $contactForm->sum);
                     }
                     $saveItems = new OrderItems();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
@@ -198,7 +198,7 @@ class CartController extends Controller
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
                 if ($contactForm->pay == 'liqpay') {
-                    var_dump($this->setLiqpay($contactForm->id));
+                    $html=$this->setLiqpay($contactForm->id);
                 }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
@@ -238,12 +238,12 @@ class CartController extends Controller
         return $cookies;
     }
 
-    protected function setLiqpay($id)
+    protected function setLiqpay($id, $sum)
     {
         $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
         $html = $liqpay->cnb_form(array(
             'action' => 'pay',
-            'amount' => $session['cart.sum'],
+            'amount' => $sum,
             'currency' => 'UAH',
             'description' => 'Оплата по заказу №' . $id,
             'order_id' => 'order_id_1',

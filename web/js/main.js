@@ -266,7 +266,7 @@ $('#cart .modal-body2').on('click', '.del-item', function (e) {
 /**
  * function for clear cart
  */
-$('#cart .modal-body2').on('click', '.clearCart', function (e) {
+$('#cart .modal-body').on('click', '.clearCart', function (e) {
     e.preventDefault();
     $.ajax({
         url: '/cart/clear',
