@@ -10,10 +10,7 @@ use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -67,20 +64,21 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $contacts = new Clients();
-        $product = new Products();
         $order = new Orders();
         $callback = new Callback();
+        $products = Products::find()->one();
         $area = Areas::find()->all();
-        $list = $product->getProducts();
-        $cookies=Yii::$app->request->cookies;
-        return $this->render('index', ['client' => $contacts, 'product' => $list, 'order' => $order, 'areas' => $area, 'callback' => $callback, 'cookie' => $cookies]);
+        $cookies = Yii::$app->request->cookies;
+        return $this->render('index', [
+            'client' => $contacts,
+            'order' => $order,
+            'products' => $products,
+            'areas' => $area,
+            'callback' => $callback,
+            'cookies' => $cookies
+        ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
     public function actionOfficial()
     {
         return $this->render('official');

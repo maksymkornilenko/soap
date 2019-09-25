@@ -49,9 +49,8 @@ function deleteAndClearCart(res) {
     if (!res) res = 'cart empty';
     showCart(res);
     if ($('.t706__cartwin-count').text() == '') {
-        $('#clients-name').val('');
-        $('#clients-phone').val('');
-        $('#clients-email').val('');
+        $("#1contact-form")[0].reset();
+        $("#1contact-form").yiiActiveForm('resetForm');
         $('#orders-area').val(null).trigger("change");
         $('.t706__carticon-counter').text(0);
         $('.t706__carticon-text').text('Ваша корзина пуста');
@@ -86,19 +85,8 @@ function calculator(count, newCount) {
     newCount += count;
     $('.cart-count').text(newCount);
     var price = 150;
-    if(newCount == 0){
-        $.ajax({
-            url: '/cart/delete',
-            type: 'get',
-            success: function (res) {
-                deleteAndClearCart(res);
-            },
-            error: function (res) {
-                res = 'error';
-                showCart(res);
-            }
-        });
-    } else if (newCount == 1) {
+    if(newCount == 0||newCount == 1){
+        newCount=1
         var newprice = price;
         $('.t706__cartwin-prodamount-label').text('Сумма: ')
     } else if (newCount == 2) {
@@ -161,17 +149,6 @@ $('.buy').click(function () {
     var id = $(this).data('id');
     var count = $(this).data('count');
     var name = $(this).data('name');
-    $('.form-control').css({borderColor: '#ccc'});
-    addToCart(id, count, name);
-});
-/**
- * function for add to cart items on click from navigation element
- */
-$('.buy-nav').click(function () {
-    var id = $('#for-nav').data('id');
-    var count = $('#for-nav').data('count');
-    var name = $('#for-nav').data('name');
-    $('.form-control').css({borderColor: '#ccc'});
     addToCart(id, count, name);
 });
 /**
@@ -376,12 +353,9 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
             success: function (res) {
                 if (!res) res = 'cart empty';
                 showCart(res);
-                $('#clients-name').val('');
-                $('#clients-phone').val('');
-                $('#clients-email').val('');
+                $("#1contact-form")[0].reset();
+                $("#1contact-form").yiiActiveForm('resetForm');
                 $('#orders-area').val(null).trigger("change");
-                // $('#orders-city').prop('selectedIndex', -1);
-                // $('#orders-warehouse').prop('selectedIndex', -1);
                 if ($('.t706__cartwin-count').text() == '') {
                     $('.t706__carticon-counter').text(0);
                     $('.t706__carticon-text').text('Ваша корзина пуста');

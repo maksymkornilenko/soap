@@ -55,13 +55,25 @@ class CartController extends Controller
         $this->setCookie('count', $count);
         $this->setCookie('price', $price);
         $this->setCookie('price', $sum);
-        return $this->renderPartial('cart-modal', ['name' => $name, 'count' => $count, 'price' => $price, 'id' => $id, 'sum' => $sum]);
+        return $this->renderPartial('cart-modal', [
+            'name' => $name,
+            'count' => $count,
+            'price' => $price,
+            'id' => $id,
+            'sum' => $sum
+        ]);
     }
 
     public function actionClear()
     {
         $cook = $this->setEmptyCookie();
-        return $this->renderPartial('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
+        return $this->renderPartial('cart-modal', [
+            'name' => $cook['name']->value,
+            'count' => $cook['count']->value,
+            'price' => $cook['price']->value,
+            'id' => $cook['id']->value,
+            'sum' => $cook['sum']->value
+        ]);
     }
 
     public function actionArea()
@@ -97,42 +109,55 @@ class CartController extends Controller
         } elseif ($cookies['count']->value >= 3) {
             $price = 100;
         }
-        //$this->layout = false;
-        return $this->renderPartial('cart-modal', ['name' => $cookies['name']->value, 'count' => $cookies['count']->value, 'price' => $price, 'id' => $cookies['id']->value, 'sum' => $cookies['sum']->value]);
+        return $this->renderPartial('cart-modal', [
+            'name' => $cookies['name']->value,
+            'count' => $cookies['count']->value,
+            'price' => $price,
+            'id' => $cookies['id']->value,
+            'sum' => $cookies['sum']->value
+        ]);
     }
 
     public function actionDelete()
     {
         $id = (int)Yii::$app->request->get('id');
         $cook = $this->setEmptyCookie();
-        return $this->renderPartial('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
+        return $this->renderPartial('cart-modal', [
+            'name' => $cook['name']->value,
+            'count' => $cook['count']->value,
+            'price' => $cook['price']->value,
+            'id' => $cook['id']->value,
+            'sum' => $cook['sum']->value
+        ]);
     }
 
     public function actionSend()
     {
-        $contactForm = new Orders();
+        $request=Yii::$app->request;
+        $html='';
         $clientForm = new Clients();
-        $clientForm->name = Yii::$app->request->post('name');
-        $clientForm->phone = Yii::$app->request->post('phone');
+        $clientForm->name = $request->post('name');
+        $clientForm->phone = $request->post('phone');
         $clientForm->phone_raw = preg_replace('/[^0-9]/', '', $clientForm->phone);
-        $clientForm->email = Yii::$app->request->post('mail');
-        $contactForm->area = Yii::$app->request->post('area');
-        $contactForm->city = Yii::$app->request->post('city');
-        $contactForm->warehouse = Yii::$app->request->post('warehouse');
-        $contactForm->count = (int)Yii::$app->request->post('count');
-        $contactForm->pay = Yii::$app->request->post('pay');
-        $product_id = Yii::$app->request->post('id');
+        $clientForm->email = $request->post('mail');
+
+        $contactForm = new Orders();
+        $contactForm->area = $request->post('area');
+        $contactForm->city = $request->post('city');
+        $contactForm->warehouse = $request->post('warehouse');
+        $contactForm->count = (int)$request->post('count');
+        $contactForm->pay = $request->post('pay');
+
+        $product_id = $request->post('id');
         $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
         $sqlproducts = Products::find()->where(['id' => $product_id])->all();
-        $check = 0;
-        if ($contactForm->count == 1) {
-            $check = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
-        } else if ($contactForm->count == 2) {
-            $check = 125;
+        $price = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
+        if ($contactForm->count == 2) {
+            $price = 125;
         } else if ($contactForm->count >= 3) {
-            $check = 100;
+            $price = 100;
         }
-        $contactForm->sum = $check * $contactForm->count;
+        $contactForm->sum = $price * $contactForm->count;
         if (empty($sqlclients)) {
             if ($clientForm->save()) {
                 $contactForm->client_id = $clientForm->id;
@@ -152,7 +177,7 @@ class CartController extends Controller
             $contactForm->client_id = $sqlclients['0']['id'];
             if ($contactForm->save()) {
                 if ($contactForm->pay == 'liqpay') {
-                    $html = $this->setLiqpay($contactForm->id);
+                    $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                 }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
@@ -227,7 +252,6 @@ class CartController extends Controller
             'name' => $name,
             'value' => $value,
         ]));
-        return $cookies[$name]->value;
     }
 
 }

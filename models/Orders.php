@@ -20,6 +20,8 @@ use yii\db\Expression;
  * @property string $area
  * @property string $city
  * @property string $warehouse
+ * @property string $pay
+ * @property integer $client_id
  *
  * @property OrderItems[] $orderItems
  */
