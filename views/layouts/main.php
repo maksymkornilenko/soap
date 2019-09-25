@@ -5,13 +5,25 @@
 /* @var $content string */
 
 
+use kartik\select2\Select2;
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use app\assets\AppAsset;
 use app\models\Products;
-
+use app\models\Clients;
+use app\models\Orders;
+use app\models\Areas;
+use app\models\Callback;
 $products = Products::find()->one();
+$client = new Clients();
+$orders = new Orders();
+$areas = Areas::find()->all();
+$callback= new Callback();
+$cookies = Yii::$app->request->cookies;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -52,16 +64,34 @@ echo Nav::widget([
         ['label' => 'Заказать звонок', 'options' => ['class' => 'callback close-nav']],
     ],
 ]); ?>
-<a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img
-            src="/image/telegram.png"/></a>
-<a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img
-            src="/image/whatsapp.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img
-            src="/image/viber.png"/></a>
-<a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img
-            src="/image/instagram.png"/></a>
+<a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img src="/image/telegram.png"/></a>
+<a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img src="/image/viber.png"/></a>
+<a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img src="/image/instagram.png"/></a>
 <?php NavBar::end();
 ?>
+<?php if (!empty($cookies['count']->value)): ?>
+    <div class="t706__carticon t706__carticon_showed">
+        <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?php echo $cookies['sum'] ?>&nbsp;грн.
+        </div>
+        <div class="t706__carticon-wrapper">
+            <div class="t706__carticon-imgwrap">
+                <img src="/image/cart.png"/>
+            </div>
+            <div class="t706__carticon-counter"><?php echo $cookies['count'] ?></div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="t706__carticon t706__carticon_showed">
+        <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
+        <div class="t706__carticon-wrapper">
+            <div class="t706__carticon-imgwrap">
+                <img src="/image/cart.png"/>
+            </div>
+            <div class="t706__carticon-counter">0</div>
+        </div>
+    </div>
+<?php endif; ?>
 <?= $content ?>
 <!--footer-->
 <div id="t-footer" class="t-records">
@@ -75,10 +105,10 @@ echo Nav::widget([
                     <div class='tn-atom'>КУПИТЬ</div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1475147589474'>
-                    <div class='tn-atom' >О НАС</div>
+                    <div class='tn-atom'>О НАС</div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1475147601290'>
-                    <div class='tn-atom' >
+                    <div class='tn-atom'>
                         ООО "Менделеев Лаб"<br>
                         51200, Украина,
                         Днепропетровская область, г.Новомосковск, ул. Сучкова, д.115 А
@@ -162,7 +192,119 @@ echo Nav::widget([
     </div>
 </div>
 <!--/footer-->
+<?php Modal::begin([
+    'id' => 'cart',
+    'size' => 'model-lg',
+    'options' => [
+        'tabindex' => false
+    ]]); ?>
+<div class="modal-body2">
+    <h3>
+        <p>Корзина пуста</p>
+    </h3>
+</div>
+<div class="t706__cartwin-bottom">
+    <div class="t706__cartwin-prodamount-wrap t-descr t-descr_sm">
+        <?php $form = ActiveForm::begin(['id' => '1contact-form', 'options' => ['name' => 'calculator1']]); ?>
+        <?= $form->field($client, 'name') ?>
+        <p class="error-name"></p>
+        <?= $form->field($client, 'phone') ?>
+        <p class="error-phone"></p>
+        <?= $form->field($client, 'email') ?>
+        <p class="error-email"></p>
+        <?= $form->field($orders, 'area')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map($areas, 'ref', 'description_ru'),
+            'options' => ['placeholder' => 'Выберите область ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
+        <?= $form->field($orders, 'city')->widget(Select2::classname(), [
+            'data' => [],
+            'options' => ['placeholder' => 'Выберите  город ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
+        <?= $form->field($orders, 'warehouse')->widget(Select2::classname(), [
+            'data' => [],
+            'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
+        <?php ActiveForm::end() ?>
 
+        <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с
+            <a href="/site/official">политикой конфиденциальности.</a>
+        </div>
+        <div class="t-input-group t-input-group_pm">
+            <div class="t-input-title t-descr t-descr_md">Способ оплаты</div>
+            <div class="t-input-block">
+                <div class="t-radio__wrapper t-radio__wrapper-payment">
+                    <label class="t-radio__control t-text t-text_xs">
+                        <input type="radio" name="paymentsystem" value="cash"
+                               class="t-radio t-radio_payment" data-payment-variant-system="cash" checked>
+                        <div class="t-radio__indicator">
+
+                        </div>
+                        Наличными при получении (+комиссия Новой Почты 20грн.+2% от суммы покупки)
+                    </label>
+                    <label class="t-radio__control t-text t-text_xs">
+                        <input type="radio" name="paymentsystem" value="liqpay" class="t-radio t-radio_payment"
+                               data-payment-variant-system="liqpay">
+                        <div class="t-radio__indicator">
+
+                        </div>
+                        Картой Visa, Mastercard, Privat24 через LiqPay без комиссии </label>
+                </div>
+            </div>
+        </div>
+        <div class="error-send"></div>
+        <a href="/site/view" class="btn btn-success sendOrder">Оформить заказ</a>
+        <button type="button" class="btn btn-danger clearCart">Очистить корзину</button>
+    </div>
+</div>
+<?php Modal::end();
+?>
+<?php
+Modal::begin([
+    'header' => '<div class="t702__text-wrapper t-align_center">
+                <div class="t702__title t-title t-title_xxs">
+                    Введите номер телефона, мы перезвоним как можно скорее.
+                </div>
+            </div>',
+    'options' => ['id' => 'callback-modal'],
+    'footer' => '',
+]);
+?>
+<div class="t702__wrapper">
+    <?php $call = ActiveForm::begin(['id' => 'callback-form']); ?>
+    <?= $call->field($callback, 'name') ?>
+    <?= $call->field($callback, 'phone') ?>
+    <?php ActiveForm::end(); ?>
+    <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
+        с
+        <a href="/site/official">политикой конфиденциальности.</a>
+    </div>
+
+</div>
+<div class="button-callback">
+    <a href="/site/callback" class="btn btn-success sendCallbackForm">Отправить</a>
+</div>
+<?php Modal::end(); ?>
+<?php Modal::begin([
+    'header' => '',
+    'options' => ['id' => 'answer-callback-modal'],
+    'footer' => '',
+]);
+?>
+<div class="modal-bodycallback">
+</div>
+<div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
+    <a href="http://sale.maldivesdreams.com.ua/official">политикой конфиденциальности.</a>
+</div>
+<?php Modal::end(); ?>
 <?php $this->endBody() ?>
 </body>
 </html>

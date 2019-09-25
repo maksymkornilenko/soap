@@ -44,17 +44,17 @@ class CartController extends Controller
 
     public function actionSave()
     {
-        $id = (int)Yii::$app->request->get('id');
-        $count = (int)Yii::$app->request->get('count');
-        $name = (int)Yii::$app->request->get('name');
-        $price = (int)Yii::$app->request->get('price');
-        $sum = (int)Yii::$app->request->get('sum');
+        $request=Yii::$app->request;
+        $id = (int)$request->get('id');
+        $count = (int)$request->get('count');
+        $name = $request->get('name');
+        $price = (int)$request->get('price');
         $count = !$count ? 1 : $count;
+        $sum = $count * $price;
         $this->setCookie('id', $id);
         $this->setCookie('name', $name);
         $this->setCookie('count', $count);
         $this->setCookie('price', $price);
-        $this->setCookie('price', $sum);
         return $this->renderPartial('cart-modal', [
             'name' => $name,
             'count' => $count,
@@ -72,7 +72,6 @@ class CartController extends Controller
             'count' => $cook['count']->value,
             'price' => $cook['price']->value,
             'id' => $cook['id']->value,
-            'sum' => $cook['sum']->value
         ]);
     }
 
@@ -103,18 +102,20 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
-        $price = $cookies['price']->value;
+        $price = 150;
         if ($cookies['count']->value == 2) {
             $price = 125;
         } elseif ($cookies['count']->value >= 3) {
             $price = 100;
         }
+        $count = $cookies['count']->value;
+        $sum = $price * $count;
         return $this->renderPartial('cart-modal', [
             'name' => $cookies['name']->value,
             'count' => $cookies['count']->value,
             'price' => $price,
             'id' => $cookies['id']->value,
-            'sum' => $cookies['sum']->value
+            'sum' => $sum
         ]);
     }
 
@@ -127,14 +128,13 @@ class CartController extends Controller
             'count' => $cook['count']->value,
             'price' => $cook['price']->value,
             'id' => $cook['id']->value,
-            'sum' => $cook['sum']->value
         ]);
     }
 
     public function actionSend()
     {
-        $request=Yii::$app->request;
-        $html='';
+        $request = Yii::$app->request;
+        $html = '';
         $clientForm = new Clients();
         $clientForm->name = $request->post('name');
         $clientForm->phone = $request->post('phone');
@@ -167,10 +167,12 @@ class CartController extends Controller
                     }
                     $saveItems = new OrderItems();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                    Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
+                    $res=$this->setAnswerSuccess($contactForm->id);
+                    Yii::$app->session->setFlash('success', $res);
                     $this->setEmptyCookie();
                 } else {
-                    Yii::$app->session->setFlash('error', 'Ваш заказ не получен');
+                    $res=$this->setAnswerError();
+                    Yii::$app->session->setFlash('error', $res);
                 }
             }
         } else {
@@ -181,10 +183,12 @@ class CartController extends Controller
                 }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                Yii::$app->session->setFlash('success', "Ваш заказ номер №$contactForm->id получен, менеджер в ближайшее время с вами свяжется");
+                $res=$this->setAnswerSuccess($contactForm->id);
+                Yii::$app->session->setFlash('success', $res);
                 $this->setEmptyCookie();
             } else {
-                Yii::$app->session->setFlash('error', 'Ваш заказ не получен');
+                $res=$this->setAnswerError();
+                Yii::$app->session->setFlash('error', $res);
             }
         }
         $this->layout = false;
@@ -208,10 +212,6 @@ class CartController extends Controller
         ]));
         $cookies->add(new Cookie([
             'name' => 'price',
-            'value' => 0,
-        ]));
-        $cookies->add(new Cookie([
-            'name' => 'sum',
             'value' => 0,
         ]));
         return $cookies;
@@ -252,6 +252,14 @@ class CartController extends Controller
             'name' => $name,
             'value' => $value,
         ]));
+    }
+
+    protected function setAnswerSuccess($id){
+        return $res="Ваш заказ номер №$id получен, менеджер в ближайшее время с вами свяжется";
+    }
+
+    protected function setAnswerError(){
+        return $res='Ваш заказ не получен';
     }
 
 }

@@ -2,10 +2,7 @@
 
 namespace app\controllers;
 
-use app\models\Areas;
 use app\models\Callback;
-use app\models\Clients;
-use app\models\Orders;
 use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
@@ -63,19 +60,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $contacts = new Clients();
-        $order = new Orders();
-        $callback = new Callback();
         $products = Products::find()->one();
-        $area = Areas::find()->all();
-        $cookies = Yii::$app->request->cookies;
         return $this->render('index', [
-            'client' => $contacts,
-            'order' => $order,
             'products' => $products,
-            'areas' => $area,
-            'callback' => $callback,
-            'cookies' => $cookies
         ]);
     }
 

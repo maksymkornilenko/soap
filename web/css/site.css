@@ -222,95 +222,141 @@ a.desc:after {
         left: -27px;
     }
 }
+
 @media (max-width: 768px) {
     .callback > a {
         font-size: 10px;
     }
-    .nav-label> a{
+
+    .nav-label > a {
         font-size: 10px;
     }
-    .tel-1> a{
+
+    .tel-1 > a {
         font-size: 10px;
     }
-    .tel-2> a{
+
+    .tel-2 > a {
         font-size: 10px;
     }
+
     .tel-2 {
         left: -37px;
     }
-    .icon-nav{
+
+    .icon-nav {
         top: 8px;
         left: 63.5%;
     }
+
     .nav-label {
         left: 48px;
     }
 }
-#message{
+
+#message {
     width: 75%;
 }
+
 @media (max-width: 425px) {
-    .container{
+    .container {
         background-color: #ffffff;
     }
+
     .nav-label {
         left: 0px;
     }
+
     .tel-2 {
         left: 0px;
         top: -39px;
         height: 38px;
     }
+
     .tel-1 {
         left: 0px;
         top: -39px;
         height: 37px;
     }
+
     .tel-1 > a {
         top: 0px;
     }
+
     .tel-2 > a {
         top: 0px;
     }
+
     .callback {
         width: 117px;
         top: -38px;
         left: 0px;
     }
+
     .callback > a {
         top: -9px;
     }
+
     .icon-nav {
         top: -26px;
         left: -3.5%;
     }
+
     .icon-nav > img {
         width: 8.5%;
     }
-    .t706__product-amount{
+
+    .t706__product-amount {
         position: relative;
         left: 120px;
     }
-    .t706__product-plusminus{
+
+    .t706__product-plusminus {
         position: relative;
         left: 94px;
         top: -3px;
     }
-    #message{
+
+    #message {
         width: 30%;
     }
 }
-.navbar-toggle{
+.navbar-toggle {
     position: relative;
     background-color: #e4b9b9;
     top: 8px;
 }
-.cart-price{
+
+.cart-price {
     display: none;
 }
+
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-.t706__product-title{
+
+.t706__product-title {
     width: 45%;
+}
+
+.t706__product-imgdiv {
+    background-image: url("/image/Soap.png");
+}
+.t706__product-minus > img, .t706__product-plus > img, .t706__product-del > img {
+    width: 16px;
+    height: 16px;
+    border: 0;
+}
+.empty-cart{
+    text-align: center;
+}
+.t706__carticon-imgwrap{
+    border: 1px solid #bd7592;
+    background-color:#ffffff;
+}
+.t706__carticon-counter{
+    background-color:#e3226f!important;
+}
+.sendOrder,.clearCart{
+    margin-top: 40px;
 }

@@ -10,8 +10,7 @@ use app\models\Orders;
     <div class="t706__cartwin-products">
             <div class="t706__product">
                 <div class="t706__product-thumb">
-                    <div class="t706__product-imgdiv"
-                         style="background-image:url(/image/Soap.png);">
+                    <div class="t706__product-imgdiv">
 
                     </div>
                 </div>
@@ -20,24 +19,23 @@ use app\models\Orders;
                 </div>
                 <div class="t706__product-plusminus t-descr t-descr_sm">
                     <span class="t706__product-minus">
-                        <img src="/image/arrows_circle_minus.svg" style="width:16px;height:16px;border:0;"
-                             data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="minus-cart">
+                        <img src="/image/arrows_circle_minus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="minus-cart">
                     </span>
                     <span class="t706__product-quantity cart-count" data-id="<?= $id ?>"><?= $count ?></span>
                     <span class="t706__product-quantity cart-price" data-id="<?= $id ?>"><?= $price ?></span>
                     <span class="t706__product-plus">
-                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="plus-cart" style="width:16px;height:16px;border:0;">
+                        <img src="/image/arrows_circle_plus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="plus-cart">
                     </span>
                 </div>
                 <div class="t706__product-amount t-descr t-descr_sm"><?= $count * 150 ?>&nbsp;грн
                 </div>
                 <span class="t706__product-del">
                     <img src="/image/arrows_circle_remove.svg"
-                         class="del-item" data-name="Кокосовое мыло" data-id="<?= $id ?>" style="width:20px;height:20px;border:0;">
+                         class="del-item" data-name="Кокосовое мыло" data-id="<?= $id ?>">
                 </span>
             </div>
     </div>
-    <div class="cartwin-prodamount-wrap t-descr t-descr_sm" style="display: block;">
+    <div class="cartwin-prodamount-wrap t-descr t-descr_sm">
         <?php if($count>1):?>
         <span class="t706__cartwin-prodamount-label">Сумма с учётом скидки:</span>
         <?php else:?>
@@ -49,18 +47,18 @@ use app\models\Orders;
 <?php elseif (Yii::$app->session->hasFlash('success')): ?>
     <div>
         <h3>
-            <div class="js-successbox t-form__successbox t-text t-text_md" style=""><?php echo Yii::$app->session->getFlash('success'); ?></div>
+            <div class="js-successbox t-form__successbox t-text t-text_md"><?php echo Yii::$app->session->getFlash('success'); ?></div>
             <?php echo $liqpay ?>
         </h3>
     </div>
 <?php elseif (Yii::$app->session->hasFlash('error')): ?>
     <div>
         <h3>
-            <div class="js-successbox t-form__errorbox t-text t-text_md" style=""><?php echo Yii::$app->session->getFlash('error'); ?></div>
+            <div class="js-successbox t-form__errorbox t-text t-text_md"><?php echo Yii::$app->session->getFlash('error'); ?></div>
         </h3>
     </div>
 <?php else: ?>
-    <div style="text-align: center">
+    <div class="empty-cart">
         <h2>
             <p>Корзина пуста</p>
         </h2>

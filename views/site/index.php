@@ -3,11 +3,7 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
-
-use kartik\select2\Select2;
-use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Modal;
-use yii\helpers\ArrayHelper; ?>
+?>
 <div id="allrecords" class="t-records">
     <div id="rec122136901" class="r t-rec">
         <!-- T396 -->
@@ -19,32 +15,6 @@ use yii\helpers\ArrayHelper; ?>
                 <div class="t396__filter">
 
                 </div>
-
-                <?php if (!empty($cookies['count']->value)): ?>
-                    <div class="t706__carticon t706__carticon_showed">
-                        <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?php echo $cookies['sum'] ?>&nbsp;грн.
-                        </div>
-                        <div class="t706__carticon-wrapper">
-                            <div class="t706__carticon-imgwrap"
-                                 style="border: 1px solid #bd7592;background-color:#ffffff;">
-                                <img src="/image/cart.png"/>
-                            </div>
-                            <div class="t706__carticon-counter"
-                                 style="background-color:#e3226f;"><?php echo $cookies['count'] ?></div>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <div class="t706__carticon t706__carticon_showed">
-                        <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
-                        <div class="t706__carticon-wrapper">
-                            <div class="t706__carticon-imgwrap"
-                                 style="border: 1px solid #bd7592;background-color:#ffffff;">
-                                <img src="/image/cart.png"/>
-                            </div>
-                            <div class="t706__carticon-counter" style="background-color:#e3226f;">0</div>
-                        </div>
-                    </div>
-                <?php endif; ?>
                 <div class='t396__elem tn-elem' data-elem-id='1470209944682'>
                     <div class='tn-atom'>
                         Натуральное кокосовое мыло без парабенов и токсинов <br>
@@ -53,15 +23,13 @@ use yii\helpers\ArrayHelper; ?>
                 <div class='t396__elem tn-elem' data-elem-id='1565873406304'>
                     <div class='tn-atom'>
                         <img class='tn-atom__img t-img'
-                             src='/image/milk.png'
-                             imgfield='tn_img_1565873406304'>
+                             src='/image/milk.png'>
                     </div>
                 </div>
                 <div class='t396__elem tn-elem ' data-elem-id='1565873449857'>
                     <div class='tn-atom'>
                         <img class='tn-atom__img t-img'
-                             src='/image/Soap.png'
-                             imgfield='tn_img_1565873449857'>
+                             src='/image/Soap.png'>
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1565873481067'>
@@ -174,14 +142,12 @@ use yii\helpers\ArrayHelper; ?>
                 <div class='t396__elem tn-elem' data-elem-id='1567082766942'>
                     <div class='tn-atom'>
                         <img class='tn-atom__img t-img'
-                             src='/image/chemistry.png'
-                             imgfield='tn_img_1567082766942'></div>
+                             src='/image/chemistry.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1567083259259'>
                     <div class='tn-atom'>
                         <img class='tn-atom__img t-img'
-                             src='/image/carefull.png'
-                             imgfield='tn_img_1567083259259'></div>
+                             src='/image/carefull.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1567083402384'>
                     <div class='tn-atom'>
@@ -360,7 +326,7 @@ use yii\helpers\ArrayHelper; ?>
         <div class='t396'>
             <div class="t396__artboard">
                 <img class="t396__carrier t-bgimg" src="/image/beach.png">
-                <div class="t396__filter" ></div>
+                <div class="t396__filter" data-artboard-recid="122228014"></div>
                 <div class='t396__elem tn-elem' data-elem-id='1565882835718'>
                     <div class='tn-atom'></div>
                 </div>
@@ -419,7 +385,7 @@ use yii\helpers\ArrayHelper; ?>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566071120381'>
                     <div class='tn-atom'>
-                        <img class='tn-atom__img t-img' src='/image/smells.png' imgfield='tn_img_1566071120381'></div>
+                        <img class='tn-atom__img t-img' src='/image/smells.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566071137520'>
                     <div class='tn-atom'></div>
@@ -466,12 +432,12 @@ use yii\helpers\ArrayHelper; ?>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566070884890'>
                     <div class='tn-atom'>
-                        <img class='tn-atom__img t-img' src='/image/rose block big.png' imgfield='tn_img_1566070884890'>
+                        <img class='tn-atom__img t-img' src='/image/rose block big.png'>
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566072779397'>
                     <div class='tn-atom'>
-                        <img class='tn-atom__img t-img' src='/image/certificate.png' imgfield='tn_img_1566072779397'>
+                        <img class='tn-atom__img t-img' src='/image/certificate.png' >
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566282278296'>
@@ -582,116 +548,3 @@ use yii\helpers\ArrayHelper; ?>
         <!-- /T396 -->
     </div>
 </div>
-<?php Modal::begin([
-    'id' => 'cart',
-    'size' => 'model-lg',
-    'options' => [
-        'tabindex' => false
-    ]]); ?>
-<div class="modal-body2">
-    <h3>
-        <p>Корзина пуста</p>
-    </h3>
-</div>
-<div class="t706__cartwin-bottom">
-    <div class="t706__cartwin-prodamount-wrap t-descr t-descr_sm">
-        <?php $form = ActiveForm::begin(['id' => '1contact-form', 'options' => ['name' => 'calculator1']]); ?>
-        <?= $form->field($client, 'name') ?>
-        <p class="error-name"></p>
-        <?= $form->field($client, 'phone') ?>
-        <p class="error-phone"></p>
-        <?= $form->field($client, 'email') ?>
-        <p class="error-email"></p>
-        <?= $form->field($order, 'area')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map($areas, 'ref', 'description_ru'),
-            'options' => ['placeholder' => 'Выберите область ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]); ?>
-        <?= $form->field($order, 'city')->widget(Select2::classname(), [
-            'data' => [],
-            'options' => ['placeholder' => 'Выберите  город ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]); ?>
-        <?= $form->field($order, 'warehouse')->widget(Select2::classname(), [
-            'data' => [],
-            'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]); ?>
-        <?php ActiveForm::end() ?>
-
-        <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с
-            <a href="/site/official" style="">политикой конфиденциальности.</a>
-        </div>
-        <div class="t-input-group t-input-group_pm" style="margin: 40px 0;">
-            <div class="t-input-title t-descr t-descr_md" style="">Способ оплаты</div>
-            <div class="t-input-block">
-                <div class="t-radio__wrapper t-radio__wrapper-payment">
-                    <label class="t-radio__control t-text t-text_xs">
-                        <input type="radio" name="paymentsystem" value="cash"
-                               class="t-radio t-radio_payment" data-payment-variant-system="cash" checked>
-                        <div class="t-radio__indicator">
-
-                        </div>
-                        Наличными при получении (+комиссия Новой Почты 20грн.+2% от суммы покупки)
-                    </label>
-                    <label class="t-radio__control t-text t-text_xs" style="">
-                        <input type="radio" name="paymentsystem" value="liqpay" class="t-radio t-radio_payment"
-                               data-payment-variant-system="liqpay">
-                        <div class="t-radio__indicator">
-
-                        </div>
-                        Картой Visa, Mastercard, Privat24 через LiqPay без комиссии </label>
-                </div>
-            </div>
-        </div>
-        <div class="error-send"></div>
-        <a href="/site/view" class="btn btn-success sendOrder">Оформить заказ</a>
-        <button type="button" class="btn btn-danger clearCart">Очистить корзину</button>
-    </div>
-</div>
-<?php Modal::end();
-?>
-<?php
-Modal::begin([
-    'header' => '<div class="t702__text-wrapper t-align_center">
-                <div class="t702__title t-title t-title_xxs" style="">
-                    Введите номер телефона, мы перезвоним как можно скорее.
-                </div>
-            </div>',
-    'options' => ['id' => 'callback-modal'],
-    'footer' => '',
-]);
-?>
-<div class="t702__wrapper">
-    <?php $call = ActiveForm::begin(['id' => 'callback-form']); ?>
-    <?= $call->field($callback, 'name') ?>
-    <?= $call->field($callback, 'phone') ?>
-    <?php ActiveForm::end(); ?>
-    <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
-        с
-        <a href="/site/official">политикой конфиденциальности.</a>
-    </div>
-
-</div>
-<div class="button-callback">
-    <a href="/site/callback" class="btn btn-success sendCallbackForm">Отправить</a>
-</div>
-<?php Modal::end(); ?>
-<?php Modal::begin([
-    'header' => '',
-    'options' => ['id' => 'answer-callback-modal'],
-    'footer' => '',
-]);
-?>
-<div class="modal-bodycallback">
-</div>
-<div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь с
-    <a href="http://sale.maldivesdreams.com.ua/official">политикой конфиденциальности.</a>
-</div>
-<?php Modal::end(); ?>
