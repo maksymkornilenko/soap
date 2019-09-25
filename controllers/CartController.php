@@ -136,6 +136,7 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
+        $price = '';
         if ($cookies['count']->value == 1) {
             $price = $cookies['price']->value;
         } elseif ($cookies['count']->value == 2) {
