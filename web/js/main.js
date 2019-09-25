@@ -360,7 +360,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
         $('.error-send').css({color: '#a94442'});
     } else {
         $.ajax({
-            url: '/cart/view',
+            url: '/cart/send',
             data: {
                 name: name,
                 phone: phone,

@@ -20,42 +20,26 @@ class CartController extends Controller
 {
     public function actionAdd()
     {
+        $count = 1;
         $id = (int)Yii::$app->request->get('id');
-        $count = (int)Yii::$app->request->get('count');
         $name = Yii::$app->request->get('name');
-        $count = !$count ? 1 : $count;
         $cook = Yii::$app->request->cookies;
+        $price = 150;
         if (isset($cook['count']->value)) {
-            $check = $cook['count']->value;
-        } else {
-            $check = 0;
+            $count += $cook['count']->value;
         }
-        $check += $count;
-        $id = $this->setCookie('id', $id);
-        $name = $this->setCookie('name', $name);
-        $check = $this->setCookie('count', $check);
-        if ($check == 1) {
-            $price = 150;
-        } else if ($check == 2) {
+        if ($count == 2) {
             $price = 125;
-        } else if ($check >= 3) {
+        } else if ($count >= 3) {
             $price = 100;
         }
-        $price = $this->setCookie('price', $price);
-        $sum = $price * $check;
+        $sum = $price * $count;
+        $this->setCookie('price', $price);
+        $this->setCookie('id', $id);
+        $this->setCookie('name', $name);
+        $this->setCookie('count', $count);
         $this->setCookie('sum', $sum);
-        $this->layout = false;
-        return $this->render('cart-modal', ['name' => $name, 'count' => $check, 'price' => $price, 'id' => $id, 'sum' => $sum]);
-    }
-
-    protected function setCookie($name, $value)
-    {
-        $cookies = Yii::$app->response->cookies;
-        $cookies->add(new Cookie([
-            'name' => $name,
-            'value' => $value,
-        ]));
-        return $cookies[$name]->value;
+        return $this->renderPartial('cart-modal', ['name' => $name, 'count' => $count, 'price' => $price, 'id' => $id, 'sum' => $sum]);
     }
 
     public function actionSave()
@@ -66,20 +50,18 @@ class CartController extends Controller
         $price = (int)Yii::$app->request->get('price');
         $sum = (int)Yii::$app->request->get('sum');
         $count = !$count ? 1 : $count;
-        $id = $this->setCookie('id', $id);
-        $name = $this->setCookie('name', $name);
-        $checkCount = $this->setCookie('count', $count);
-        $checkPrice = $this->setCookie('price', $price);
-        $checkSum = $this->setCookie('price', $sum);
-        $this->layout = false;
-        return $this->render('cart-modal', ['name' => $name, 'count' => $checkCount, 'price' => $checkPrice, 'id' => $id, 'sum' => $checkSum]);
+        $this->setCookie('id', $id);
+        $this->setCookie('name', $name);
+        $this->setCookie('count', $count);
+        $this->setCookie('price', $price);
+        $this->setCookie('price', $sum);
+        return $this->renderPartial('cart-modal', ['name' => $name, 'count' => $count, 'price' => $price, 'id' => $id, 'sum' => $sum]);
     }
 
     public function actionClear()
     {
         $cook = $this->setEmptyCookie();
-        $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
+        return $this->renderPartial('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
 
     public function actionArea()
@@ -109,10 +91,8 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
-        $price = '';
-        if ($cookies['count']->value == 1) {
-            $price = $cookies['price']->value;
-        } elseif ($cookies['count']->value == 2) {
+        $price = $cookies['price']->value;
+        if ($cookies['count']->value == 2) {
             $price = 125;
         } elseif ($cookies['count']->value >= 3) {
             $price = 100;
@@ -125,11 +105,10 @@ class CartController extends Controller
     {
         $id = (int)Yii::$app->request->get('id');
         $cook = $this->setEmptyCookie();
-        $this->layout = false;
-        return $this->render('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
+        return $this->renderPartial('cart-modal', ['name' => $cook['name']->value, 'count' => $cook['count']->value, 'price' => $cook['price']->value, 'id' => $cook['id']->value, 'sum' => $cook['sum']->value]);
     }
 
-    public function actionView()
+    public function actionSend()
     {
         $contactForm = new Orders();
         $clientForm = new Clients();
@@ -145,7 +124,7 @@ class CartController extends Controller
         $product_id = Yii::$app->request->post('id');
         $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
         $sqlproducts = Products::find()->where(['id' => $product_id])->all();
-        $check=0;
+        $check = 0;
         if ($contactForm->count == 1) {
             $check = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
         } else if ($contactForm->count == 2) {
@@ -239,6 +218,16 @@ class CartController extends Controller
             $sum = $count * 100;
         }
         return $sum;
+    }
+
+    protected function setCookie($name, $value)
+    {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new Cookie([
+            'name' => $name,
+            'value' => $value,
+        ]));
+        return $cookies[$name]->value;
     }
 
 }

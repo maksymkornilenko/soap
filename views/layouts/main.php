@@ -53,7 +53,7 @@ AppAsset::register($this);
 <a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img src="/image/telegram.png"/></a>
 <a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
 <a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img src="/image/viber.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav instagram close-nav" target="_blank"><img src="/image/instagram.png"/></a>
+<a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img src="/image/instagram.png"/></a>
     <?php NavBar::end();
     ?>
 <?= $content ?>
