@@ -20,6 +20,7 @@ use app\models\Areas;
 use app\models\Callback;
 use yii\web\Cookie;
 use yii\web\CookieCollection;
+use yii\web\JsExpression;
 $client = new Clients();
 $orders = new Orders();
 $callback= new Callback();
@@ -35,6 +36,7 @@ if(!isset($cookies['id']->value)){
 }else{
     $cookie_id=(int)$cookies['id']->value;
 }
+$areas = Areas::find()->all();
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -223,27 +225,39 @@ echo Nav::widget([
         <p class="error-phone"></p>
         <?= $form->field($client, 'email') ?>
         <p class="error-email"></p>
-        <?= $form->field($orders, 'area')->widget(Select2::classname(), [
-            'data' => [],
-            'options' => ['placeholder' => 'Выберите область ...'],
+        <?php echo $form->field($orders, 'area')->widget(Select2::classname(), [
+            'language' => 'ru',
+            'options' => ['placeholder' => 'Выберите область'],
             'pluginOptions' => [
-                'allowClear' => true
+                'allowClear' => true,
+                'minimumInputLength' => 2,
+                'language' => [
+                    'errorLoading' => new JsExpression("function () { return 'Загрузка...'; }"),
+                ],
+                'ajax' => [
+                    'url' => '/cart/area',
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(area) { return area.text; }'),
+                'templateSelection' => new JsExpression('function (area) { return area.text; }'),
             ],
         ]); ?>
         <?= $form->field($orders, 'city')->widget(Select2::classname(), [
             'data' => [],
             'options' => ['placeholder' => 'Выберите  город ...'],
             'pluginOptions' => [
-                'allowClear' => true
+                'allowClear' => true,
             ],
         ]); ?>
         <?= $form->field($orders, 'warehouse')->widget(Select2::classname(), [
             'data' => [],
             'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
             'pluginOptions' => [
-                'allowClear' => true
+                'allowClear' => true,
             ],
-        ]); ?>
+        ]);?>
         <?php ActiveForm::end() ?>
 
         <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с

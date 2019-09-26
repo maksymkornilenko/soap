@@ -14,8 +14,10 @@ use Yii;
 use app\models\LiqPay;
 use app\models\Orders;
 use app\models\OrderItems;
+use yii\db\Query;
 use yii\helpers\Json;
 use yii\web\Cookie;
+use yii\web\Response;
 
 class CartController extends Controller
 {
@@ -76,17 +78,30 @@ class CartController extends Controller
         ]);
     }
 
-    public function actionList()
+    public function actionArea($q = null, $id = null)
     {
-        $answer = [];
-        $areas=Areas::find()->all();
-        foreach ($areas as $area) {
-            $answer[] = '<option value="' . $area['ref'] . '">' . $area['description_ru'] . '</option>';
+        //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        $q = $_GET['q'];
+        $id = $_GET['id'];
+        if (!is_null($q)) {
+            $query = new Query();
+            $query->select('ref as `id`, description_ru AS `text`')
+                ->from('areas')
+                ->where(['like', 'description_ru', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
         }
-        return Json::encode($answer);
+        elseif (!is_null($id)) {
+            $areas = Areas::find()->where(['ref' => $id])->one();
+            $out['results'] = ['id' => $id, 'text' => $areas->description_ru];
+        }
+        return Json::encode($out);
     }
 
-    public function actionArea()
+    public function actionCity()
     {
         $answer = [];
         $areasRef = (string)Yii::$app->request->get('value');
@@ -99,7 +114,7 @@ class CartController extends Controller
 
     }
 
-    public function actionCity()
+    public function actionWarehouse()
     {
         $answer = [];
         $cityRef = (string)Yii::$app->request->get('city');

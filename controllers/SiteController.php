@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Areas;
 use app\models\Callback;
 use app\models\Products;
 use Yii;
@@ -61,19 +62,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $cookie_id = Yii::$app->request->cookies;
-//        if(!isset($cookie_id['id']->value)){
-//            $products = Products::find()->one();
-//            $cookie_id=Yii::$app->response->cookies;
-//            $cookie_id->add(new Cookie([
-//                'name' => 'id',
-//                'value' => $products['id'],
-//                'expire' => time()+3600,
-//            ]));
-//        }else{
-//            $cookie_id=$cookie_id['id']->value;
-//        }
-        return $this->render('index');
+        return $this->render('index', ['areas'=>$areas]);
     }
 
     public function actionOfficial()

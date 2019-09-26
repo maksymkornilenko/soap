@@ -15,21 +15,6 @@ function showAnswer(callback) {
 /**
  * function for add to cart item
  */
-function setAreas() {
-    $.ajax({
-        url: '/cart/list',
-        type: 'get',
-        success: function (res) {
-            if (!res) res = 'cart empty';
-            res = JSON.parse(res);
-            $('#orders-area').empty().append('<option value=" ">Выберите область...</option>' + res);
-        },
-        error: function (res) {
-            res = 'error';
-            showCart(res);
-        }
-    });
-}
 function addToCart(id, count, name) {
     $.ajax({
         url: '/cart/add',
@@ -38,7 +23,6 @@ function addToCart(id, count, name) {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
-            setAreas();
             $(".t706__carticon_showed").css({display: 'none'});
             if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
@@ -175,7 +159,6 @@ $('.t706__carticon-wrapper').click(function () {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
-            setAreas();
             $(".t706__carticon_showed").css({display: 'none'});
             if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__cartwin-bottom').css({display: 'none'});
@@ -273,14 +256,14 @@ $('#cart .modal-body').on('click', '.clearCart', function (e) {
     });
 });
 /**
- * function for choice area and city
+ * function for choice city
  */
 $('#cart .modal-body').on('change', '#orders-area', function (e) {
     e.preventDefault();
     var area = $(this).find(":selected").val();
     var areatext = $(this).find(":selected").text();
     $.ajax({
-        url: '/cart/area',
+        url: '/cart/city',
         data: {value: area, text: areatext},
         type: 'get',
         success: function (res) {
@@ -309,7 +292,7 @@ $('#cart .modal-body').on('change', '#orders-city', function (e) {
     e.preventDefault();
     var city = $(this).find(":selected").val();
     $.ajax({
-        url: '/cart/city',
+        url: '/cart/warehouse',
         data: {city: city},
         type: 'get',
         success: function (res) {
