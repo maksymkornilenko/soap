@@ -353,7 +353,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 showCart(res);
                 $("#1contact-form")[0].reset();
                 $("#1contact-form").yiiActiveForm('resetForm');
-                $('#orders-area').val(null).trigger("change");
+                $('#orderform-area').val(null).trigger("change");
                 if ($('.t706__cartwin-count').text() == '') {
                     $('.t706__carticon-counter').text(0);
                     $('.t706__carticon-text').text('Ваша корзина пуста');
