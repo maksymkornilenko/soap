@@ -62,7 +62,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index', ['areas'=>$areas]);
+        return $this->render('index');
     }
 
     public function actionOfficial()

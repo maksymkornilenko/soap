@@ -36,7 +36,6 @@ if(!isset($cookies['id']->value)){
 }else{
     $cookie_id=(int)$cookies['id']->value;
 }
-$areas = Areas::find()->all();
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
