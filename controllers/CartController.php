@@ -83,7 +83,10 @@ class CartController extends Controller
         //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         $q = $_GET['q'];
-        $id = $_GET['id'];
+        $id='';
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+        }
         if (!is_null($q)) {
             $query = new Query();
             $query->select('ref as `id`, description_ru AS `text`')
@@ -93,8 +96,7 @@ class CartController extends Controller
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);
-        }
-        elseif (!is_null($id)) {
+        } elseif (!is_null($id)) {
             $areas = Areas::find()->where(['ref' => $id])->one();
             $out['results'] = ['id' => $id, 'text' => $areas->description_ru];
         }
