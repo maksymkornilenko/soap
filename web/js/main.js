@@ -258,7 +258,7 @@ $('#cart .modal-body').on('click', '.clearCart', function (e) {
 /**
  * function for choice city
  */
-$('#cart .modal-body').on('change', '#orders-area', function (e) {
+$('#cart .modal-body').on('change', '#orderform-area', function (e) {
     e.preventDefault();
     var area = $(this).find(":selected").val();
     var areatext = $(this).find(":selected").text();
@@ -269,14 +269,14 @@ $('#cart .modal-body').on('change', '#orders-area', function (e) {
         success: function (res) {
             if (!res) res = 'cart empty';
             res = JSON.parse(res);
-            $('#orders-city').empty().append('<option value=" ">Выберите город...</option>' + res);
-            if ($('#orders-area').val() == '') {
-                $('#orders-warehouse').empty();
-                $('#orders-city').empty();
+            $('#orderform-city').empty().append('<option value=" ">Выберите город...</option>' + res);
+            if ($('#orderform-area').val() == '') {
+                $('#orderform-warehouse').empty();
+                $('#orderform-city').empty();
                 $('.control-label').css({color: '#000'})
                 $('.select2-selection').css({borderColor: '#ccc'})
             }
-            $('#orders-warehouse').empty();
+            $('#orderform-warehouse').empty();
             $('.control-label').css({color: '#000'})
         },
         error: function (res) {
@@ -288,7 +288,7 @@ $('#cart .modal-body').on('change', '#orders-area', function (e) {
 /**
  * function for choice city and warehouse of Nova Poshta
  */
-$('#cart .modal-body').on('change', '#orders-city', function (e) {
+$('#cart .modal-body').on('change', '#orderform-city', function (e) {
     e.preventDefault();
     var city = $(this).find(":selected").val();
     $.ajax({
@@ -298,9 +298,9 @@ $('#cart .modal-body').on('change', '#orders-city', function (e) {
         success: function (res) {
             if (!res) res = 'cart empty';
             res = JSON.parse(res);
-            $('#orders-warehouse').empty().append('<option value=" ">Выберите отделение Новой почты...</option>' + res);
-            if ($('#orders-city').val() == null) {
-                $('#orders-warehouse').empty();
+            $('#orderform-warehouse').empty().append('<option value=" ">Выберите отделение Новой почты...</option>' + res);
+            if ($('#orderform-city').val() == null) {
+                $('#orderform-warehouse').empty();
             }
         },
         error: function (res) {
@@ -313,20 +313,21 @@ $('#cart .modal-body').on('change', '#orders-city', function (e) {
  * function for send order
  */
 $('#cart .modal-body').on('click', '.sendOrder', function (e) {
-    var name = $('#clients-name').val();
-    var phone = $('#clients-phone').val();
-    var mail = $('#clients-email').val();
-    var area = $('#orders-area').find(":selected").text();
-    var city = $('#orders-city').find(":selected").text();
-    var warehouse = $('#orders-warehouse').find(":selected").text();
+    var name = $('#clientform-name').val();
+    var phone = $('#clientform-phone').val();
+    var mail = $('#clientform-email').val();
+    var area = $('#orderform-area').find(":selected").text();
+    var city = $('#orderform-city').find(":selected").text();
+    var warehouse = $('#orderform-warehouse').find(":selected").text();
     var pay = $('input[name=paymentsystem]:checked').val();
     var count = $('.t706__cartwin-count').text();
     var id = $('.cart-count').data('id');
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
-    console.log($('#orders-area').val());
-    if ($('#clients-name').val().length == 0 || $('#clients-phone').val().length == 0 || $('#clients-email').val().length == 0 || $('#orders-area').val().length == 0 || $('#orders-city').val().length == 0 || $('#orders-warehouse').val().length == 0) {
+    console.log($('#orderform-area').val());
+    console.log($('#clientform-name').val().length);
+    if ($('#clientform-name').val().length == 0 || $('#clientform-phone').val().length == 0 || $('#clientform-email').val().length == 0 || $('#orderform-area').val().length == 0 || $('#orderform-city').val().length == 0 || $('#orderform-warehouse').val().length == 0) {
         $('.error-send').text('Заполните все поля перед оформлением заказа.');
         $('.error-send').css({color: '#a94442'});
     } else if ($('.help-block').text() != '') {
@@ -372,13 +373,13 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 showCart(res);
             }
         });
-    }
+     }
 });
 /**
  * function mask for phone
  */
 $(document).ready(function ($) {
-    $("#clients-phone").mask('8(099)999-99-99');
+    $("#clientform-phone").mask('8(099)999-99-99');
     $("#callback-phone").mask('8(099)999-99-99');
 });
 /**

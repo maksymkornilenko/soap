@@ -13,13 +13,13 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use app\assets\AppAsset;
 use app\models\Products;
-use app\models\Clients;
-use app\models\Orders;
 use app\models\Callback;
 use yii\web\Cookie;
 use yii\web\JsExpression;
-$client = new Clients();
-$orders = new Orders();
+use app\models\ClientForm;
+use app\models\OrderForm;
+$client = new ClientForm();
+$orders = new OrderForm();
 $callback= new Callback();
 $cookies = Yii::$app->request->cookies;
 if(!isset($cookies['id']->value)){
