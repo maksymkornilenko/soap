@@ -8,6 +8,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\web\Cookie;
 
 class SiteController extends Controller
 {
@@ -60,10 +61,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $products = Products::find()->one();
-        return $this->render('index', [
-            'products' => $products,
-        ]);
+//        $cookie_id = Yii::$app->request->cookies;
+//        if(!isset($cookie_id['id']->value)){
+//            $products = Products::find()->one();
+//            $cookie_id=Yii::$app->response->cookies;
+//            $cookie_id->add(new Cookie([
+//                'name' => 'id',
+//                'value' => $products['id'],
+//                'expire' => time()+3600,
+//            ]));
+//        }else{
+//            $cookie_id=$cookie_id['id']->value;
+//        }
+        return $this->render('index');
     }
 
     public function actionOfficial()

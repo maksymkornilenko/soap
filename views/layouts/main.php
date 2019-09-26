@@ -18,12 +18,23 @@ use app\models\Clients;
 use app\models\Orders;
 use app\models\Areas;
 use app\models\Callback;
-$products = Products::find()->one();
+use yii\web\Cookie;
+use yii\web\CookieCollection;
 $client = new Clients();
 $orders = new Orders();
-$areas = Areas::find()->all();
 $callback= new Callback();
 $cookies = Yii::$app->request->cookies;
+if(!isset($cookies['id']->value)){
+    $products = Products::find()->one();
+    $cookie_id=Yii::$app->response->cookies;
+    $cookie_id->add(new Cookie([
+        'name' => 'id',
+        'value' => $products['id'],
+        'expire' => time()+3600,
+    ]));
+}else{
+    $cookie_id=(int)$cookies['id']->value;
+}
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -58,7 +69,7 @@ echo Nav::widget([
         ['label' => 'Описание', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#opisanie']],
         ['label' => 'Гарантия', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#garant']],
         ['label' => 'Безопасность', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#security']],
-        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $products['id']]],
+        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $cookie_id]],
         ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1 close-nav'], 'url' => 'https://wa.me/380672452010', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
         ['label' => '+38 067 404-66-01', 'options' => ['class' => 'tel-2 close-nav'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
         ['label' => 'Заказать звонок', 'options' => ['class' => 'callback close-nav']],
@@ -213,7 +224,7 @@ echo Nav::widget([
         <?= $form->field($client, 'email') ?>
         <p class="error-email"></p>
         <?= $form->field($orders, 'area')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map($areas, 'ref', 'description_ru'),
+            'data' => [],
             'options' => ['placeholder' => 'Выберите область ...'],
             'pluginOptions' => [
                 'allowClear' => true

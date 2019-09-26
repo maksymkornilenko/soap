@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\models\Areas;
 use app\models\Cities;
 use app\models\Clients;
 use app\models\Products;
@@ -44,7 +45,7 @@ class CartController extends Controller
 
     public function actionSave()
     {
-        $request=Yii::$app->request;
+        $request = Yii::$app->request;
         $id = (int)$request->get('id');
         $count = (int)$request->get('count');
         $name = $request->get('name');
@@ -73,6 +74,16 @@ class CartController extends Controller
             'price' => $cook['price']->value,
             'id' => $cook['id']->value,
         ]);
+    }
+
+    public function actionList()
+    {
+        $answer = [];
+        $areas=Areas::find()->all();
+        foreach ($areas as $area) {
+            $answer[] = '<option value="' . $area['ref'] . '">' . $area['description_ru'] . '</option>';
+        }
+        return Json::encode($answer);
     }
 
     public function actionArea()
@@ -121,7 +132,7 @@ class CartController extends Controller
 
     public function actionDelete()
     {
-        $id = (int)Yii::$app->request->get('id');
+//        $id = (int)Yii::$app->request->get('id');
         $cook = $this->setEmptyCookie();
         return $this->renderPartial('cart-modal', [
             'name' => $cook['name']->value,
@@ -167,11 +178,11 @@ class CartController extends Controller
                     }
                     $saveItems = new OrderItems();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                    $res=$this->setAnswerSuccess($contactForm->id);
+                    $res = $this->setAnswerSuccess($contactForm->id);
                     Yii::$app->session->setFlash('success', $res);
                     $this->setEmptyCookie();
                 } else {
-                    $res=$this->setAnswerError();
+                    $res = $this->setAnswerError();
                     Yii::$app->session->setFlash('error', $res);
                 }
             }
@@ -183,11 +194,11 @@ class CartController extends Controller
                 }
                 $saveItems = new OrderItems();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                $res=$this->setAnswerSuccess($contactForm->id);
+                $res = $this->setAnswerSuccess($contactForm->id);
                 Yii::$app->session->setFlash('success', $res);
                 $this->setEmptyCookie();
             } else {
-                $res=$this->setAnswerError();
+                $res = $this->setAnswerError();
                 Yii::$app->session->setFlash('error', $res);
             }
         }
@@ -254,12 +265,14 @@ class CartController extends Controller
         ]));
     }
 
-    protected function setAnswerSuccess($id){
-        return $res="Ваш заказ номер №$id получен, менеджер в ближайшее время с вами свяжется";
+    protected function setAnswerSuccess($id)
+    {
+        return $res = "Ваш заказ номер №$id получен, менеджер в ближайшее время с вами свяжется";
     }
 
-    protected function setAnswerError(){
-        return $res='Ваш заказ не получен';
+    protected function setAnswerError()
+    {
+        return $res = 'Ваш заказ не получен';
     }
 
 }

@@ -15,6 +15,21 @@ function showAnswer(callback) {
 /**
  * function for add to cart item
  */
+function setAreas() {
+    $.ajax({
+        url: '/cart/list',
+        type: 'get',
+        success: function (res) {
+            if (!res) res = 'cart empty';
+            res = JSON.parse(res);
+            $('#orders-area').empty().append('<option value=" ">Выберите область...</option>' + res);
+        },
+        error: function (res) {
+            res = 'error';
+            showCart(res);
+        }
+    });
+}
 function addToCart(id, count, name) {
     $.ajax({
         url: '/cart/add',
@@ -23,6 +38,7 @@ function addToCart(id, count, name) {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
+            setAreas();
             $(".t706__carticon_showed").css({display: 'none'});
             if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__carticon-counter').text(0);
@@ -34,7 +50,6 @@ function addToCart(id, count, name) {
                 $('.t706__cartwin-bottom').css({display: 'block'});
             }
             $('.t706__cartwin-count').css({display: 'none'});
-            $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
         },
         error: function (res) {
             res = 'error';
@@ -61,7 +76,6 @@ function deleteAndClearCart(res) {
         $('.t706__cartwin-bottom').css({display: 'block'});
     }
     $('.t706__cartwin-count').css({display: 'none'});
-    $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
     if ($('.t706__cartwin-count').text() == '') {
         $('.t706__cartwin-bottom').css({display: 'none'});
     } else {
@@ -161,6 +175,7 @@ $('.t706__carticon-wrapper').click(function () {
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
+            setAreas();
             $(".t706__carticon_showed").css({display: 'none'});
             if ($('.t706__cartwin-count').text() == '') {
                 $('.t706__cartwin-bottom').css({display: 'none'});
@@ -168,7 +183,6 @@ $('.t706__carticon-wrapper').click(function () {
                 $('.t706__cartwin-bottom').css({display: 'block'});
             }
             $('.t706__cartwin-count').css({display: 'none'});
-            $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
         },
         error: function (res) {
             res = 'error';
@@ -455,7 +469,6 @@ $("#cart").on("hidden.bs.modal", function (e) {
                     $('.t706__cartwin-bottom').css({display: 'block'});
                 }
                 $('.t706__cartwin-count').css({display: 'none'});
-                $('.cartwin-prodamount-wrap').css({textAlign: 'right'});
                 if ($('.t706__cartwin-count').text() == '') {
                     $('.t706__cartwin-bottom').css({display: 'none'});
                 } else {

@@ -4291,7 +4291,6 @@ img:not([src]) {
         vertical-align: top;
         box-sizing: border-box
     }
-
     .t706__product-plusminus, .t706__product-amount {
         width: auto;
         display: inline-block;
@@ -4305,6 +4304,9 @@ img:not([src]) {
         right: 0;
         width: auto;
         padding: 0
+    }
+    .cartwin-prodamount-wrap{
+        text-align: center;
     }
 }
 

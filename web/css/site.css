@@ -257,7 +257,6 @@ a.desc:after {
 #message {
     width: 75%;
 }
-
 @media (max-width: 425px) {
     .container {
         background-color: #ffffff;
@@ -306,17 +305,6 @@ a.desc:after {
         width: 8.5%;
     }
 
-    .t706__product-amount {
-        position: relative;
-        left: 120px;
-    }
-
-    .t706__product-plusminus {
-        position: relative;
-        left: 94px;
-        top: -3px;
-    }
-
     #message {
         width: 30%;
     }
@@ -359,4 +347,7 @@ input::-webkit-inner-spin-button {
 }
 .sendOrder,.clearCart{
     margin-top: 40px;
+}
+.cartwin-prodamount-wrap{
+    text-align: right;
 }
