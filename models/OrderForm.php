@@ -18,4 +18,12 @@ class OrderForm extends Model
             [['area','city','warehouse'], 'string', 'max' => 255],
         ];
     }
+    public function attributeLabels()
+    {
+        return [
+            'area' => 'Область',
+            'city' => 'Город',
+            'warehouse' => 'Выберите отделение новой почты',
+        ];
+    }
 }
