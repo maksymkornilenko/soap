@@ -15,6 +15,9 @@ use Yii;
  */
 class Warehouses extends \yii\db\ActiveRecord
 {
+    public static function getDb() {
+        return Yii::$app->get('dbNovaposhta');
+    }
     /**
      * {@inheritdoc}
      */

@@ -13,6 +13,10 @@ use Yii;
  */
 class Areas extends \yii\db\ActiveRecord
 {
+
+    public static function getDb() {
+        return Yii::$app->get('dbNovaposhta');
+    }
     /**
      * {@inheritdoc}
      */

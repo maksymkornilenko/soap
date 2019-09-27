@@ -78,7 +78,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function actionArea($q = null, $id = null)
+    public function actionArea($q = null, $ref = null)
     {
         //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
@@ -88,17 +88,18 @@ class CartController extends Controller
             $id = $_GET['id'];
         }
         if (!is_null($q)) {
-            $query = new Query();
-            $query->select('ref as `id`, description_ru AS `text`')
-                ->from('areas')
-                ->where(['like', 'description_ru', $q])
-                ->limit(20);
-            $command = $query->createCommand();
-            $data = $command->queryAll();
-            $out['results'] = array_values($data);
+
+            $areas = Areas::find()->select(['ref', 'description_ru'])->where(['like', 'description_ru', $q])->all();
+            foreach ($areas as $area) {
+                $correctAreas[] = [
+                    'id' => $area['ref'],
+                    'text' => $area['description_ru'],
+                ];
+            }
+            $out['results'] = array_values($correctAreas);
         } elseif (!is_null($id)) {
-            $areas = Areas::find()->where(['ref' => $id])->one();
-            $out['results'] = ['id' => $id, 'text' => $areas->description_ru];
+            $areas = Areas::find()->where(['ref' => $ref])->one();
+            $out['results'] = ['id' => $ref, 'text' => $areas->description_ru];
         }
         return Json::encode($out);
     }

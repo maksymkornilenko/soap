@@ -1,9 +1,20 @@
 <?php
 
 return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=oniks01.mysql.tools;dbname=oniks01_soap',
-    'username' => 'oniks01_soap',
-    'password' => '2K!9gi2a!X',
-    'charset' => 'utf8',
+    'components' => [
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=dalife.info;dbname=soap',
+            'username' => 'soap_user',
+            'password' => '4Q6g6O0o',
+            'charset' => 'utf8',
+        ],
+        'dbNovaposhta' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=crm_mald_novaposhta',
+            'username' => 'crm_mald_np_user',
+            'password' => '3D6q1D6y',
+            'charset' => 'utf8',
+        ],
+    ],
 ];

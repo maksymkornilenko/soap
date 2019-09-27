@@ -2,9 +2,9 @@
 
 $params = require __DIR__ . '/params.php';
 if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-    $db = require __DIR__ . '/db.php';
+    $account = require __DIR__ . '/db.php';
 } else {
-    $db = require __DIR__ . '/db-prod.php';
+    $account = require __DIR__ . '/db-prod.php';
 }
 $config = [
     'id' => 'basic',
@@ -58,7 +58,6 @@ $config = [
                 'productFieldPrice' => 'price',
             ],
         ],
-        'db' => $db,
 
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
@@ -74,6 +73,7 @@ $config = [
     'params' => $params,
 ];
 
+$config = array_merge_recursive($config, $account);
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
