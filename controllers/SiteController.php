@@ -90,6 +90,9 @@ class SiteController extends Controller
         $callbackForm = new Callback();
         $callbackForm->name = Yii::$app->request->post('name');
         $callbackForm->phone = Yii::$app->request->post('phone');
+        $callbackForm->clear_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
+//        var_dump($callbackForm);
+//        die();
         if ($callbackForm->save()) {
             Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
         } else {

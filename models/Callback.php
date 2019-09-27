@@ -40,10 +40,6 @@ class Callback extends \yii\db\ActiveRecord
             [['name', 'status'], 'string', 'max' => 255],
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
