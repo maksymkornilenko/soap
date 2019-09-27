@@ -185,6 +185,8 @@ class CartController extends Controller
                         $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                     }
                     $saveItems = new OrderItems();
+                    var_dump($sqlproducts);
+                    die();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     $res = $this->setAnswerSuccess($contactForm->id);
                     Yii::$app->session->setFlash('success', $res);
@@ -201,6 +203,8 @@ class CartController extends Controller
                     $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                 }
                 $saveItems = new OrderItems();
+                var_dump($sqlproducts);
+                die();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                 $res = $this->setAnswerSuccess($contactForm->id);
                 Yii::$app->session->setFlash('success', $res);
@@ -281,6 +285,37 @@ class CartController extends Controller
     protected function setAnswerError()
     {
         return $res = 'Ваш заказ не получен';
+    }
+    public function actionTest()
+    {
+        $params = [
+            'test' => 'test-123',
+        ];
+//        var_dump($params);
+//        die;
+        var_dump($this->sendData($params));
+        die;
+
+    }
+
+    protected function sendData($params)
+    {
+        $url = 'https://crm.maldivesdreams.com.ua/tilda/webhook/test-soap';
+        $query = $url .'?'. http_build_query($params);
+        $answerJSON = file_get_contents($query);
+
+        if ($answerJSON) {
+            $answer = Json::decode($answerJSON, true);
+
+            if ($answer['success'] == true) {
+                // Сохранять в базу успешный статус отправки Webhook
+                return 'Успех';
+            } else {
+                // Статус остается неотправленным
+                return $answer['errors'];
+            }
+        }
+        return 'Ответ не был получен';
     }
 
 }

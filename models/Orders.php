@@ -41,16 +41,9 @@ class Orders extends ActiveRecord
     public function rules()
     {
         return [
-            //['name','required', 'message' => 'Укажите пожалуйста ваше имя'],
-            //['email','required', 'message' => 'Укажите пожалуйста ваш E-mail'],
-            //['phone','required', 'message' => 'Укажите пожалуйста ваш телефон'],
-//            ['area','required', 'message' => 'Укажите пожалуйста вашу область'],
-//            ['city','required', 'message' => 'Укажите пожалуйста ваш город'],
-//            ['warehouse','required', 'message' => 'Укажите пожалуйста отделение Новой почты'],
             [['created_at'], 'safe'],
             [['count'], 'integer'],
             [['sum'], 'number'],
-            //['email', 'email'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['area','city','warehouse'], 'string', 'max' => 255],
         ];
@@ -62,9 +55,6 @@ class Orders extends ActiveRecord
     public function attributeLabels()
     {
         return [
-//            'name' => 'Полное имя',
-//            'email' => 'Email',
-//            'phone' => 'Телефон',
             'area' => 'Область',
             'city' => 'Город',
             'warehouse' => 'Выберите отделение новой почты',

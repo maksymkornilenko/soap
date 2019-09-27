@@ -18,21 +18,29 @@ use yii\web\JsExpression;
 use app\models\ClientForm;
 use app\models\OrderForm;
 use app\models\CallbackForm;
+
+//        setcookie('id','',-1);
+//        setcookie('price','',-1);
+//        setcookie('count','',-1);
+//        setcookie('sum','',-1);
+//        setcookie('name','',-1);
+var_dump(Yii::$app->request->cookies);
+die();
+
+//$products = Products::find()->one();
+//var_dump($products['id']);
+//die();
 $client = new ClientForm();
 $orders = new OrderForm();
-$callback= new CallbackForm();
-$cookies = Yii::$app->request->cookies;
-if(!isset($cookies['id']->value)){
-    $products = Products::find()->one();
-    $cookie_id=Yii::$app->response->cookies;
-    $cookie_id->add(new Cookie([
-        'name' => 'id',
-        'value' => $products['id'],
-        'expire' => time()+3600,
-    ]));
-}else{
-    $cookie_id=(int)$cookies['id']->value;
-}
+$callback = new CallbackForm();
+//$cookies= Yii::$app->response->cookies;
+//unset($_COOKIE);
+//setcookie('price','',-2);
+//$cookies = Yii::$app->request->cookies;
+//var_dump($cookies);
+//die();
+
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -67,16 +75,20 @@ echo Nav::widget([
         ['label' => 'Описание', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#opisanie']],
         ['label' => 'Гарантия', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#garant']],
         ['label' => 'Безопасность', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#security']],
-        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $cookie_id]],
+        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $id]],
         ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1 close-nav'], 'url' => 'https://wa.me/380672452010', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
         ['label' => '+38 067 404-66-01', 'options' => ['class' => 'tel-2 close-nav'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
         ['label' => 'Заказать звонок', 'options' => ['class' => 'callback close-nav']],
     ],
 ]); ?>
-<a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img src="/image/telegram.png"/></a>
-<a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img src="/image/whatsapp.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img src="/image/viber.png"/></a>
-<a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img src="/image/instagram.png"/></a>
+<a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img
+            src="/image/telegram.png"/></a>
+<a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img
+            src="/image/whatsapp.png"/></a>
+<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img
+            src="/image/viber.png"/></a>
+<a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img
+            src="/image/instagram.png"/></a>
 <?php NavBar::end();
 ?>
 <?php if (!empty($cookies['count']->value)): ?>
@@ -253,7 +265,7 @@ echo Nav::widget([
             'pluginOptions' => [
                 'allowClear' => true,
             ],
-        ]);?>
+        ]); ?>
         <?php ActiveForm::end() ?>
 
         <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с

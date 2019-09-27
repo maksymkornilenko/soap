@@ -18,6 +18,7 @@ $this->title = 'My Yii Application';
                 <div class='t396__elem tn-elem' data-elem-id='1470209944682'>
                     <div class='tn-atom'>
                         Натуральное кокосовое мыло без парабенов и токсинов <br>
+
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1565873406304'>
@@ -43,7 +44,7 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
                 <div class='t396__elem tn-elem ' data-elem-id='1566978692711'>
-                    <a class='tn-atom buy' id="for-nav" data-name="Кокосовое мыло">Купить</a>
+                    <a class='tn-atom buy' id="for-nav" data-name="Кокосовое мыло"data-id="<?php echo $id?>">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem ' data-elem-id='1567550639151'>
                     <div class='tn-atom'>

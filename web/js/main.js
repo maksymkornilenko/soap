@@ -394,6 +394,7 @@ $('.close-nav').on('click', function (e) {
 $('.callback').click(function (e) {
     e.preventDefault();
     $('#callback-modal').modal('show');
+    $('.t706__carticon').css({display:'none'});
 });
 /**
  * function for send callback form
@@ -414,6 +415,10 @@ $('.sendCallbackForm').on('click', function (e) {
             success: function (res) {
                 if (!res) res = 'empty';
                 $('#callback-modal').modal('hide');
+                $('#callback-modal').on('click','hidden.bs.modal', function (e) {
+                    e.preventDefault();
+                    $('.t706__carticon').css({display:'block'});
+                });
                 showAnswer(res);
             },
             error: function (res) {
