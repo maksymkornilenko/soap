@@ -84,11 +84,11 @@ class CartController extends Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         $q = $_GET['q'];
         $id='';
+        $correctAreas=[];
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
         }
         if (!is_null($q)) {
-
             $areas = Areas::find()->select(['ref', 'description_ru'])->where(['like', 'description_ru', $q])->all();
             foreach ($areas as $area) {
                 $correctAreas[] = [
