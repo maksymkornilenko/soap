@@ -380,7 +380,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
  */
 $(document).ready(function ($) {
     $("#clientform-phone").mask('8(099)999-99-99');
-    $("#callback-phone").mask('8(099)999-99-99');
+    $("#callbackform-phone").mask('8(099)999-99-99');
 });
 /**
  * function for close navigation when click on one of the elements of navigation
@@ -399,12 +399,12 @@ $('.callback').click(function (e) {
  * function for send callback form
  */
 $('.sendCallbackForm').on('click', function (e) {
-    var name = $('#callback-name').val();
-    var phone = $('#callback-phone').val();
+    var name = $('#callbackform-name').val();
+    var phone = $('#callbackform-phone').val();
     $('.t706__carticon').css({display: 'none'});
     name = name.trim();
     e.preventDefault();
-    if ($('#callback-name').val().length == 0 || $('#callback-phone').val().length == 0) {
+    if ($('#callbackform-name').val().length == 0 || $('#callbackform-phone').val().length == 0) {
         return false;
     } else {
         $.ajax({
