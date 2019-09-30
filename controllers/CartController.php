@@ -169,11 +169,10 @@ class CartController extends Controller
                         $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                     }
                     $saveItems = new OrderItems();
-                    var_dump($sqlproducts);
-                    die();
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     $res = $this->setAnswerSuccess($contactForm->id);
                     Yii::$app->session->setFlash('success', $res);
+                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                     $this->setEmptyCookie();
                 } else {
                     $res = $this->setAnswerError();
@@ -187,9 +186,10 @@ class CartController extends Controller
                     $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
                 }
                 $saveItems = new OrderItems();
-                var_dump($sqlproducts);
-                die();
+//                var_dump($sqlproducts);
+//                die();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
+                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                 $res = $this->setAnswerSuccess($contactForm->id);
                 Yii::$app->session->setFlash('success', $res);
                 $this->setEmptyCookie();
@@ -270,22 +270,35 @@ class CartController extends Controller
     {
         return $res = 'Ваш заказ не получен';
     }
-    public function actionTest()
+
+    protected function sendToCRM($id, $name, $order_id, $count, $price, $sum,$clientName, $clientPhone, $clientEmail, $area, $city, $warehouse, $pay)
     {
         $params = [
-            'test' => 'test-123',
+            'product_id' => $id,
+            'name' => $name,
+            'order_id' => $order_id,
+            'count' => $count,
+            'price' => $price,
+            'sum' => $sum,
+            'clientName' => $clientName,
+            'clientPhone' => $clientPhone,
+            'clientEmail' => $clientEmail,
+            'area' => $area,
+            'city' => $city,
+            'warehouse' => $warehouse,
+            'pay' => $pay,
         ];
-//        var_dump($params);
-//        die;
-        var_dump($this->sendData($params));
-        die;
-
+        $answer=$this->sendData($params);
+        if($answer=='Успех'){
+            $answer=Orders::findOne($order_id);
+            $answer->updateAttributes(['status'=>1]);
+        }
     }
 
     protected function sendData($params)
     {
         $url = 'https://crm.maldivesdreams.com.ua/tilda/webhook/test-soap';
-        $query = $url .'?'. http_build_query($params);
+        $query = $url . '?' . http_build_query($params);
         $answerJSON = file_get_contents($query);
 
         if ($answerJSON) {
