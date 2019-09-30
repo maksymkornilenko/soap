@@ -243,7 +243,7 @@ $('#cart .modal-body2').on('click', '.del-item', function (e) {
 $('#cart .modal-body').on('click', '.clearCart', function (e) {
     e.preventDefault();
     $.ajax({
-        url: '/cart/clear',
+        url: '/cart/delete',
         type: 'get',
         success: function (res) {
             deleteAndClearCart(res);

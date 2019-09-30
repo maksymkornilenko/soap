@@ -67,17 +67,6 @@ class CartController extends Controller
         ]);
     }
 
-    public function actionClear()
-    {
-        $cook = $this->setEmptyCookie();
-        return $this->renderPartial('cart-modal', [
-            'name' => $cook['name']->value,
-            'count' => $cook['count']->value,
-            'price' => $cook['price']->value,
-            'id' => $cook['id']->value,
-        ]);
-    }
-
     public function actionArea()
     {
         $out = ['results' => ['id' => '', 'text' => '']];
@@ -142,12 +131,7 @@ class CartController extends Controller
     {
 //        $id = (int)Yii::$app->request->get('id');
         $cook = $this->setEmptyCookie();
-        return $this->renderPartial('cart-modal', [
-            'name' => $cook['name']->value,
-            'count' => $cook['count']->value,
-            'price' => $cook['price']->value,
-            'id' => $cook['id']->value,
-        ]);
+        return $this->renderPartial('cart-empty');
     }
 
     public function actionSend()

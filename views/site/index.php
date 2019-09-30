@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-
+$data = Yii::$app->controller->data;
 $this->title = 'My Yii Application';
 ?>
 <div id="allrecords" class="t-records">
@@ -44,7 +44,7 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
                 <div class='t396__elem tn-elem ' data-elem-id='1566978692711'>
-                    <a class='tn-atom buy' id="for-nav" data-name="Кокосовое мыло"data-id="<?php echo $id?>">Купить</a>
+                    <a class='tn-atom buy' id="for-nav" data-name="Кокосовое мыло" data-id="<?= $data['productId'] ?>">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem ' data-elem-id='1567550639151'>
                     <div class='tn-atom'>
@@ -173,7 +173,7 @@ $this->title = 'My Yii Application';
                         <img class='tn-atom__img t-img' src='/image/simple soap.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1565873512836'>
-                    <a class='tn-atom buy' data-name="Кокосовое мыло">Купить</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?= $data['productId'] ?>">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1565882009094'>
                     <div class='tn-atom'>Содержит агрессивные для кожи и волос
@@ -400,7 +400,7 @@ $this->title = 'My Yii Application';
                     <div class='tn-atom'><img class='tn-atom__img t-img' src='/image/vitamins.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566071398288'>
-                    <a class='tn-atom buy' data-name="Кокосовое мыло">Заказать</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?= $data['productId'] ?>">Заказать</a>
                 </div>
             </div>
         </div>
@@ -482,7 +482,7 @@ $this->title = 'My Yii Application';
                     <div class='tn-atom'><img class='tn-atom__img t-img' src='/image/maldive Soap.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566073525477'>
-                    <a class='tn-atom buy' data-name="Кокосовое мыло">Заказать</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?= $data['productId'] ?>">Заказать</a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566073609702'>
                     <div class='tn-atom'>
@@ -511,7 +511,7 @@ $this->title = 'My Yii Application';
                         <img class='tn-atom__img t-img' src='/image/tree.png'></div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1565900817189'>
-                    <a class='tn-atom buy' data-name="Кокосовое мыло">Купить</a>
+                    <a class='tn-atom buy' data-name="Кокосовое мыло" data-id="<?= $data['productId'] ?>">Купить</a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566979742793'>
                     <div class='tn-atom'>

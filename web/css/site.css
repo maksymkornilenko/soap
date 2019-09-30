@@ -351,3 +351,6 @@ input::-webkit-inner-spin-button {
 .cartwin-prodamount-wrap{
     text-align: right;
 }
+.cart-empty{
+    text-align: center;
+}

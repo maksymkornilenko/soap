@@ -19,28 +19,10 @@ use app\models\ClientForm;
 use app\models\OrderForm;
 use app\models\CallbackForm;
 
-//        setcookie('id','',-1);
-//        setcookie('price','',-1);
-//        setcookie('count','',-1);
-//        setcookie('sum','',-1);
-//        setcookie('name','',-1);
-var_dump(Yii::$app->request->cookies);
-die();
-
-//$products = Products::find()->one();
-//var_dump($products['id']);
-//die();
 $client = new ClientForm();
 $orders = new OrderForm();
 $callback = new CallbackForm();
-//$cookies= Yii::$app->response->cookies;
-//unset($_COOKIE);
-//setcookie('price','',-2);
-//$cookies = Yii::$app->request->cookies;
-//var_dump($cookies);
-//die();
-
-
+$data = Yii::$app->controller->data;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -75,7 +57,7 @@ echo Nav::widget([
         ['label' => 'Описание', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#opisanie']],
         ['label' => 'Гарантия', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#garant']],
         ['label' => 'Безопасность', 'options' => ['class' => 'nav-label close-nav'], 'url' => ['/#security']],
-        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $id]],
+        ['label' => 'Купить', 'options' => ['class' => 'buy nav-label close-nav', 'data-id' => $data['productId']]],
         ['label' => '+38 067 245-20-10', 'options' => ['class' => 'tel-1 close-nav'], 'url' => 'https://wa.me/380672452010', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-1" href="{url}">{label}</a>'],
         ['label' => '+38 067 404-66-01', 'options' => ['class' => 'tel-2 close-nav'], 'url' => 'https://wa.me/380674046601', 'linkOptions' => ['target' => '_blank'], 'template' => '<a class="href-tel-2" href="{url}">{label}</a>'],
         ['label' => 'Заказать звонок', 'options' => ['class' => 'callback close-nav']],
@@ -91,18 +73,18 @@ echo Nav::widget([
             src="/image/instagram.png"/></a>
 <?php NavBar::end();
 ?>
-<?php if (!empty($cookies['count']->value)): ?>
+<?php if (!empty($data['count'])) { ?>
     <div class="t706__carticon t706__carticon_showed">
-        <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?php echo $cookies['sum'] ?>&nbsp;грн.
+        <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?= $data['sum'] ?>&nbsp;грн.
         </div>
         <div class="t706__carticon-wrapper">
             <div class="t706__carticon-imgwrap">
                 <img src="/image/cart.png"/>
             </div>
-            <div class="t706__carticon-counter"><?php echo $cookies['count'] ?></div>
+            <div class="t706__carticon-counter"><?= $data['count'] ?></div>
         </div>
     </div>
-<?php else: ?>
+<?php } else { ?>
     <div class="t706__carticon t706__carticon_showed">
         <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
         <div class="t706__carticon-wrapper">
@@ -112,8 +94,10 @@ echo Nav::widget([
             <div class="t706__carticon-counter">0</div>
         </div>
     </div>
-<?php endif; ?>
+<?php } ?>
+
 <?= $content ?>
+
 <!--footer-->
 <div id="t-footer" class="t-records">
     <div id="rec124335292" class="r t-rec">
