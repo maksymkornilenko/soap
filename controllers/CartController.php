@@ -172,7 +172,7 @@ class CartController extends Controller
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     $res = $this->setAnswerSuccess($contactForm->id);
                     Yii::$app->session->setFlash('success', $res);
-                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
+                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone_raw, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                     $this->setEmptyCookie();
                 } else {
                     $res = $this->setAnswerError();
@@ -189,7 +189,7 @@ class CartController extends Controller
 //                var_dump($sqlproducts);
 //                die();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
+                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone_raw, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                 $res = $this->setAnswerSuccess($contactForm->id);
                 Yii::$app->session->setFlash('success', $res);
                 $this->setEmptyCookie();
