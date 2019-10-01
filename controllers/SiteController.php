@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Callback;
+use app\models\EvoExampleClient;
 use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
@@ -14,6 +15,7 @@ class SiteController extends Controller
 {
 
     public $data = [];
+
     /**
      * {@inheritdoc}
      */
@@ -88,6 +90,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        $get_order= new EvoExampleClient();
+//        $get_order->get_order_list();
+//        var_dump($get_order);
         return $this->render('index');
     }
 
@@ -117,8 +122,6 @@ class SiteController extends Controller
         $callbackForm->name = Yii::$app->request->post('name');
         $callbackForm->phone = Yii::$app->request->post('phone');
         $callbackForm->clear_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
-//        var_dump($callbackForm);
-//        die();
         if ($callbackForm->save()) {
             Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
         } else {

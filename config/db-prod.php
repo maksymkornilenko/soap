@@ -4,7 +4,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=dalife.info;dbname=soap',
+            'dsn' => 'mysql:host=localhost;dbname=soap',
             'username' => 'soap_user',
             'password' => '4Q6g6O0o',
             'charset' => 'utf8',

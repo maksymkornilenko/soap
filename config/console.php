@@ -1,8 +1,12 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
 
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    $account = require __DIR__ . '/db.php';
+} else {
+    $account = require __DIR__ . '/db-prod.php';
+}
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
@@ -25,7 +29,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
+        'db' => $account,
     ],
     'params' => $params,
     /*
