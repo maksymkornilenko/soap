@@ -325,7 +325,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
-    console.log($('#orderform-area').val());
+    console.log($('#clientform-phone').val());
     console.log($('#clientform-name').val().length);
     if ($('#clientform-name').val().length == 0 || $('#clientform-phone').val().length == 0 || $('#clientform-email').val().length == 0 || $('#orderform-area').val().length == 0 || $('#orderform-city').val().length == 0 || $('#orderform-warehouse').val().length == 0) {
         $('.error-send').text('Заполните все поля перед оформлением заказа.');

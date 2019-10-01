@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\Callback;
-use app\models\EvoExampleClient;
 use app\models\Products;
 use Yii;
 use yii\filters\AccessControl;
@@ -90,9 +89,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $get_order= new EvoExampleClient();
-//        $get_order->get_order_list();
-//        var_dump($get_order);
+        $cookies = Yii::$app->request->cookies;
         return $this->render('index');
     }
 

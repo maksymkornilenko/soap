@@ -141,9 +141,8 @@ class CartController extends Controller
         $clientForm = new Clients();
         $clientForm->name = $request->post('name');
         $clientForm->phone = $request->post('phone');
-        $clientForm->phone_raw = preg_replace('/[^0-9]/', '', $clientForm->phone);
+        $clientForm->formatted_phone = preg_replace('/[^0-9]/', '', $clientForm->phone);
         $clientForm->email = $request->post('mail');
-
         $contactForm = new Orders();
         $contactForm->area = $request->post('area');
         $contactForm->city = $request->post('city');
@@ -152,7 +151,7 @@ class CartController extends Controller
         $contactForm->pay = $request->post('pay');
 
         $product_id = $request->post('id');
-        $sqlclients = Clients::find()->where(['phone_raw' => $clientForm->phone_raw])->all();
+        $sqlclients = Clients::find()->where(['formatted_phone' => $clientForm->formatted_phone])->all();
         $sqlproducts = Products::find()->where(['id' => $product_id])->all();
         $price = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
         if ($contactForm->count == 2) {
@@ -172,7 +171,7 @@ class CartController extends Controller
                     $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
                     $res = $this->setAnswerSuccess($contactForm->id);
                     Yii::$app->session->setFlash('success', $res);
-                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone_raw, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
+                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->formatted_phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                     $this->setEmptyCookie();
                 } else {
                     $res = $this->setAnswerError();
@@ -189,7 +188,7 @@ class CartController extends Controller
 //                var_dump($sqlproducts);
 //                die();
                 $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->phone_raw, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
+                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->formatted_phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
                 $res = $this->setAnswerSuccess($contactForm->id);
                 Yii::$app->session->setFlash('success', $res);
                 $this->setEmptyCookie();

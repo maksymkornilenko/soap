@@ -11,7 +11,7 @@ use Yii;
  * @property int $name
  * @property int $email
  * @property string $phone
- * @property string $phone_raw
+ * @property string $formatted_phone
  */
 class Clients extends \yii\db\ActiveRecord
 {
@@ -29,11 +29,10 @@ class Clients extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email', 'phone', 'phone_raw'], 'required'],
-            [['phone'], 'string', 'max' => 15],
+            [['name', 'email', 'phone', 'formatted_phone'], 'required'],
+            [['phone'], 'string', 'max' => 20],
             [['email'], 'email'],
-            ['phone', 'match', 'pattern' => '/^(8)[(](\d{3})[)](\d{3})[-](\d{2})[-](\d{2})/', 'message' => 'Телефон, должен быть в формате 8(XXX)XXX-XX-XX'],
-            [['phone_raw'], 'string', 'max' => 11],
+            [['formatted_phone'], 'string', 'max' => 20],
         ];
     }
 
