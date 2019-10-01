@@ -379,8 +379,8 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
  * function mask for phone
  */
 $(document).ready(function ($) {
-    $("#clientform-phone").mask('8(099)999-99-99');
-    $("#callbackform-phone").mask('8(099)999-99-99');
+    $("#clientform-phone").mask('+38(099)999-99-99');
+    $("#callbackform-phone").mask('+38(099)999-99-99');
 });
 /**
  * function for close navigation when click on one of the elements of navigation

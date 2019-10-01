@@ -15,9 +15,9 @@ class ClientForm extends Model
     {
         return [
             [['name', 'email', 'phone', 'phone_raw'], 'required'],
-            [['phone'], 'string', 'max' => 15],
+            [['phone'], 'string', 'max' => 20],
             [['email'], 'email'],
-            ['phone', 'match', 'pattern' => '/^(8)[(](\d{3})[)](\d{3})[-](\d{2})[-](\d{2})/', 'message' => 'Телефон, должен быть в формате 8(XXX)XXX-XX-XX'],
+            ['phone', 'match', 'pattern' => '^\+?[38][-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$', 'message' => 'Телефон, должен быть в формате +38(XXX)XXX-XX-XX'],
         ];
     }
 
