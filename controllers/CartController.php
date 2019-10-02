@@ -174,6 +174,7 @@ class CartController extends Controller
                 'delivery_warehouse' => $order->warehouse,
                 'delivery_warehouse_ref' => $request['warehouseRef'],
                 'delivery_warehouse_number' => $request['number'],
+                'payment' => $request['pay'],
             ];
             $this->sendData($params);
             $this->setEmptyCookie();

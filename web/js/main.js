@@ -329,8 +329,6 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
-    console.log($('#clientform-phone').val());
-    console.log($('#clientform-name').val().length);
     if ($('#clientform-name').val().length == 0 || $('#clientform-phone').val().length == 0 || $('#clientform-email').val().length == 0 || $('#orderform-area').val().length == 0 || $('#orderform-city').val().length == 0 || $('#orderform-warehouse').val().length == 0) {
         $('.error-send').text('Заполните все поля перед оформлением заказа.');
         $('.error-send').css({color: '#a94442'});
@@ -377,9 +375,8 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 }
             },
             error: function (res) {
-                console.log('Мы в Error Ajax');
-                console.log(res);
-                showCart('error в AJAX');
+                res='error'
+                showCart(res);
             }
         });
      }
@@ -394,7 +391,7 @@ $(document).ready(function ($) {
 /**
  * function for close navigation when click on one of the elements of navigation
  */
-$('.close-nav').on('click', function (e) {
+$('.close-nav').on('click', function () {
     closeNav();
 });
 /**
