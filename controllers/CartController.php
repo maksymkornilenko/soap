@@ -270,7 +270,7 @@ class CartController extends Controller
         return $res = 'Ваш заказ не получен';
     }
 
-    protected function sendToCRM($product_id, $name, $order_id, $count, $price, $sum,$clientName, $clientPhone, $clientEmail, $area, $city, $warehouse, $pay)
+    protected function sendToCRM($product_id, $name, $order_id, $count, $price, $sum,$clientName, $clientPhone, $clientEmail, $area, $city, $warehouse, $payment)
     {
         $params = [
             'product_id' => $product_id,
@@ -285,7 +285,7 @@ class CartController extends Controller
             'area' => $area,
             'city' => $city,
             'warehouse' => $warehouse,
-            'payment' => $pay,
+            'payment' => $payment,
         ];
         $answer=$this->sendData($params);
         if($answer=='Успех'){
