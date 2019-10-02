@@ -29,7 +29,7 @@ class CartController extends Controller
         if (isset($cook['count']->value)) {
             $count += $cook['count']->value;
         }
-        $price=ExtOrders::factory()->getPrice($count);
+        $price=ExtOrders::factory()->getPriceByCount($count);
         $sum = $price * $count;
         $this->setCookie('price', $price);
         $this->setCookie('id', $id);
@@ -45,7 +45,7 @@ class CartController extends Controller
         $id = (int)$request->get('id');
         $count = (int)$request->get('count');
         $name = $request->get('name');
-        $price = ExtOrders::factory()->getPrice($count);
+        $price = ExtOrders::factory()->getPriceByCount($count);
         $count = !$count ? 1 : $count;
         $sum = $count * $price;
         $this->setCookie('id', $id);
@@ -105,7 +105,7 @@ class CartController extends Controller
     {
         $cookies = Yii::$app->request->cookies;
         $count = $cookies['count']->value;
-        $price = ExtOrders::factory()->getPrice($count);
+        $price = ExtOrders::factory()->getPriceByCount($count);
         $sum = $price * $count;
         return $this->renderPartial('cart-modal', [
             'name' => $cookies['name']->value,
@@ -148,7 +148,7 @@ class CartController extends Controller
         }
         $productId = $request['id'];
         $product = Products::find()->asArray()->where(['id' => $productId])->one();
-        $price = ExtOrders::factory()->getPrice($order->count);
+        $price = ExtOrders::factory()->getPriceByCount($order->count);
         $order->sum = $price * $order->count;
         if ($order->save()) {
 //            if ($order->pay == 'liqpay') {

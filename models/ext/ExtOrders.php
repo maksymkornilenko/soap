@@ -29,7 +29,7 @@ class ExtOrders extends Orders
         ];
     }
 
-    public function getPrice($count)
+    public function getPriceByCount($count)
     {
         $price = 150;
         if ($count == 2) {
