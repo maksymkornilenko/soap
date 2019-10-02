@@ -23,10 +23,9 @@ class CartController extends Controller
     public function actionAdd()
     {
         $count = 1;
-        $request=Yii::$app->request;
-        $id = (int)$request->get('id');
-        $name = $request->get('name');
-        $cook = $request->cookies;
+        $id = (int)Yii::$app->request->get('id');
+        $name = Yii::$app->request->get('name');
+        $cook = Yii::$app->request->cookies;
         if (isset($cook['count']->value)) {
             $count += $cook['count']->value;
         }
@@ -42,10 +41,10 @@ class CartController extends Controller
 
     public function actionSave()
     {
-        $request = Yii::$app->request->get();
-        $id = (int)$request['id'];
-        $count = (int)$request['count'];
-        $name = $request-['name'];
+        $request = Yii::$app->request;
+        $id = (int)$request->get('id');
+        $count = (int)$request->get('count');
+        $name = $request->get('name');
         $price = ExtOrders::factory()->getPriceByCount($count);
         $count = !$count ? 1 : $count;
         $sum = $count * $price;
