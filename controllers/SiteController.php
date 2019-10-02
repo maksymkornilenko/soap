@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\Callback;
+use app\models\EvoExampleClient;
 use app\models\Products;
+use Exception;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -89,7 +91,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $cookies = Yii::$app->request->cookies;
         return $this->render('index');
     }
 
