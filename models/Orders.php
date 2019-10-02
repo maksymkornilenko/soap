@@ -52,14 +52,6 @@ class Orders extends ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
-        return [
-            'area' => 'Область',
-            'city' => 'Город',
-            'warehouse' => 'Выберите отделение новой почты',
-        ];
-    }
     public function behaviors()
     {
         return [

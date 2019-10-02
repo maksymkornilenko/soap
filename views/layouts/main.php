@@ -211,18 +211,18 @@ echo Nav::widget([
 <div class="t706__cartwin-bottom">
     <div class="t706__cartwin-prodamount-wrap t-descr t-descr_sm">
         <?php $form = ActiveForm::begin(['id' => '1contact-form', 'options' => ['name' => 'calculator1']]); ?>
-        <?= $form->field($client, 'name') ?>
+        <?= $form->field($client, 'name')?>
         <p class="error-name"></p>
-        <?= $form->field($client, 'phone') ?>
+        <?= $form->field($client, 'phone')?>
         <p class="error-phone"></p>
-        <?= $form->field($client, 'email') ?>
+        <?= $form->field($client, 'email')?>
         <p class="error-email"></p>
         <?php echo $form->field($orders, 'area')->widget(Select2::classname(), [
             'language' => 'ru',
             'options' => ['placeholder' => 'Выберите область'],
             'pluginOptions' => [
                 'allowClear' => true,
-                'minimumInputLength' => 2,
+                'minimumInputLength' => 1,
                 'language' => [
                     'errorLoading' => new JsExpression("function () { return 'Загрузка...'; }"),
                 ],

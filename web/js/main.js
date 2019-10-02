@@ -319,6 +319,9 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     var area = $('#orderform-area').find(":selected").text();
     var city = $('#orderform-city').find(":selected").text();
     var warehouse = $('#orderform-warehouse').find(":selected").text();
+    var areaRef = $('#orderform-area').find(":selected").val();
+    var cityRef = $('#orderform-city').find(":selected").val();
+    var warehouseRef = $('#orderform-warehouse').find(":selected").val();
     var pay = $('input[name=paymentsystem]:checked').val();
     var count = $('.t706__cartwin-count').text();
     var id = $('.cart-count').data('id');
@@ -343,6 +346,9 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 area: area,
                 city: city,
                 warehouse: warehouse,
+                areaRef: areaRef,
+                cityRef: cityRef,
+                warehouseRef: warehouseRef,
                 pay: pay,
                 count: count,
                 id: id
@@ -369,8 +375,9 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 }
             },
             error: function (res) {
-                res = 'error';
-                showCart(res);
+                console.log('Мы в Error Ajax');
+                console.log(res);
+                showCart('error в AJAX');
             }
         });
      }

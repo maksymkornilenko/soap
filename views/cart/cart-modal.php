@@ -1,9 +1,3 @@
-<?php
-
-use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
-use app\models\Orders;
-?>
 <?php if (!empty($count)): ?>
     <!--версия 2.0-->
     <div class="t706__cartwin-heading t-name t-name_xl">Оставьте данные для оформления заказа</div>
@@ -19,7 +13,7 @@ use app\models\Orders;
                 </div>
                 <div class="t706__product-plusminus t-descr t-descr_sm">
                     <span class="t706__product-minus">
-                        <img src="/image/arrows_circle_minus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло" data-count="1" id="minus-cart">
+                        <img src="/image/arrows_circle_minus.svg" data-id="<?= $data ?>" data-name="Кокосовое мыло" data-count="1" id="minus-cart">
                     </span>
                     <span class="t706__product-quantity cart-count" data-id="<?= $id ?>"><?= $count ?></span>
                     <span class="t706__product-quantity cart-price" data-id="<?= $id ?>"><?= $price ?></span>
@@ -44,23 +38,17 @@ use app\models\Orders;
         <span class="t706__cartwin-prodamount"><?= $count * $price ?>&nbsp;грн</span>
         <span class="t706__cartwin-count"><?= $count ?></span>
     </div>
-<?php elseif (Yii::$app->session->hasFlash('success')): ?>
+<?php else:?>
     <div>
         <h3>
+            <?php if (Yii::$app->session->hasFlash('success')): ?>
             <div class="js-successbox t-form__successbox t-text t-text_md"><?php echo Yii::$app->session->getFlash('success'); ?></div>
             <?php echo $liqpay ?>
-        </h3>
-    </div>
-<?php elseif (Yii::$app->session->hasFlash('error')): ?>
-    <div>
-        <h3>
+            <?php elseif (Yii::$app->session->hasFlash('error')): ?>
             <div class="js-successbox t-form__errorbox t-text t-text_md"><?php echo Yii::$app->session->getFlash('error'); ?></div>
+            <?php else: ?>
+            <div class="empty-cart"><p>Корзина пуста</p></div>
+            <?php endif;?>
         </h3>
-    </div>
-<?php else: ?>
-    <div class="empty-cart">
-        <h2>
-            <p>Корзина пуста</p>
-        </h2>
     </div>
 <?php endif; ?>

@@ -7,17 +7,16 @@ namespace app\controllers;
 use app\models\Areas;
 use app\models\Cities;
 use app\models\Clients;
+use app\models\ext\ExtOrderItems;
+use app\models\ext\ExtOrders;
 use app\models\Products;
 use app\models\Warehouses;
 use yii\base\Controller;
 use Yii;
 use app\models\LiqPay;
 use app\models\Orders;
-use app\models\OrderItems;
-use yii\db\Query;
 use yii\helpers\Json;
 use yii\web\Cookie;
-use yii\web\Response;
 
 class CartController extends Controller
 {
@@ -136,69 +135,65 @@ class CartController extends Controller
 
     public function actionSend()
     {
-        $request = Yii::$app->request;
+        $request = Yii::$app->request->post();
         $html = '';
-        $clientForm = new Clients();
-        $clientForm->name = $request->post('name');
-        $clientForm->phone = $request->post('phone');
-        $clientForm->formatted_phone = preg_replace('/[^0-9]/', '', $clientForm->phone);
-        $clientForm->email = $request->post('mail');
-        $contactForm = new Orders();
-        $contactForm->area = $request->post('area');
-        $contactForm->city = $request->post('city');
-        $contactForm->warehouse = $request->post('warehouse');
-        $contactForm->count = (int)$request->post('count');
-        $contactForm->pay = $request->post('pay');
-
-        $product_id = $request->post('id');
-        $sqlclients = Clients::find()->where(['formatted_phone' => $clientForm->formatted_phone])->all();
-        $sqlproducts = Products::find()->where(['id' => $product_id])->all();
-        $price = $this->checkSum($contactForm->count, $sqlproducts[0]['price']);
-        if ($contactForm->count == 2) {
-            $price = 125;
-        } else if ($contactForm->count >= 3) {
-            $price = 100;
-        }
-        $contactForm->sum = $price * $contactForm->count;
-        if (empty($sqlclients)) {
-            if ($clientForm->save()) {
-                $contactForm->client_id = $clientForm->id;
-                if ($contactForm->save()) {
-                    if ($contactForm->pay == 'liqpay') {
-                        $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
-                    }
-                    $saveItems = new OrderItems();
-                    $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                    $res = $this->setAnswerSuccess($contactForm->id);
-                    Yii::$app->session->setFlash('success', $res);
-                    $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->formatted_phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
-                    $this->setEmptyCookie();
-                } else {
-                    $res = $this->setAnswerError();
-                    Yii::$app->session->setFlash('error', $res);
-                }
-            }
+        $order = new Orders();
+        $order->area = $request['area'];
+        $areaRef = $request['areaRef'];
+        $order->city = $request['city'];
+        $cityRef = $request['cityRef'];
+        $order->warehouse = $request['warehouse'];
+        $warehouseRef = $request['warehouseRef'];
+        $order->count = (int)$request['count'];
+        $order->pay = $request['pay'];
+        $formattedPhone = preg_replace('/[^0-9]/', '', $request['phone']);
+        $client = Clients::find()->where(['formatted_phone' => $formattedPhone])->one();
+        if ($client) {
+            $order->client_id = $client->id;
         } else {
-            $contactForm->client_id = $sqlclients['0']['id'];
-            if ($contactForm->save()) {
-                if ($contactForm->pay == 'liqpay') {
-                    $html = $this->setLiqpay($contactForm->id, $contactForm->sum);
-                }
-                $saveItems = new OrderItems();
-//                var_dump($sqlproducts);
-//                die();
-                $saveItems->saveOrderItems($sqlproducts, $contactForm->sum, $contactForm->count, $contactForm->id);
-                $sendOrder = $this->sendToCRM($sqlproducts[0]['id'], $sqlproducts[0]['name'], $contactForm->id, $contactForm->count, $price, $contactForm->sum, $clientForm->name, $clientForm->formatted_phone, $clientForm->email, $contactForm->area, $contactForm->city, $contactForm->warehouse, $contactForm->pay);
-                $res = $this->setAnswerSuccess($contactForm->id);
-                Yii::$app->session->setFlash('success', $res);
-                $this->setEmptyCookie();
-            } else {
-                $res = $this->setAnswerError();
-                Yii::$app->session->setFlash('error', $res);
+            $client = new Clients();
+            $client->name = $request['name'];
+            $client->phone = $request['phone'];
+            $client->formatted_phone = $formattedPhone;
+            $client->email = $request['mail'];
+            if ($client->save()) {
+                $order->client_id = $client->id;
             }
         }
-        $this->layout = false;
-        return $this->render('cart-modal', ['liqpay' => $html]);
+        $productId = $request['id'];
+        $product = Products::find()->asArray()->where(['id' => $productId])->one();
+        $price=ExtOrders::factory()->getPrice($order->count);
+        $order->sum = $price * $order->count;
+        if ($order->save()) {
+//            if ($order->pay == 'liqpay') {
+//                $html = $this->setLiqpay($order->id, $order->sum);
+//            }
+            ExtOrderItems::factory()->saveOrderItems($product, $order->sum, $order->count, $order->id);
+            Yii::$app->session->setFlash('success', ExtOrders::ANSWER_SUCCESS);
+            $params = [
+                'order_id' => $order->id,
+                'product_id' => $productId,
+                'product_name' => $product['name'],
+                'product_price' => $price,
+                'count' => $order->count,
+                'sum' => $order->sum,
+                'client_id' => $client->id,
+                'client_name' => $client->name,
+                'client_phone' => $client->formatted_phone,
+                'client_email' => $client->email,
+                'delivery_area' => $order->area,
+                'delivery_area_ref' => $areaRef,
+                'delivery_city' => $order->city,
+                'delivery_city_ref' => $cityRef,
+                'delivery_warehouse' => $order->warehouse,
+                'delivery_warehouse_ref' => $warehouseRef,
+            ];
+            $this->sendData($params);
+            $this->setEmptyCookie();
+        } else {
+            Yii::$app->session->setFlash('error', ExtOrders::ANSWER_ERROR);
+        }
+        return $this->renderPartial('cart-modal', ['liqpay' => $html]);
     }
 
     protected function setEmptyCookie()
@@ -225,30 +220,16 @@ class CartController extends Controller
 
     protected function setLiqpay($id, $sum)
     {
-        $liqpay = new LiqPay('sandbox_i68448549809', 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF');
+        $liqpay = new LiqPay();
         $html = $liqpay->cnb_form(array(
             'action' => 'pay',
             'amount' => $sum,
             'currency' => 'UAH',
             'description' => 'Оплата по заказу №' . $id,
-            'order_id' => 'order_id_1',
+            'order_id' => $id,
             'version' => '3'
         ));
         return $html;
-    }
-
-    protected function checkSum($count, $price)
-    {
-        if ($count <= 0) {
-            $sum = false;
-        } elseif ($count == 1) {
-            $sum = $count * $price;
-        } elseif ($count == 2) {
-            $sum = $count * 125;
-        } elseif ($count >= 3) {
-            $sum = $count * 100;
-        }
-        return $sum;
     }
 
     protected function setCookie($name, $value)
@@ -260,58 +241,29 @@ class CartController extends Controller
         ]));
     }
 
-    protected function setAnswerSuccess($id)
-    {
-        return $res = "Ваш заказ номер №$id получен, менеджер в ближайшее время с вами свяжется";
-    }
-
-    protected function setAnswerError()
-    {
-        return $res = 'Ваш заказ не получен';
-    }
-
-    protected function sendToCRM($product_id, $name, $order_id, $count, $price, $sum,$clientName, $clientPhone, $clientEmail, $area, $city, $warehouse, $payment)
-    {
-        $params = [
-            'product_id' => $product_id,
-            'name' => $name,
-            'order_id' => $order_id,
-            'count' => $count,
-            'price' => $price,
-            'sum' => $sum,
-            'client_name' => $clientName,
-            'client_phone' => $clientPhone,
-            'client_email' => $clientEmail,
-            'area' => $area,
-            'city' => $city,
-            'warehouse' => $warehouse,
-            'payment' => $payment,
-        ];
-        $answer=$this->sendData($params);
-        if($answer=='Успех'){
-            $answer=Orders::findOne($order_id);
-            $answer->updateAttributes(['status'=>1]);
-        }
-    }
-
     protected function sendData($params)
     {
+        $content = http_build_query($params);
+        $context = stream_context_create([
+                'http' => [
+                    'method' => 'POST',
+                    'content' => $content
+                ]
+            ]
+        );
         $url = 'https://crm.maldivesdreams.com.ua/tilda/webhook/test-soap';
-        $query = $url . '?' . http_build_query($params);
-        $answerJSON = file_get_contents($query);
-
+        $answerJSON = file_get_contents($url, null, $context);
         if ($answerJSON) {
             $answer = Json::decode($answerJSON, true);
 
             if ($answer['success'] == true) {
-                // Сохранять в базу успешный статус отправки Webhook
+                $order = Orders::findOne($params['order_id']);
+                $order->updateAttributes(['status' => 1]);
                 return 'Успех';
             } else {
-                // Статус остается неотправленным
-                return $answer['errors'];
+                return false;
             }
         }
         return 'Ответ не был получен';
     }
-
 }
