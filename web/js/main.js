@@ -322,6 +322,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     var areaRef = $('#orderform-area').find(":selected").val();
     var cityRef = $('#orderform-city').find(":selected").val();
     var warehouseRef = $('#orderform-warehouse').find(":selected").val();
+    var number = $('#orderform-warehouse').find(":selected").data('number');
     var pay = $('input[name=paymentsystem]:checked').val();
     var count = $('.t706__cartwin-count').text();
     var id = $('.cart-count').data('id');
@@ -349,6 +350,7 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 areaRef: areaRef,
                 cityRef: cityRef,
                 warehouseRef: warehouseRef,
+                number: number,
                 pay: pay,
                 count: count,
                 id: id

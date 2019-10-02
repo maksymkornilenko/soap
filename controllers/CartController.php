@@ -26,15 +26,10 @@ class CartController extends Controller
         $id = (int)Yii::$app->request->get('id');
         $name = Yii::$app->request->get('name');
         $cook = Yii::$app->request->cookies;
-        $price = 150;
         if (isset($cook['count']->value)) {
             $count += $cook['count']->value;
         }
-        if ($count == 2) {
-            $price = 125;
-        } else if ($count >= 3) {
-            $price = 100;
-        }
+        $price=ExtOrders::factory()->getPrice($count);
         $sum = $price * $count;
         $this->setCookie('price', $price);
         $this->setCookie('id', $id);
@@ -50,7 +45,7 @@ class CartController extends Controller
         $id = (int)$request->get('id');
         $count = (int)$request->get('count');
         $name = $request->get('name');
-        $price = (int)$request->get('price');
+        $price = ExtOrders::factory()->getPrice($count);
         $count = !$count ? 1 : $count;
         $sum = $count * $price;
         $this->setCookie('id', $id);
@@ -101,7 +96,7 @@ class CartController extends Controller
         $cityRef = (string)Yii::$app->request->get('city');
         $warehouse = Warehouses::find()->where(['city_ref' => $cityRef])->all();
         foreach ($warehouse as $warehouses) {
-            $answer[] = '<option value="' . $warehouses['ref'] . '">' . $warehouses['description_ru'] . '</option>';
+            $answer[] = '<option value="' . $warehouses['ref'] . '" data-number="'.$warehouses['number'].'">' . $warehouses['description_ru'] . '</option>';
         }
         return Json::encode($answer);
     }
@@ -109,17 +104,12 @@ class CartController extends Controller
     public function actionShow()
     {
         $cookies = Yii::$app->request->cookies;
-        $price = 150;
-        if ($cookies['count']->value == 2) {
-            $price = 125;
-        } elseif ($cookies['count']->value >= 3) {
-            $price = 100;
-        }
         $count = $cookies['count']->value;
+        $price = ExtOrders::factory()->getPrice($count);
         $sum = $price * $count;
         return $this->renderPartial('cart-modal', [
             'name' => $cookies['name']->value,
-            'count' => $cookies['count']->value,
+            'count' => $count,
             'price' => $price,
             'id' => $cookies['id']->value,
             'sum' => $sum
@@ -128,22 +118,18 @@ class CartController extends Controller
 
     public function actionDelete()
     {
-//        $id = (int)Yii::$app->request->get('id');
-        $cook = $this->setEmptyCookie();
+        $this->setEmptyCookie();
         return $this->renderPartial('cart-empty');
     }
 
     public function actionSend()
     {
         $request = Yii::$app->request->post();
-        $html = '';
+        $liqpayForm = '';
         $order = new Orders();
         $order->area = $request['area'];
-        $areaRef = $request['areaRef'];
         $order->city = $request['city'];
-        $cityRef = $request['cityRef'];
         $order->warehouse = $request['warehouse'];
-        $warehouseRef = $request['warehouseRef'];
         $order->count = (int)$request['count'];
         $order->pay = $request['pay'];
         $formattedPhone = preg_replace('/[^0-9]/', '', $request['phone']);
@@ -162,11 +148,11 @@ class CartController extends Controller
         }
         $productId = $request['id'];
         $product = Products::find()->asArray()->where(['id' => $productId])->one();
-        $price=ExtOrders::factory()->getPrice($order->count);
+        $price = ExtOrders::factory()->getPrice($order->count);
         $order->sum = $price * $order->count;
         if ($order->save()) {
 //            if ($order->pay == 'liqpay') {
-//                $html = $this->setLiqpay($order->id, $order->sum);
+//                $liqpayForm = $this->setLiqpay($order->id, $order->sum);
 //            }
             ExtOrderItems::factory()->saveOrderItems($product, $order->sum, $order->count, $order->id);
             Yii::$app->session->setFlash('success', ExtOrders::ANSWER_SUCCESS);
@@ -182,18 +168,19 @@ class CartController extends Controller
                 'client_phone' => $client->formatted_phone,
                 'client_email' => $client->email,
                 'delivery_area' => $order->area,
-                'delivery_area_ref' => $areaRef,
+                'delivery_area_ref' => $request['areaRef'],
                 'delivery_city' => $order->city,
-                'delivery_city_ref' => $cityRef,
+                'delivery_city_ref' => $request['cityRef'],
                 'delivery_warehouse' => $order->warehouse,
-                'delivery_warehouse_ref' => $warehouseRef,
+                'delivery_warehouse_ref' => $request['warehouseRef'],
+                'delivery_warehouse_number' => $request['number'],
             ];
             $this->sendData($params);
             $this->setEmptyCookie();
         } else {
             Yii::$app->session->setFlash('error', ExtOrders::ANSWER_ERROR);
         }
-        return $this->renderPartial('cart-modal', ['liqpay' => $html]);
+        return $this->renderPartial('cart-modal', ['liqpayForm' => $liqpayForm]);
     }
 
     protected function setEmptyCookie()
@@ -255,15 +242,10 @@ class CartController extends Controller
         $answerJSON = file_get_contents($url, null, $context);
         if ($answerJSON) {
             $answer = Json::decode($answerJSON, true);
-
             if ($answer['success'] == true) {
                 $order = Orders::findOne($params['order_id']);
                 $order->updateAttributes(['status' => 1]);
-                return 'Успех';
-            } else {
-                return false;
             }
         }
-        return 'Ответ не был получен';
     }
 }
