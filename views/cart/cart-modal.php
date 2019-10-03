@@ -13,7 +13,7 @@
             </div>
             <div class="t706__product-plusminus t-descr t-descr_sm">
                     <span class="t706__product-minus">
-                        <img src="/image/arrows_circle_minus.svg" data-id="<?= $data ?>" data-name="Кокосовое мыло"
+                        <img src="/image/arrows_circle_minus.svg" data-id="<?= $id ?>" data-name="Кокосовое мыло"
                              data-count="1" id="minus-cart">
                     </span>
                 <span class="t706__product-quantity cart-count" data-id="<?= $id ?>"><?= $count ?></span>

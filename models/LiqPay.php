@@ -47,8 +47,8 @@ class LiqPay extends Model
         self::CURRENCY_RUB,
         self::CURRENCY_RUR,
     );
-    private $_public_key = 'sandbox_i68448549809';
-    private $_private_key = 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF';
+    private $_public_key;
+    private $_private_key;
     private $_server_response_code = null;
 
     /**
@@ -70,8 +70,8 @@ class LiqPay extends Model
             throw new InvalidArgumentException('private_key is empty');
         }
 
-        $this->_public_key = $public_key;
-        $this->_private_key = $private_key;
+        $this->_public_key = 'sandbox_i68448549809';
+        $this->_private_key = 'sandbox_t4cyKNZkq5kljGEQSKlURFrl6g8Ad0585aZQX3vF';
 
         if (null !== $api_url) {
             $this->_api_url = $api_url;

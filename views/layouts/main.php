@@ -73,7 +73,7 @@ echo Nav::widget([
             src="/image/instagram.png"/></a>
 <?php NavBar::end();
 ?>
-<?php if (!empty($data['count'])) { ?>
+<?php if (!empty($data['count'])||$data['count']!=null||$data['count']!=0) { ?>
     <div class="t706__carticon t706__carticon_showed">
         <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?= $data['sum'] ?>&nbsp;грн.
         </div>

@@ -46,6 +46,9 @@ class SiteController extends Controller
     public function beforeAction($action)
     {
         $cookies = Yii::$app->request->cookies;
+        $count=0;
+        $sum=0;
+        $name='';
         if (isset($cookies['id']->value)) {
             $productId = (int)$cookies['id']->value;
         } else {
@@ -58,12 +61,21 @@ class SiteController extends Controller
             ]));
             $productId = $products['id'];
         }
+        if(isset($cookies['count']->value)){
+            $count=$cookies['count']->value;
+        }
+        if(isset($cookies['sum']->value)){
+            $sum=$cookies['sum']->value;
+        }
+        if(isset($cookies['name']->value)){
+            $name=$cookies['name']->value;
+        }
         // Все полученные значения заносим в глобальное свойтво 'content', доступное из View и из Layout
         $this->data = [
             'productId' => $productId,
-            'count' => $cookies['count']->value,
-            'sum' => $cookies['sum']->value,
-            'name' => $cookies['name']->value,
+            'count' => $count,
+            'sum' => $sum,
+            'name' => $name,
         ];
         return parent::beforeAction($action);
     }
