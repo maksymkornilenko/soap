@@ -14,7 +14,6 @@ class ClientForm extends Model
     public function rules()
     {
         return [
-            [['name', 'email', 'phone'], 'required'],
             [['phone'], 'string', 'max' => 20],
             [['email'], 'email'],
             ['phone', 'match', 'pattern' => '^\+?[38][-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$', 'message' => 'Телефон, должен быть в формате +38(XXX)XXX-XX-XX'],

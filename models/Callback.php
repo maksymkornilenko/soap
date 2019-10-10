@@ -33,10 +33,10 @@ class Callback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['phone', 'name', 'clear_phone'], 'required'],
-            [['clear_phone'], 'integer'],
+            [['phone', 'name', 'formatted_phone'], 'required'],
+            [['formatted_phone'], 'integer'],
             [['created_at'], 'safe'],
-            [['phone'], 'string', 'max' => 15],
+            [['phone'], 'string', 'max' => 20],
             [['name', 'status'], 'string', 'max' => 255],
         ];
     }

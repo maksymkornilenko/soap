@@ -14,9 +14,8 @@ class CallbackForm extends Model
     public function rules()
     {
         return [
-            [['name', 'phone'], 'required'],
-            [['phone'], 'string', 'max' => 15],
-            ['phone', 'match', 'pattern' => '/^(8)[(](\d{3})[)](\d{3})[-](\d{2})[-](\d{2})/', 'message' => 'Телефон, должен быть в формате 8(XXX)XXX-XX-XX'],
+            [['phone'], 'string', 'max' => 20],
+            ['phone', 'match', 'pattern' => '^\+?[38][-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$', 'message' => 'Телефон, должен быть в формате 8(XXX)XXX-XX-XX'],
         ];
     }
 

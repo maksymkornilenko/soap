@@ -131,7 +131,21 @@ class SiteController extends Controller
         $callbackForm = new Callback();
         $callbackForm->name = Yii::$app->request->post('name');
         $callbackForm->phone = Yii::$app->request->post('phone');
-        $callbackForm->clear_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
+        $callbackForm->formatted_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
+        if ($callbackForm->save()) {
+            Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
+        } else {
+            Yii::$app->session->setFlash('errorAnswer', "Ошибка");
+        }
+        $this->layout = false;
+        return $this->render('answer-callback');
+    }
+    public function actionTest()
+    {
+        $callbackForm = new Callback();
+        $callbackForm->name = 'vasya';
+        $callbackForm->phone = '+38(099)999-99-00';
+        $callbackForm->formatted_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
         if ($callbackForm->save()) {
             Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
         } else {

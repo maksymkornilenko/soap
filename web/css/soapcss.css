@@ -7892,9 +7892,9 @@
         text-align: center;
     }
 }
-#allrecords{
-    overflow: hidden;
-}
+/*#allrecords{*/
+    /*overflow: hidden;*/
+/*}*/
 .buy:hover{
     cursor: pointer;
 }

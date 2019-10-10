@@ -5,6 +5,7 @@ function showCart(cart) {
     $('#cart .modal-body2').html(cart);
     $('#cart').modal();
 }
+
 /**
  * function for show callback modal window
  */
@@ -12,6 +13,7 @@ function showAnswer(callback) {
     $('#answer-callback-modal .modal-bodycallback').html(callback);
     $('#answer-callback-modal').modal();
 }
+
 /**
  * function for add to cart item
  */
@@ -41,6 +43,7 @@ function addToCart(id, count, name) {
         }
     });
 }
+
 /**
  * function for delete or clear cart
  */
@@ -66,6 +69,7 @@ function deleteAndClearCart(res) {
         $('.t706__cartwin-bottom').css({display: 'block'});
     }
 }
+
 /**
  * function for show result of calculate
  */
@@ -76,6 +80,7 @@ function resultCalc(newCount, price, newprice) {
     $('.t706__product-amount').text(sum + ' грн');
     $('.t706__cartwin-prodamount').text(newSum + ' грн');
 }
+
 /**
  * function for calculate sum count and sum with discount
  */
@@ -83,8 +88,8 @@ function calculator(count, newCount) {
     newCount += count;
     $('.cart-count').text(newCount);
     var price = 150;
-    if(newCount == 0||newCount == 1){
-        newCount=1
+    if (newCount == 0 || newCount == 1) {
+        newCount = 1
         var newprice = price;
         $('.t706__cartwin-prodamount-label').text('Сумма: ')
     } else if (newCount == 2) {
@@ -98,6 +103,7 @@ function calculator(count, newCount) {
     $('.t706__carticon-counter').text(newCount);
     $('.t706__cartwin-count').text(newCount);
 }
+
 /**
  * function for change count by form input
  */
@@ -132,6 +138,7 @@ function inputCount() {
     }
 
 }
+
 /**
  * function for close navigation when click on the one of navigation elements
  */
@@ -140,6 +147,7 @@ function closeNav() {
     $('#w0-collapse').removeClass('navbar-collapse collapse in');
     $('#w0-collapse').toggleClass('navbar-collapse collapse');
 }
+
 /**
  * function for add to cart items
  */
@@ -147,6 +155,8 @@ $('.buy').click(function () {
     var id = $(this).data('id');
     var count = $(this).data('count');
     var name = $(this).data('name');
+    $(".sendOrder").attr("disabled", false);
+    $(".clearCart").attr("disabled", false);
     addToCart(id, count, name);
 });
 /**
@@ -157,6 +167,8 @@ $('.t706__carticon-wrapper').click(function () {
         url: '/cart/show',
         type: 'get',
         success: function (res) {
+            $(".sendOrder").attr("disabled", false);
+            $(".clearCart").attr("disabled", false);
             if (!res) res = 'cart empty';
             showCart(res);
             $(".t706__carticon_showed").css({display: 'none'});
@@ -195,7 +207,7 @@ $('#cart .modal-body2').on('click', '#minus-cart', function (e) {
  * function for change count of order
  */
 $('#cart .modal-body2').on('change', '#message', function (e) {
-    $('.t706__product-title ').css({width:'45%'});
+    $('.t706__product-title ').css({width: '45%'});
     $('.t706__product-plusminus').css({position: 'relative'});
     $('.t706__product-plusminus').css({left: '-14px'});
     inputCount();
@@ -204,7 +216,7 @@ $('#cart .modal-body2').on('change', '#message', function (e) {
  * callback input field for change count of products
  */
 $('#cart .modal-body2').on('click', '.cart-count', function (e) {
-    $('.t706__product-title ').css({width:'45%'});
+    $('.t706__product-title ').css({width: '45%'});
     $(this).replaceWith("<input class='t706__product-quantity cartcount' min='1' type='number'data-id=" + $(this).data('id') + " id='message' name='message' autofocus class='manFl' value=" + $(this).text() + ">");
     $('.t706__product-plusminus').css({position: 'relative'});
     $('.t706__product-plusminus').css({left: '-25px'});
@@ -213,7 +225,7 @@ $('#cart .modal-body2').on('click', '.cart-count', function (e) {
  * return span tag after change
  */
 $('#cart .modal-body2').on('blur', '#message', function (e) {
-    $('.t706__product-title ').css({width:'45%'});
+    $('.t706__product-title ').css({width: '45%'});
     $(this).replaceWith("<span class='t706__product-quantity cart-count' data-id=" + $(this).data("id") + " data-gender=" + $(this).data("gender") + ">" + $(this).val() + "</span>");
     $('.t706__product-plusminus').css({position: 'relative'});
     $('.t706__product-plusminus').css({left: '0px'});
@@ -309,6 +321,45 @@ $('#cart .modal-body').on('change', '#orderform-city', function (e) {
         }
     });
 });
+$('#clientform-name').change(function () {
+    if ($('#clientform-name').val().length != 0) {
+        $('.error-name').text('');
+    } else {
+        $('.error-name').text('Необходимо заполнить «Полное имя».');
+        $('.error-name').css({color: '#a94442'});
+    }
+});
+$('#clientform-phone').change(function () {
+    if ($('#clientform-phone').val().length != 0) {
+        $('.error-phone').text('');
+    } else {
+        $('.error-phone').text('Необходимо заполнить «Телефон».');
+        $('.error-phone').css({color: '#a94442'});
+    }
+});
+$('#clientform-email').change(function () {
+    if ($('#clientform-email').val().length != 0) {
+        $('.error-email').text('');
+    } else {
+        $('.error-email').text('Необходимо заполнить «email».');
+        $('.error-email').css({color: '#a94442'});
+    }
+});
+$('#orderform-area').change(function () {
+    if ($('#orderform-area').val().length != 0) {
+        $('.error-area').text('');
+    }
+});
+$('#orderform-city').change(function () {
+    if ($('#orderform-city').val().length != 0) {
+        $('.error-city').text('');
+    }
+});
+$('#orderform-warehouse').change(function () {
+    if ($('#orderform-warehouse').val().length != 0) {
+        $('.error-warehouse').text('');
+    }
+});
 /**
  * function for send order
  */
@@ -329,13 +380,31 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     name = name.trim();
     mail = mail.trim();
     e.preventDefault();
-    if ($('#clientform-name').val().length == 0 || $('#clientform-phone').val().length == 0 || $('#clientform-email').val().length == 0 || $('#orderform-area').val().length == 0 || $('#orderform-city').val().length == 0 || $('#orderform-warehouse').val().length == 0) {
-        $('.error-send').text('Заполните все поля перед оформлением заказа.');
-        $('.error-send').css({color: '#a94442'});
-    } else if ($('.help-block').text() != '') {
-        $('.error-send').text('Заполните все поля перед оформлением заказа.');
-        $('.error-send').css({color: '#a94442'});
-    } else {
+    if ($('#clientform-name').val().length == 0) {
+        $('.error-name').text('Необходимо заполнить «Полное имя».');
+        $('.error-name').css({color: '#a94442'});
+    }
+    if ($('#clientform-phone').val().length == 0) {
+        $('.error-phone').text('Необходимо заполнить «Телефон».');
+        $('.error-phone').css({color: '#a94442'});
+    }
+    if ($('#clientform-email').val().length == 0) {
+        $('.error-email').text('Необходимо заполнить «Email».');
+        $('.error-email').css({color: '#a94442'});
+    }
+    if ($('#orderform-area').val().length == 0) {
+        $('.error-area').text('Выберите «Область»');
+        $('.error-area').css({color: '#a94442'});
+    }
+    if ($('#orderform-city').val().length == 0) {
+        $('.error-city').text('Выберите «Город»');
+        $('.error-city').css({color: '#a94442'});
+    }
+    if ($('#orderform-warehouse').val().length == 0) {
+        $('.error-warehouse').text('Выберите «Отделение новой почты»');
+        $('.error-warehouse').css({color: '#a94442'});
+    }
+    if ($('#clientform-name').val().length != 0 && $('#clientform-phone').val().length != 0 && $('#clientform-email').val().length != 0 && $('#orderform-area').val().length != 0 && $('#orderform-city').val().length != 0 && $('#orderform-warehouse').val().length != 0 && $('#orderform-warehouse').val().length != 0 && $('.help-block-error').text().length == 0) {
         $.ajax({
             url: '/cart/send',
             data: {
@@ -349,7 +418,6 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                 cityRef: cityRef,
                 warehouseRef: warehouseRef,
                 number: number,
-                pay: pay,
                 count: count,
                 id: id
             },
@@ -374,12 +442,16 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
                     $('.liqpaySend').submit();
                 }
             },
+            beforeSend: function () {
+                $(".sendOrder").attr("disabled", true);
+                $(".clearCart").attr("disabled", true);
+            },
             error: function (res) {
-                res='error'
+                res = 'error'
                 showCart(res);
             }
         });
-     }
+    }
 });
 /**
  * function mask for phone
@@ -400,18 +472,40 @@ $('.close-nav').on('click', function () {
 $('.callback').click(function (e) {
     e.preventDefault();
     $('#callback-modal').modal('show');
-    $('.t706__carticon').css({display:'none'});
 });
 /**
  * function for send callback form
  */
+$('#callbackform-name').change(function () {
+    if ($('#callbackform-name').val().length == 0) {
+        $('.error-callbackname').text('Необходимо заполнить «Полное имя».');
+        $('.error-callbackname').css({color: '#a94442'});
+    } else {
+        $('.error-callbackname').text('');
+    }
+});
+$('#callbackform-phone').change(function () {
+    if ($('#callbackform-phone').val().length == 0) {
+        $('.error-callbackphone').text('Необходимо заполнить «Телефон».');
+        $('.error-callbackphone').css({color: '#a94442'});
+    } else {
+        $('.error-callbackphone').text('');
+    }
+});
 $('.sendCallbackForm').on('click', function (e) {
     var name = $('#callbackform-name').val();
     var phone = $('#callbackform-phone').val();
-    $('.t706__carticon').css({display: 'none'});
     name = name.trim();
     e.preventDefault();
-    if ($('#callbackform-name').val().length == 0 || $('#callbackform-phone').val().length == 0) {
+    if ($('#callbackform-name').val().length == 0) {
+        $('.error-callbackname').text('Необходимо заполнить «Полное имя».');
+        $('.error-callbackname').css({color: '#a94442'});
+    }
+    if ($('#callbackform-phone').val().length == 0) {
+        $('.error-callbackphone').text('Необходимо заполнить «Телефон».');
+        $('.error-callbackphone').css({color: '#a94442'});
+    }
+    if ($('#callbackform-name').val().length == 0 || $('#callbackform-phone').val().length == 0 || $('.help-block-error').text() != '') {
         return false;
     } else {
         $.ajax({
@@ -421,16 +515,11 @@ $('.sendCallbackForm').on('click', function (e) {
             success: function (res) {
                 if (!res) res = 'empty';
                 $('#callback-modal').modal('hide');
-                $('#callback-modal').on('click','hidden.bs.modal', function (e) {
-                    e.preventDefault();
-                    $('.t706__carticon').css({display:'block'});
-                });
                 showAnswer(res);
             },
             error: function (res) {
                 res = 'error';
                 $('#callback-modal').modal('hide');
-                $('.t706__carticon').css({display: 'none'});
                 showAnswer(res);
             }
         });
@@ -486,3 +575,7 @@ $("#cart").on("hidden.bs.modal", function (e) {
     $('#cart').modal('hide');
     $("div.modal-backdrop").remove();
 });
+$('#answer-callback-modal').on("hidden.bs.modal", function (e) {
+    $('body').css({paddingRight: '0px'});
+    $('#callback-form').yiiActiveForm('resetForm');
+})

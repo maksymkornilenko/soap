@@ -236,6 +236,7 @@ echo Nav::widget([
                 'templateSelection' => new JsExpression('function (area) { return area.text; }'),
             ],
         ]); ?>
+        <p class="error-area"></p>
         <?= $form->field($orders, 'city')->widget(Select2::classname(), [
             'data' => [],
             'options' => ['placeholder' => 'Выберите  город ...'],
@@ -243,6 +244,7 @@ echo Nav::widget([
                 'allowClear' => true,
             ],
         ]); ?>
+        <p class="error-city"></p>
         <?= $form->field($orders, 'warehouse')->widget(Select2::classname(), [
             'data' => [],
             'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
@@ -250,36 +252,14 @@ echo Nav::widget([
                 'allowClear' => true,
             ],
         ]); ?>
-        <?php ActiveForm::end() ?>
-
+        <p class="error-warehouse"></p>
         <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с
             <a href="/site/official">политикой конфиденциальности.</a>
-        </div>
-        <div class="t-input-group t-input-group_pm">
-            <div class="t-input-title t-descr t-descr_md">Способ оплаты</div>
-            <div class="t-input-block">
-                <div class="t-radio__wrapper t-radio__wrapper-payment">
-                    <label class="t-radio__control t-text t-text_xs">
-                        <input type="radio" name="paymentsystem" value="cash"
-                               class="t-radio t-radio_payment" data-payment-variant-system="cash" checked>
-                        <div class="t-radio__indicator">
-
-                        </div>
-                        Наличными при получении (+комиссия Новой Почты 20грн.+2% от суммы покупки)
-                    </label>
-                    <label class="t-radio__control t-text t-text_xs">
-                        <input type="radio" name="paymentsystem" value="liqpay" class="t-radio t-radio_payment"
-                               data-payment-variant-system="liqpay">
-                        <div class="t-radio__indicator">
-
-                        </div>
-                        Картой Visa, Mastercard, Privat24 через LiqPay без комиссии </label>
-                </div>
-            </div>
         </div>
         <div class="error-send"></div>
         <a href="/site/view" class="btn btn-success sendOrder">Оформить заказ</a>
         <button type="button" class="btn btn-danger clearCart">Очистить корзину</button>
+        <?php ActiveForm::end() ?>
     </div>
 </div>
 <?php Modal::end();
@@ -298,7 +278,9 @@ Modal::begin([
 <div class="t702__wrapper">
     <?php $call = ActiveForm::begin(['id' => 'callback-form']); ?>
     <?= $call->field($callback, 'name') ?>
+    <p class="error-callbackname"></p>
     <?= $call->field($callback, 'phone') ?>
+    <p class="error-callbackphone"></p>
     <?php ActiveForm::end(); ?>
     <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
         с

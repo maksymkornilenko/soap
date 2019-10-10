@@ -131,7 +131,7 @@ class CartController extends Controller
         $order->city = $request['city'];
         $order->warehouse = $request['warehouse'];
         $order->count = (int)$request['count'];
-        $order->pay = $request['pay'];
+        $order->pay = 'cash';
         $formattedPhone = preg_replace('/[^0-9]/', '', $request['phone']);
         $client = Clients::find()->where(['formatted_phone' => $formattedPhone])->one();
         if ($client) {
@@ -174,7 +174,7 @@ class CartController extends Controller
                 'delivery_warehouse' => $order->warehouse,
                 'delivery_warehouse_ref' => $request['warehouseRef'],
                 'delivery_warehouse_number' => $request['number'],
-                'payment' => $request['pay'],
+                'payment' => 'cash',
             ];
             $this->sendData($params);
             $this->setEmptyCookie();
@@ -234,6 +234,9 @@ class CartController extends Controller
         $content = http_build_query($params);
         $context = stream_context_create([
                 'http' => [
+                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
+                        "Content-Length: ".strlen($content)."\r\n".
+                        "User-Agent:MyAgent/1.0\r\n",
                     'method' => 'POST',
                     'content' => $content
                 ]
