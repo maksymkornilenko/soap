@@ -323,15 +323,18 @@ $('#cart .modal-body').on('change', '#orderform-city', function (e) {
 });
 $('#clientform-name').change(function () {
     if ($('#clientform-name').val().length != 0) {
+        $('#clientform-name').css({borderColor:'#3c763d'});
         $('.error-name').text('');
     } else {
         $('.error-name').text('Необходимо заполнить «Полное имя».');
         $('.error-name').css({color: '#a94442'});
+        $('#clientform-name').css({borderColor:'#a94442'});
     }
 });
 $('#clientform-phone').change(function () {
     if ($('#clientform-phone').val().length != 0) {
         $('.error-phone').text('');
+        $('#clientform-phone').css({borderColor:'#3c763d'});
     } else {
         $('.error-phone').text('Необходимо заполнить «Телефон».');
         $('.error-phone').css({color: '#a94442'});
@@ -340,6 +343,7 @@ $('#clientform-phone').change(function () {
 $('#clientform-email').change(function () {
     if ($('#clientform-email').val().length != 0) {
         $('.error-email').text('');
+        $('#clientform-email').css({borderColor:'#3c763d'});
     } else {
         $('.error-email').text('Необходимо заполнить «email».');
         $('.error-email').css({color: '#a94442'});
@@ -383,26 +387,32 @@ $('#cart .modal-body').on('click', '.sendOrder', function (e) {
     if ($('#clientform-name').val().length == 0) {
         $('.error-name').text('Необходимо заполнить «Полное имя».');
         $('.error-name').css({color: '#a94442'});
+        $('#clientform-name').css({borderColor: '#a94442'});
     }
     if ($('#clientform-phone').val().length == 0) {
         $('.error-phone').text('Необходимо заполнить «Телефон».');
         $('.error-phone').css({color: '#a94442'});
+        $('#clientform-phone').css({borderColor: '#a94442'});
     }
     if ($('#clientform-email').val().length == 0) {
         $('.error-email').text('Необходимо заполнить «Email».');
         $('.error-email').css({color: '#a94442'});
+        $('#clientform-email').css({borderColor: '#a94442'});
     }
     if ($('#orderform-area').val().length == 0) {
         $('.error-area').text('Выберите «Область»');
         $('.error-area').css({color: '#a94442'});
+        $('#orderform-area').css({borderColor: '#a94442'});
     }
     if ($('#orderform-city').val().length == 0) {
         $('.error-city').text('Выберите «Город»');
         $('.error-city').css({color: '#a94442'});
+        $('#orderform-city').css({borderColor: '#a94442'});
     }
     if ($('#orderform-warehouse').val().length == 0) {
         $('.error-warehouse').text('Выберите «Отделение новой почты»');
         $('.error-warehouse').css({color: '#a94442'});
+        $('#orderform-warehouse').css({borderColor: '#a94442'});
     }
     if ($('#clientform-name').val().length != 0 && $('#clientform-phone').val().length != 0 && $('#clientform-email').val().length != 0 && $('#orderform-area').val().length != 0 && $('#orderform-city').val().length != 0 && $('#orderform-warehouse').val().length != 0 && $('#orderform-warehouse').val().length != 0 && $('.help-block-error').text().length == 0) {
         $.ajax({
