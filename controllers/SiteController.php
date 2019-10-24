@@ -86,9 +86,9 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
+//            'error' => [
+//                'class' => 'yii\web\ErrorAction',
+//            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -125,33 +125,36 @@ class SiteController extends Controller
     {
         return $this->render('pay');
     }
-
+    public function actionError(){
+        $exception = Yii::$app->response->statusCode;
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
+        }
+    }
     public function actionCallback()
     {
-        $callbackForm = new Callback();
-        $callbackForm->name = Yii::$app->request->post('name');
-        $callbackForm->phone = Yii::$app->request->post('phone');
-        $callbackForm->formatted_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
-        if ($callbackForm->save()) {
-            Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
-        } else {
-            Yii::$app->session->setFlash('errorAnswer', "Ошибка");
+        if(Yii::$app->request->isAjax){
+            $callbackForm = new Callback();
+            $callbackForm->name = Yii::$app->request->post('name');
+            $callbackForm->phone = Yii::$app->request->post('phone');
+            $callbackForm->formatted_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
+            if ($callbackForm->save()) {
+                Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
+            } else {
+                Yii::$app->session->setFlash('errorAnswer', "Ошибка");
+            }
+            $this->layout = false;
+            return $this->render('answer-callback');
+        }else{
+            Yii::$app->response->setStatusCode(404);
+            return $this->setError();
         }
-        $this->layout = false;
-        return $this->render('answer-callback');
     }
-    public function actionTest()
-    {
-        $callbackForm = new Callback();
-        $callbackForm->name = 'vasya';
-        $callbackForm->phone = '+38(099)999-99-00';
-        $callbackForm->formatted_phone = preg_replace('/[^0-9]/', '', $callbackForm->phone);
-        if ($callbackForm->save()) {
-            Yii::$app->session->setFlash('successAnswer', "Спасибо, скоро мы с вами свяжемся");
-        } else {
-            Yii::$app->session->setFlash('errorAnswer', "Ошибка");
+    protected function setError(){
+        Yii::$app->response->setStatusCode(404);
+        $exception = Yii::$app->response->statusCode;
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
         }
-        $this->layout = false;
-        return $this->render('answer-callback');
     }
 }

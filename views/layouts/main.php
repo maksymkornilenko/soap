@@ -22,7 +22,9 @@ use app\models\CallbackForm;
 $client = new ClientForm();
 $orders = new OrderForm();
 $callback = new CallbackForm();
-$data = Yii::$app->controller->data;
+if(Yii::$app->response->statusCode==200){
+    $data = Yii::$app->controller->data;
+}
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -73,7 +75,7 @@ echo Nav::widget([
             src="/image/instagram.png"/></a>
 <?php NavBar::end();
 ?>
-<?php if (!empty($data['count'])||$data['count']!=null||$data['count']!=0) { ?>
+<?php if (!empty($data['count']) || $data['count'] != null || $data['count'] != 0) { ?>
     <div class="t706__carticon t706__carticon_showed">
         <div class="t706__carticon-text t-name t-name_xs">&nbsp;<?= $data['sum'] ?>&nbsp;грн.
         </div>
@@ -180,7 +182,7 @@ echo Nav::widget([
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1564484950188'>
                     <a class='tn-atom' href="tel:+38 067 245 2010">
-                        +38 067 245-20-10
+                        + 38 067 245-20-10
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566893463283'>
@@ -210,18 +212,21 @@ echo Nav::widget([
 </div>
 <div class="t706__cartwin-bottom">
     <div class="t706__cartwin-prodamount-wrap t-descr t-descr_sm">
-        <?php $form = ActiveForm::begin(['id' => '1contact-form', 'options' => ['name' => 'calculator1']]); ?>
-        <?= $form->field($client, 'name')?>
-        <p class="error-name"></p>
-        <?= $form->field($client, 'phone')?>
-        <p class="error-phone"></p>
-        <?= $form->field($client, 'email')?>
-        <p class="error-email"></p>
+        <?php $form = ActiveForm::begin([
+            'id' => '1contact-form',
+            'enableAjaxValidation' => false,
+            'enableClientValidation' => true,
+            'options' => ['name' => 'calculator1']
+        ]); ?>
+        <?= $form->field($client, 'name') ?>
+        <?= $form->field($client, 'phone') ?>
+        <?= $form->field($client, 'email') ?>
         <?php echo $form->field($orders, 'area')->widget(Select2::classname(), [
             'language' => 'ru',
-            'options' => ['placeholder' => 'Выберите область'],
             'pluginOptions' => [
+                    'placeholder' => 'Выберите область',
                 'allowClear' => true,
+                'initialize' => true,
                 'minimumInputLength' => 1,
                 'language' => [
                     'errorLoading' => new JsExpression("function () { return 'Загрузка...'; }"),
@@ -241,6 +246,7 @@ echo Nav::widget([
             'data' => [],
             'options' => ['placeholder' => 'Выберите  город ...'],
             'pluginOptions' => [
+                'initialize' => true,
                 'allowClear' => true,
             ],
         ]); ?>
@@ -249,6 +255,7 @@ echo Nav::widget([
             'data' => [],
             'options' => ['placeholder' => 'Выберите  отделение Новой почты ...'],
             'pluginOptions' => [
+                'initialize' => true,
                 'allowClear' => true,
             ],
         ]); ?>
@@ -256,9 +263,10 @@ echo Nav::widget([
         <div class="t706__form-bottom-text t-text t-text_xs">Нажимая кнопку отправить, я соглашаюсь с
             <a href="/site/official">политикой конфиденциальности.</a>
         </div>
-        <div class="error-send"></div>
-        <a href="/site/view" class="btn btn-success sendOrder">Оформить заказ</a>
-        <button type="button" class="btn btn-danger clearCart">Очистить корзину</button>
+        <div class="form-group">
+            <?= Html::submitButton('Оформить заказ', ['class' => 'btn btn-success sendOrder', 'name' => 'login-button']) ?>
+            <button type="button" class="btn btn-danger clearCart">Очистить корзину</button>
+        </div>
         <?php ActiveForm::end() ?>
     </div>
 </div>
@@ -278,18 +286,14 @@ Modal::begin([
 <div class="t702__wrapper">
     <?php $call = ActiveForm::begin(['id' => 'callback-form']); ?>
     <?= $call->field($callback, 'name') ?>
-    <p class="error-callbackname"></p>
     <?= $call->field($callback, 'phone') ?>
-    <p class="error-callbackphone"></p>
+    <?= Html::submitButton('Оформить заказ', ['class' => 'btn btn-success sendCallbackForm', 'name' => 'login-button']) ?>
     <?php ActiveForm::end(); ?>
     <div class="t702__form-bottom-text t-text t-text_xs t-align_center">Нажимая кнопку "отправить", я соглашаюсь
         с
         <a href="/site/official">политикой конфиденциальности.</a>
     </div>
 
-</div>
-<div class="button-callback">
-    <a href="/site/callback" class="btn btn-success sendCallbackForm">Отправить</a>
 </div>
 <?php Modal::end(); ?>
 <?php Modal::begin([

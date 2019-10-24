@@ -46,6 +46,7 @@ class Orders extends ActiveRecord
             [['sum'], 'number'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['area','city','warehouse'], 'string', 'max' => 255],
+            [['area','city','warehouse'], 'required'],
         ];
     }
 

@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $updated_at
  * @property string $phone
  * @property string $name
- * @property int $clear_phone
+ * @property int $formatted_phone
  * @property string $status
  */
 class Callback extends \yii\db\ActiveRecord
@@ -36,7 +36,6 @@ class Callback extends \yii\db\ActiveRecord
             [['phone', 'name', 'formatted_phone'], 'required'],
             [['formatted_phone'], 'integer'],
             [['created_at'], 'safe'],
-            [['phone'], 'string', 'max' => 20],
             [['name', 'status'], 'string', 'max' => 255],
         ];
     }

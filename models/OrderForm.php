@@ -14,8 +14,7 @@ class OrderForm extends Model
     public function rules()
     {
         return [
-            
-            [['area','city','warehouse'], 'string', 'max' => 255],
+            [['area','city','warehouse'], 'string'],
         ];
     }
     public function attributeLabels()
