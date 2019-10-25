@@ -22,32 +22,25 @@ use app\models\CallbackForm;
 $client = new ClientForm();
 $orders = new OrderForm();
 $callback = new CallbackForm();
-if(Yii::$app->response->statusCode==200){
-    $data = Yii::$app->controller->data;
-}
+$data = Yii::$app->controller->data;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="<?= Yii::$app->charset ?>" name="viewport" content="width=device-width, initial-scale=1.0">
     <!--metatextblock-->
     <title>Натуральное кокосовое мыло Maldives Dreams</title>
     <!-- Assets -->
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 <?php
 NavBar::begin([
-    'brandLabel' => '<img class="brand" src="/image/labelbrand.png";>',
+    'brandLabel' => '<img class="brand" src="/image/labelbrand.png" alt="label">',
     'brandUrl' => ['/'],
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
@@ -66,13 +59,13 @@ echo Nav::widget([
     ],
 ]); ?>
 <a href="https://t.me/maldivesdreams" class="icon-nav telegram close-nav" target="_blank"><img
-            src="/image/telegram.png"/></a>
+            src="/image/telegram.png" alt="telegram"/></a>
 <a href="https://wa.me/380672452010" class="icon-nav whatsapp close-nav" target="_blank"><img
-            src="/image/whatsapp.png"/></a>
-<a href="viber://chat?number=+38 067 245-20-10" class="icon-nav viber close-nav" target="_blank"><img
-            src="/image/viber.png"/></a>
+            src="/image/whatsapp.png" alt="whatsapp"/></a>
+<a href="viber://chat?number=+380672452010" class="icon-nav viber close-nav" target="_blank"><img
+            src="/image/viber.png" alt="viber"/></a>
 <a href="https://www.instagram.com/maldives.dreams" class="icon-nav instagram close-nav" target="_blank"><img
-            src="/image/instagram.png"/></a>
+            src="/image/instagram.png" alt="instagram"/></a>
 <?php NavBar::end();
 ?>
 <?php if (!empty($data['count']) || $data['count'] != null || $data['count'] != 0) { ?>
@@ -81,7 +74,7 @@ echo Nav::widget([
         </div>
         <div class="t706__carticon-wrapper">
             <div class="t706__carticon-imgwrap">
-                <img src="/image/cart.png"/>
+                <img src="/image/cart.png" alt="cart"/>
             </div>
             <div class="t706__carticon-counter"><?= $data['count'] ?></div>
         </div>
@@ -91,15 +84,13 @@ echo Nav::widget([
         <div class="t706__carticon-text t-name t-name_xs">Ваша корзина пуста</div>
         <div class="t706__carticon-wrapper">
             <div class="t706__carticon-imgwrap">
-                <img src="/image/cart.png"/>
+                <img src="/image/cart.png" alt="cart"/>
             </div>
             <div class="t706__carticon-counter">0</div>
         </div>
     </div>
 <?php } ?>
-
 <?= $content ?>
-
 <!--footer-->
 <div id="t-footer" class="t-records">
     <div id="rec124335292" class="r t-rec">
@@ -129,27 +120,27 @@ echo Nav::widget([
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1475160083840'>
                     <a class='tn-atom' href="/">
-                        <img class='tn-atom__img t-img' src='/image/icon-logo.png'>
+                        <img class='tn-atom__img t-img' src='/image/icon-logo.png' alt="logo">
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562140988702'>
-                    <a class='tn-atom' href="viber://chat?number=+38 067 245-20-10" target="_blank">
-                        <img class='tn-atom__img t-img' src='/image/viber.png'>
+                    <a class='tn-atom' href="viber://chat?number=+380672452010" target="_blank">
+                        <img class='tn-atom__img t-img' src='/image/viber.png' alt="viber">
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562140988709'>
                     <a class='tn-atom' href="https://www.instagram.com/maldives.dreams" target="_blank">
-                        <img class='tn-atom__img t-img' src='/image/instagram.png'>
+                        <img class='tn-atom__img t-img' src='/image/instagram.png' alt="instagram">
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562140988715'>
                     <a class='tn-atom' href="https://tlgg.ru/maldivesdreams" target="_blank">
-                        <img class='tn-atom__img t-img' src='/image/telegram.png'>
+                        <img class='tn-atom__img t-img' src='/image/telegram.png' alt="telegram">
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562140988721'>
-                    <a class='tn-atom' href="https://wa.me/38 067 245-20-10" target="_blank">
-                        <img class='tn-atom__img t-img' src='/image/whatsapp.png'>
+                    <a class='tn-atom' href="https://wa.me/380672452010" target="_blank">
+                        <img class='tn-atom__img t-img' src='/image/whatsapp.png' alt="whatsapp">
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562141820641'>
@@ -169,24 +160,24 @@ echo Nav::widget([
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562142714866'>
                     <div class='tn-atom'>
-                        <img class='tn-atom__img t-img' src='/image/visa.png'>
+                        <img class='tn-atom__img t-img' src='/image/visa.png' alt="visa">
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562142828468'>
                     <div class='tn-atom'>
-                        <img class='tn-atom__img t-img' src='/image/mastercard.png'>
+                        <img class='tn-atom__img t-img' src='/image/mastercard.png' alt="mastercard">
                     </div>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1562246055382'>
                     <a class='tn-atom' href="/site/oferta">Договор публичной оферты</a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1564484950188'>
-                    <a class='tn-atom' href="tel:+38 067 245 2010">
+                    <a class='tn-atom' href="tel:+380672452010">
                         + 38 067 245-20-10
                     </a>
                 </div>
                 <div class='t396__elem tn-elem' data-elem-id='1566893463283'>
-                    <a class='tn-atom' href="tel:+38 067 404-66-01">
+                    <a class='tn-atom' href="tel:+380674046601">
                         + 38 067 404-66-01
                     </a>
                 </div>
@@ -207,7 +198,7 @@ echo Nav::widget([
     ]]); ?>
 <div class="modal-body2">
     <h3>
-        <p>Корзина пуста</p>
+        Корзина пуста
     </h3>
 </div>
 <div class="t706__cartwin-bottom">
@@ -224,7 +215,7 @@ echo Nav::widget([
         <?php echo $form->field($orders, 'area')->widget(Select2::classname(), [
             'language' => 'ru',
             'pluginOptions' => [
-                    'placeholder' => 'Выберите область',
+                'placeholder' => 'Выберите область',
                 'allowClear' => true,
                 'initialize' => true,
                 'minimumInputLength' => 1,

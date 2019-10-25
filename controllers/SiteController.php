@@ -5,7 +5,6 @@ namespace app\controllers;
 use app\models\Callback;
 use app\models\EvoExampleClient;
 use app\models\Products;
-use Exception;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -49,9 +48,16 @@ class SiteController extends Controller
         $count=0;
         $sum=0;
         $name='';
+//        setcookie('id','',-1234);
+//        setcookie('price','',-1234);
+//        setcookie('count','',-1234);
+//        setcookie('sum','',-1234);
+//        setcookie('name','',-1234);
+//        var_dump($cookies);
+//        die();
         if (isset($cookies['id']->value)) {
             $productId = (int)$cookies['id']->value;
-        } else {
+        }else{
             $products = Products::find()->one();
             $cookieResponse = Yii::$app->response->cookies;
             $cookieResponse->add(new Cookie([

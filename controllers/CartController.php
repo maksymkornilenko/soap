@@ -20,12 +20,43 @@ use yii\web\Cookie;
 
 class CartController extends Controller
 {
+    public $data = [];
+
+    public function beforeAction($action)
+    {
+        $cookies = Yii::$app->request->cookies;
+        $count = 0;
+        $sum = 0;
+        $name = '';
+        if (isset($cookies['id']->value)) {
+            $productId = (int)$cookies['id']->value;
+        }
+        if (isset($cookies['count']->value)) {
+            $count = $cookies['count']->value;
+        }
+        if (isset($cookies['sum']->value)) {
+            $sum = $cookies['sum']->value;
+        }
+        if (isset($cookies['name']->value)) {
+            $name = $cookies['name']->value;
+        }
+        // Все полученные значения заносим в глобальное свойтво 'content', доступное из View и из Layout
+        $this->data = [
+            'productId' => $productId,
+            'count' => $count,
+            'sum' => $sum,
+            'name' => $name,
+        ];
+        return parent::beforeAction($action);
+    }
+
     public function actionAdd()
     {
+
         if (Yii::$app->request->isAjax) {
             $count = 1;
-            $id = (int)Yii::$app->request->post('id');
-            $name = Yii::$app->request->post('name');
+            $id = (int)Yii::$app->request->get('id');
+            $name = Yii::$app->request->get('name');
             $cook = Yii::$app->request->cookies;
             if (isset($cook['count']->value)) {
                 $count += $cook['count']->value;
@@ -47,9 +78,9 @@ class CartController extends Controller
     {
         if (Yii::$app->request->isAjax) {
             $request = Yii::$app->request;
-            $id = (int)$request->post('id');
-            $count = (int)$request->post('count');
-            $name = $request->post('name');
+            $id = (int)$request->get('id');
+            $count = (int)$request->get('count');
+            $name = $request->get('name');
             $price = ExtOrders::factory()->getPriceByCount($count);
             $count = !$count ? 1 : $count;
             $sum = $count * $price;
@@ -214,15 +245,12 @@ class CartController extends Controller
             }
             return $this->renderPartial('cart-modal', ['liqpayForm' => $liqpayForm]);
         }
+
     }
 
     protected function setEmptyCookie()
     {
         $cookies = Yii::$app->response->cookies;
-        $cookies->add(new Cookie([
-            'name' => 'id',
-            'value' => '',
-        ]));
         $cookies->add(new Cookie([
             'name' => 'name',
             'value' => '',
@@ -284,7 +312,9 @@ class CartController extends Controller
             }
         }
     }
-    protected function setError(){
+
+    protected function setError()
+    {
         Yii::$app->response->setStatusCode(404);
         $exception = Yii::$app->response->statusCode;
         if ($exception !== null) {

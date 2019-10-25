@@ -14,20 +14,15 @@ body {
     padding-top: 20px;
 }
 
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
-}
+/*.jumbotron {*/
+    /*text-align: center;*/
+    /*background-color: transparent;*/
+/*}*/
 
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-}
-
-.not-set {
-    color: #c55;
-    font-style: italic;
-}
+/*.jumbotron .btn {*/
+    /*font-size: 21px;*/
+    /*padding: 14px 24px;*/
+/*}*/
 
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
@@ -205,7 +200,7 @@ a.desc:after {
     }
 
     .tel-2 {
-        left: -69px;
+        left: -68px;
         top: -38px;
         height: 16px;
     }
@@ -336,9 +331,9 @@ input::-webkit-inner-spin-button {
     width: 45%;
 }
 
-.t706__product-imgdiv {
-    background-image: url("/image/Soap.png");
-}
+/*.t706__product-imgdiv {*/
+    /*background-image: url("/image/Soap.png");*/
+/*}*/
 .t706__product-minus > img, .t706__product-plus > img, .t706__product-del > img {
     width: 16px;
     height: 16px;

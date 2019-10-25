@@ -29,7 +29,7 @@ function addToCart(id, count, name) {
     $.ajax({
         url: '/cart/add',
         data: {id: id, count: count, name: name},
-        type: 'post',
+        type: 'get',
         success: function (res) {
             if (!res) res = 'cart empty';
             showCart(res);
@@ -169,7 +169,7 @@ function closeNav() {
  */
 $('.buy').click(function () {
     var id = $(this).data('id');
-    var count = $(this).data('count');
+    var count = 1;
     var name = $(this).data('name');
     $(".sendOrder").attr("disabled", false);
     $(".clearCart").attr("disabled", false);
@@ -522,6 +522,7 @@ $("#cart").on("hidden.bs.modal", function (e) {
     var name = $(".t706__product-title").text();
     var price = $(".cart-price").text();
     var id = $(".cart-count").data('id');
+    console.log(count);
     if (count != '') {
         $.ajax({
             url: '/cart/save',

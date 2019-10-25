@@ -2,7 +2,6 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
 ?>
     <div id="rec122574933" class="r t-rec t-rec_pt_150 t-rec_pb_45 r_showed r_anim"">
         <!-- T017 -->

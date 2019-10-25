@@ -49,7 +49,7 @@
             <?php } elseif (Yii::$app->session->hasFlash('error')) { ?>
                 <div class="js-successbox t-form__errorbox t-text t-text_md"><?php echo Yii::$app->session->getFlash('error'); ?></div>
             <?php } else { ?>
-                <div class="empty-cart"><p>Корзина пуста</p></div>
+                <div class="empty-cart">Корзина пуста</div>
             <?php } ?>
         </h3>
     </div>
